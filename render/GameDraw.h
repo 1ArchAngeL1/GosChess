@@ -2,20 +2,22 @@
 #ifndef PROJECT_NAME_GAMEDRAW_H
 #define PROJECT_NAME_GAMEDRAW_H
 
-#include "../computation/GameObjects.h"
+#include "../global/MainGameObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include "../global/BoardAtributtes.h"
 
 
 namespace GosChess {
 
-
     void DrawingConfig();
 
-    void DrawBoard(GosChess::Board board, sf::RenderWindow &game_window);
+    void DrawBoard(sf::RenderWindow &game_window);
 
-    void DrawFiuge(GosChess::Figure, float x, float y, sf::RenderWindow &game_window);
+    void LoadChessFigureSprites();
 
+    void DrawFigure(unsigned char figure_type,sf::Vector2f figure_pos, sf::RenderWindow &game_window);
+
+    void DrawCurrentBoardState(const unsigned char *board,sf::RenderWindow &game_window);
 
 }
 
