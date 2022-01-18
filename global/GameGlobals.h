@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_NAME_BOARDATRIBUTTES_H
-#define PROJECT_NAME_BOARDATRIBUTTES_H
+#ifndef PROJECT_NAME_GAMEGLOBALS_H
+#define PROJECT_NAME_GAMEGLOBALS_H
 
 #include "MainGameObjects/GameObjects.h"
 #include <unordered_map>
@@ -21,9 +21,11 @@ namespace GosChess {
 
     extern unsigned int board_height;
 
+    extern float square_size;
+
     extern sf::Vector2f board_position;
 
-    extern std::unordered_map<unsigned char,sf::Sprite> figure_sprites;
+    extern std::unordered_map<unsigned char, sf::Sprite> figure_sprites;
 
     extern GosChess::Color color_to_play;
 

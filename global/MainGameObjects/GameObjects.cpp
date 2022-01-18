@@ -4,6 +4,7 @@
 
 #include "GameObjects.h"
 
+typedef enum GosChess::FigureTypes FIGTYPE;
 
 //in file functional
 //start region
@@ -27,7 +28,7 @@ static GosChess::Figure FigureFromChar(const char &figure_rep) {
 }
 
 //start region
-
+//board impl
 const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FigureTypes::PAWN},
                                                                    {'q', FigureTypes::QUEEN},
                                                                    {'k', FigureTypes::KING},
@@ -36,7 +37,7 @@ const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FigureT
                                                                    {'n', FigureTypes::KNIGHT}};
 
 
-typedef enum GosChess::FigureTypes FIGTYPE;
+
 
 
 const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color::WHITE, FIGTYPE::ROOK).full_type,   'R'},
@@ -64,13 +65,6 @@ const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color
                                                                            FIGTYPE::QUEEN).full_type,                'q'}};
 
 
-GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) {
-    this->full_type = 0;
-    this->color = color;
-    this->type = type;
-}
-
-
 unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
     unsigned char *board_demo = new unsigned char[Board::BOARD_SIZE]{0};
     short curr_pos = 0;
@@ -87,6 +81,7 @@ unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
     }
     return board_demo;
 }
+
 
 GosChess::Board::Board(std::string initial_state) {
     this->board = Board::DecodeFen(initial_state);
@@ -120,11 +115,22 @@ const unsigned char *GosChess::Board::GetRawBoard() const {
     return this->board;
 }
 
-
 GosChess::Figure GosChess::Board::GetPosition(const int &index) const {
     unsigned char fig_char = this->board[index];
     return GosChess::Figure(fig_char);
 }
+
+//end of board impl
+
+//figure impl
+
+GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) {
+    this->full_type = 0;
+    this->color = color;
+    this->type = type;
+}
+
+//end of figure impl
 
 //Board member def
 //end region

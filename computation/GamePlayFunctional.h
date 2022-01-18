@@ -5,9 +5,11 @@
 #include "../global/MainGameObjects/GameObjects.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
-#include "../global/BoardAtributtes.h"
+#include "../global/GameGlobals.h"
+
 
 namespace GosChess {
+
 
     struct Offset {
         Offset(std::int8_t north, std::int8_t south,
@@ -49,12 +51,14 @@ namespace GosChess {
 
     };
 
+
+    GosChess::Cell GetNode(const int & num);
+
     void GenerateOffsets();
 
-    void calculateAvailableMoves(const unsigned char *game_board);
+    void CalculateAvailableMoves(const unsigned char *game_board);
 
-
-    extern const std::int8_t *DirectionOffsets;
+    extern const std::int8_t const *direction_offsets;
 
     extern Offset *PrecalculatedOffsets;
 

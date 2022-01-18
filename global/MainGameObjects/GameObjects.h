@@ -17,6 +17,15 @@ namespace GosChess {
         KING, QUEEN
     };
 
+
+    struct Cell {
+        int x;
+        int y;
+        Cell () {}
+        Cell (int _x, int _y) : x(_x), y(_y) {}
+    };
+
+
     union Figure {
         explicit Figure(const unsigned char &color, const unsigned char &type);
 
@@ -30,6 +39,7 @@ namespace GosChess {
         };
         unsigned char full_type;
     };
+
 
     class Board {
     private:
@@ -56,6 +66,7 @@ namespace GosChess {
         static constexpr int ROW_NUM = 8;
 
         static constexpr int BOARD_SIZE = ROW_LENGTH * ROW_NUM;
+
     };
 
 }

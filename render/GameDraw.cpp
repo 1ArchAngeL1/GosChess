@@ -79,7 +79,7 @@ void GosChess::DrawCurrentBoardState(const unsigned char *board, sf::RenderWindo
     GosChess::DrawBoard(game_window);
     for (int i = 0; i < Board::BOARD_SIZE; i++) {
         int curr_x = i % Board::ROW_LENGTH;
-        int curr_y = i / Board::ROW_NUM;
+        int curr_y = GosChess::Board::ROW_NUM - i / Board::ROW_NUM - 1;
         if (board[i] == 0)continue;
         GosChess::DrawFigure(board[i], sf::Vector2f(curr_x, curr_y), game_window);
     }

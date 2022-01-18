@@ -12,4 +12,4 @@ file (
         GLOB_RECURSE SOURCE_FILES
         exec/main.cpp
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} global/MainGameObjects/GameObjects.cpp global/MainGameObjects/GameObjects.h computation/GamePlayFunctional.cpp computation/GamePlayFunctional.h render/GameDraw.cpp render/GameDraw.h global/BoardAtributtes.cpp global/BoardAtributtes.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} global/MainGameObjects/GameObjects.cpp global/MainGameObjects/GameObjects.h computation/GamePlayFunctional.cpp computation/GamePlayFunctional.h render/GameDraw.cpp render/GameDraw.h global/GameGlobals.cpp global/GameGlobals.h GameUtil/GameInput.cpp GameUtil/GameInput.h)

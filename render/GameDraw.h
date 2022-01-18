@@ -4,7 +4,7 @@
 
 #include "../global/MainGameObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"
-#include "../global/BoardAtributtes.h"
+#include "../global/GameGlobals.h"
 
 
 namespace GosChess {
