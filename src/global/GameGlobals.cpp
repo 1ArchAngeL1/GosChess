@@ -9,6 +9,8 @@ sf::Color GosChess::secondary_color = sf::Color(255, 255, 255);
 
 sf::Color GosChess::background_color = sf::Color(220,220,220);
 
+extern sf::Color GosChess::available_move_color = sf::Color(246,239,110);
+
 unsigned int GosChess::window_height = 1480;
 
 unsigned int GosChess::window_width = 1480;

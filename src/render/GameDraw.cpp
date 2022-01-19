@@ -18,7 +18,7 @@ static void ColoriseBoardSeed(sf::Color first_color, sf::Color second_color) {
             (i + j) % 2 == 0 ? board_image.setPixel(i, j, first_color) : board_image.setPixel(i, j, second_color);
 }
 
-static void LoadFigureTexturesByColor(sf::Texture & root_texture, std::int8_t color) {
+static void LoadFigureTexturesByColor(sf::Texture &root_texture, std::int8_t color) {
     const float figure_texture_width = root_texture.getSize().x / 6.f;
     const float figure_texture_height = root_texture.getSize().y / 2.f;
     unsigned char *figure_chars;
@@ -35,13 +35,16 @@ static void LoadFigureTexturesByColor(sf::Texture & root_texture, std::int8_t co
                                                          color * figure_texture_height,
                                                          figure_texture_width,
                                                          figure_texture_height));
-        curr_figure.setScale(sf::Vector2f((float)GosChess::board_width / (float)GosChess::Board::ROW_LENGTH / figure_texture_width,
-                                          (float)GosChess::board_height / (float)GosChess::Board::ROW_NUM / figure_texture_height));
+        curr_figure.setScale(
+                sf::Vector2f((float) GosChess::board_width / (float) GosChess::Board::ROW_LENGTH / figure_texture_width,
+                             (float) GosChess::board_height / (float) GosChess::Board::ROW_NUM /
+                             figure_texture_height));
 
         GosChess::figure_sprites[figure_chars[i]] = curr_figure;
     }
     if (figure_chars != nullptr)delete[] figure_chars;
 }
+
 
 
 void GosChess::DrawingConfig() {
@@ -54,24 +57,38 @@ void GosChess::DrawingConfig() {
     board_sprite.setPosition(GosChess::board_position);
 }
 
+
+void GosChess::ColoriseAvailableMoves(const int &index) {
+    board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
+    ColoriseBoardSeed(GosChess::main_color, GosChess::secondary_color);
+    for (auto &move: GosChess::available_moves[index]) {
+        GosChess::Cell move_to = GosChess::GetNode(move.move_to);
+        if (GosChess::CanMakeMove(move))
+            board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
+                                 GosChess::available_move_color);
+
+    }
+    board_texture.loadFromImage(board_image);
+}
+
 void GosChess::DrawBoard(sf::RenderWindow &game_window) {
     game_window.draw(board_sprite);
 }
 
 void GosChess::LoadChessFigureSprites() {
-    if (!root_texture.loadFromFile("../sources/chessPieces.png")) {
+    if (!root_texture.loadFromFile("../resources/chessPieces.png")) {
         std::cout << "couldn't load root_texture for figures" << std::endl;
         return;
     }
-    LoadFigureTexturesByColor(root_texture, GosChess::Color::WHITE),
-            LoadFigureTexturesByColor(root_texture, GosChess::Color::BLACK);
+    LoadFigureTexturesByColor(root_texture, GosChess::Color::WHITE);
+    LoadFigureTexturesByColor(root_texture, GosChess::Color::BLACK);
 }
 
 void GosChess::DrawFigure(unsigned char figure_type, sf::Vector2f figure_pos, sf::RenderWindow &game_window) {
     sf::Sprite figure_sprite = GosChess::figure_sprites.at(Board::FIG_TO_FEN.at(figure_type));
     figure_sprite.setPosition(sf::Vector2f(
-            (figure_pos.x * GosChess::board_width / (float)GosChess::Board::ROW_LENGTH) + GosChess::board_position.x,
-            (figure_pos.y * GosChess::board_height / (float)GosChess::Board::ROW_NUM) + GosChess::board_position.y));
+            (figure_pos.x * GosChess::board_width / (float) GosChess::Board::ROW_LENGTH) + GosChess::board_position.x,
+            (figure_pos.y * GosChess::board_height / (float) GosChess::Board::ROW_NUM) + GosChess::board_position.y));
     game_window.draw(figure_sprite);
 }
 
@@ -85,6 +102,10 @@ void GosChess::DrawCurrentBoardState(const unsigned char *board, sf::RenderWindo
     }
 }
 
+void GosChess::ResetBoardColours() {
+    ColoriseBoardSeed(GosChess::main_color, GosChess::secondary_color);
+    board_texture.loadFromImage(board_image);
+}
 
 
 

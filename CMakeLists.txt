@@ -10,6 +10,6 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-I/opt/homebrew/Cellar/sfml/2.5.1_1/include -L/o
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 file (
         GLOB_RECURSE SOURCE_FILES
-        exec/main.cpp
+        src/exec/main.cpp
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} global/MainGameObjects/GameObjects.cpp global/MainGameObjects/GameObjects.h computation/GamePlayFunctional.cpp computation/GamePlayFunctional.h render/GameDraw.cpp render/GameDraw.h global/GameGlobals.cpp global/GameGlobals.h GameUtil/GameInput.cpp GameUtil/GameInput.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} src/global/MainGameObjects/GameObjects.cpp src/global/MainGameObjects/GameObjects.h src/computation/GamePlayFunctional.cpp src/computation/GamePlayFunctional.h src/render/GameDraw.cpp src/render/GameDraw.h src/global/GameGlobals.cpp src/global/GameGlobals.h src/util/GameInput.cpp src/util/GameInput.h)

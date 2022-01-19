@@ -13,6 +13,8 @@ namespace GosChess {
 
     extern sf::Color background_color;
 
+    extern sf::Color available_move_color;
+
     extern unsigned int window_height;
 
     extern unsigned int window_width;
@@ -28,6 +30,7 @@ namespace GosChess {
     extern std::unordered_map<unsigned char, sf::Sprite> figure_sprites;
 
     extern GosChess::Color color_to_play;
+
 
 }
 

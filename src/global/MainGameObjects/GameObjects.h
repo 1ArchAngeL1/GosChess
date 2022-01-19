@@ -21,8 +21,10 @@ namespace GosChess {
     struct Cell {
         int x;
         int y;
-        Cell () {}
-        Cell (int _x, int _y) : x(_x), y(_y) {}
+
+        Cell() {}
+
+        Cell(int _y, int _x) : y(_y), x(_x) {}
     };
 
 

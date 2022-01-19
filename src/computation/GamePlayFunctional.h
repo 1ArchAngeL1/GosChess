@@ -4,12 +4,11 @@
 
 #include "../global/MainGameObjects/GameObjects.h"
 #include <SFML/Graphics.hpp>
-#include <unordered_map>
+#include <unordered_set>
 #include "../global/GameGlobals.h"
 
 
 namespace GosChess {
-
 
     struct Offset {
         Offset(std::int8_t north, std::int8_t south,
@@ -45,14 +44,29 @@ namespace GosChess {
 
         Move(std::int8_t move_from, std::int8_t move_to) : move_from(move_from), move_to(move_to) {};
 
-        bool operator==(const Move &move) {
-            return move_from == move.move_from && move_to == move.move_to;
+        bool operator==(const GosChess::Move &rhm) const {
+            return this->move_from == rhm.move_from && this->move_to == rhm.move_to;
         }
-
     };
 
 
-    GosChess::Cell GetNode(const int & num);
+    class MoveHash {
+    public:
+        std::size_t operator()(GosChess::Move const &_mv) const {
+            return (std::size_t) _mv.move_to;
+        }
+    };
+
+
+    GosChess::Cell GetNode(const int &num);
+
+    void MakeMove(GosChess::Move mv, GosChess::Board &brd);
+
+    bool CanMakeMove(GosChess::Move mv);
+
+    int GetNumFromNode(const GosChess::Cell &_cell);
+
+    GosChess::Cell GetNodeFromScreen(const float &_y, const float &_x);
 
     void GenerateOffsets();
 
@@ -60,14 +74,15 @@ namespace GosChess {
 
     extern const std::int8_t const *direction_offsets;
 
-    extern Offset *PrecalculatedOffsets;
+    extern Offset *precalculated_offsets;
 
-    extern std::unordered_map<std::int8_t, std::vector<GosChess::Move>> available_moves;
+    extern std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> available_moves;
 
-    extern const unsigned char * SlidingPieces;
+    extern const unsigned char *sliding_pieces;
+
+    void ChangeActiveColour();
 
 }
-
 
 
 #endif
