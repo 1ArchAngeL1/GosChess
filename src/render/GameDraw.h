@@ -2,7 +2,7 @@
 #ifndef PROJECT_NAME_GAMEDRAW_H
 #define PROJECT_NAME_GAMEDRAW_H
 
-#include "../global/MainGameObjects/GameObjects.h"
+#include "../global/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include "../global/GameGlobals.h"
 #include "../computation/GamePlayFunctional.h"

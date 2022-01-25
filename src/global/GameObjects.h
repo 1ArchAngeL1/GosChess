@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <map>
+#include <stack>
 
 namespace GosChess {
 
@@ -24,7 +25,11 @@ namespace GosChess {
 
         Cell() {}
 
-        Cell(int _y, int _x) : y(_y), x(_x) {}
+        Cell(int y, int x) : y(y), x(x) {}
+
+        Cell operator+(const Cell &cell) {
+            return Cell(this->y + cell.y, this->x + cell.x);
+        }
     };
 
 
@@ -46,6 +51,8 @@ namespace GosChess {
     class Board {
     private:
         unsigned char *board;
+
+        std::stack<unsigned char *> game_rev;
     public:
         explicit Board(std::string initial_state);
 
@@ -55,9 +62,13 @@ namespace GosChess {
 
         void SetPosition(const int &grid_num, unsigned char figure);
 
-        static unsigned char *DecodeFen(std::string fen_str);
-
         std::string BoardStateToFen();
+
+        void SaveState();
+
+        void Undo();
+
+        static unsigned char *DecodeFen(std::string fen_str);
 
         static const std::map<char, unsigned char> FEN_TO_FIG;
 
@@ -68,6 +79,7 @@ namespace GosChess {
         static constexpr int ROW_NUM = 8;
 
         static constexpr int BOARD_SIZE = ROW_LENGTH * ROW_NUM;
+
 
     };
 

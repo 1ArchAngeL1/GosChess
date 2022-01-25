@@ -4,7 +4,6 @@
 
 #include "GameInput.h"
 
-int GosChess::InputHandle::last_keyboard_key_pressed;
 bool GosChess::InputHandle::keyboard_key_pressed[KEYBOARD_KEY_COUNT];
 bool GosChess::InputHandle::keyboard_key_released[KEYBOARD_KEY_COUNT];
 bool GosChess::InputHandle::keyboard_key_hold[KEYBOARD_KEY_COUNT];
@@ -21,7 +20,6 @@ void GosChess::InputHandle::Listen() {
             } else {
                 GosChess::InputHandle::keyboard_key_pressed[key] = true;
                 GosChess::InputHandle::keyboard_key_hold[key] = true;
-                GosChess::InputHandle::last_keyboard_key_pressed = key;
             }
         } else {
             if ((GosChess::InputHandle::keyboard_key_hold[key])) {

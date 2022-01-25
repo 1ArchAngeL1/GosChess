@@ -17,7 +17,6 @@ namespace GosChess {
         constexpr int KEYBOARD_KEY_COUNT = sf::Keyboard::Key::KeyCount;
         constexpr int MOUSE_BUTTON_COUNT = sf::Mouse::Button::ButtonCount;
 
-        extern int last_keyboard_key_pressed;
         extern bool keyboard_key_pressed[KEYBOARD_KEY_COUNT];
         extern bool keyboard_key_released[KEYBOARD_KEY_COUNT];
         extern bool keyboard_key_hold[KEYBOARD_KEY_COUNT];

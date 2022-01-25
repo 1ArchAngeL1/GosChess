@@ -6,13 +6,10 @@
 
 typedef enum GosChess::FigureTypes FIGTYPE;
 
-//in file functional
-//start region
 static bool isCharacter(const char &character_figure) {
     return (character_figure >= 'a' && character_figure <= 'z') ||
            (character_figure >= 'A' && character_figure <= 'Z');
 }
-
 
 
 static GosChess::Figure FigureFromChar(const char &figure_rep) {
@@ -27,8 +24,7 @@ static GosChess::Figure FigureFromChar(const char &figure_rep) {
 
 }
 
-//start region
-//board impl
+
 const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FigureTypes::PAWN},
                                                                    {'q', FigureTypes::QUEEN},
                                                                    {'k', FigureTypes::KING},
@@ -37,32 +33,29 @@ const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FigureT
                                                                    {'n', FigureTypes::KNIGHT}};
 
 
-
-
-
-const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color::WHITE, FIGTYPE::ROOK).full_type,   'R'},
+const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color::WHITE, FIGTYPE::ROOK).full_type, 'R'},
                                                                    {Figure(Color::WHITE,
-                                                                           FIGTYPE::BISHOP).full_type,               'B'},
+                                                                           FIGTYPE::BISHOP).full_type,             'B'},
                                                                    {Figure(Color::WHITE,
-                                                                           FIGTYPE::PAWN).full_type,                 'P'},
+                                                                           FIGTYPE::PAWN).full_type,               'P'},
                                                                    {Figure(Color::WHITE,
-                                                                           FIGTYPE::KNIGHT).full_type,               'N'},
+                                                                           FIGTYPE::KNIGHT).full_type,             'N'},
                                                                    {Figure(Color::WHITE,
-                                                                           FIGTYPE::KING).full_type,                 'K'},
+                                                                           FIGTYPE::KING).full_type,               'K'},
                                                                    {Figure(Color::WHITE,
-                                                                           FIGTYPE::QUEEN).full_type,                'Q'},
+                                                                           FIGTYPE::QUEEN).full_type,              'Q'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::ROOK).full_type,                 'r'},
+                                                                           FIGTYPE::ROOK).full_type,               'r'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::BISHOP).full_type,               'b'},
+                                                                           FIGTYPE::BISHOP).full_type,             'b'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::PAWN).full_type,                 'p'},
+                                                                           FIGTYPE::PAWN).full_type,               'p'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::KNIGHT).full_type,               'n'},
+                                                                           FIGTYPE::KNIGHT).full_type,             'n'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::KING).full_type,                 'k'},
+                                                                           FIGTYPE::KING).full_type,               'k'},
                                                                    {Figure(Color::BLACK,
-                                                                           FIGTYPE::QUEEN).full_type,                'q'}};
+                                                                           FIGTYPE::QUEEN).full_type,              'q'}};
 
 
 unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
@@ -120,9 +113,6 @@ GosChess::Figure GosChess::Board::GetPosition(const int &index) const {
     return GosChess::Figure(fig_char);
 }
 
-//end of board impl
-
-//figure impl
 
 GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) {
     this->full_type = 0;
@@ -130,8 +120,16 @@ GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) 
     this->type = type;
 }
 
-//end of figure impl
 
-//Board member def
-//end region
+void GosChess::Board::SaveState() {
+    unsigned char *state = new unsigned char[GosChess::Board::BOARD_SIZE];
+    memcpy(state, Board::board, BOARD_SIZE);
+    this->game_rev.push(state);
+}
+
+void GosChess::Board::Undo() {
+    delete [] Board::board;
+    board = this->game_rev.top();
+    this->game_rev.pop();
+}
 

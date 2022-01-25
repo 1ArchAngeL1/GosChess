@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../global/MainGameObjects/GameObjects.h"
+#include "../global/GameObjects.h"
 #include "../global/GameGlobals.h"
 #include "../render/GameDraw.h"
 #include "../computation/GamePlayFunctional.h"
@@ -10,7 +10,7 @@
 
 int main() {
     std::string fen_string = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/";
-    //std::string fen_string = "/8/8/3N4/8/8/8/8/8/";
+    //std::string fen_string = "/K7/8/3N4/8/8/8/8/8/";
     GosChess::Board board(fen_string);
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "GosChess");
     std::cout << board.BoardStateToFen() << std::endl;
@@ -34,31 +34,32 @@ int main() {
         }
 
         if (GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-            if(fig_selected) {
-                target_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,sf::Mouse::getPosition(window).x);
-                GosChess::Move desired_move = {(std::int8_t)GosChess::GetNumFromNode(selecteed_node),(std::int8_t)GosChess::GetNumFromNode(target_node)};
-                if(GosChess::CanMakeMove(desired_move)) {
-                    GosChess::MakeMove(desired_move,board);
-                    GosChess::ChangeActiveColour();
+            if (fig_selected) {
+                target_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                          sf::Mouse::getPosition(window).x);
+                GosChess::Move desired_move = {(std::int8_t) GosChess::GetNumFromNode(selecteed_node),
+                                               (std::int8_t) GosChess::GetNumFromNode(target_node)};
+                if (GosChess::CanMakeMove(desired_move)) {
+                    if(GosChess::MakeMove(desired_move, board)) {
+                        GosChess::ChangeActiveColour();
+                    }
                 }
 
                 GosChess::ResetBoardColours();
                 fig_selected = false;
             } else {
                 GosChess::CalculateAvailableMoves(board.GetRawBoard());
-                selecteed_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,sf::Mouse::getPosition(window).x);
-                /*std::cout << "y : " << node.y << std::endl << " x : "
-                          << node.x << std::endl;
-                std::cout <<  "num : " << GosChess::GetNumFromNode(node) << std::endl;*/
+                selecteed_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                             sf::Mouse::getPosition(window).x);
+                if(GosChess::CheckMate(board,GosChess::color_to_play))window.close();
+                std::cout << "y : " << selecteed_node.y << std::endl << " x : "
+                          << selecteed_node.x << std::endl;
+                std::cout <<  "num : " << GosChess::GetNumFromNode(selecteed_node) << std::endl;
                 GosChess::ColoriseAvailableMoves(GosChess::GetNumFromNode(selecteed_node));
                 fig_selected = true;
             }
 
         }
-
-
-
-
 
         window.clear(GosChess::background_color);
         GosChess::DrawCurrentBoardState(board.GetRawBoard(), window);

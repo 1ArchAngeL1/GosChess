@@ -2,7 +2,7 @@
 #ifndef PROJECT_NAME_GAMEGLOBALS_H
 #define PROJECT_NAME_GAMEGLOBALS_H
 
-#include "MainGameObjects/GameObjects.h"
+#include "GameObjects.h"
 #include <unordered_map>
 
 namespace GosChess {
