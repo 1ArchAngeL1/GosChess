@@ -26,3 +26,7 @@ sf::Vector2f GosChess::board_position = sf::Vector2f((float) (window_width - boa
 std::unordered_map<unsigned char, sf::Sprite> GosChess::figure_sprites;
 
 GosChess::Color GosChess::color_to_play = GosChess::Color::WHITE;
+
+GosChess::Color GosChess::enemy_color;
+
+GosChess::Color GosChess::my_color;

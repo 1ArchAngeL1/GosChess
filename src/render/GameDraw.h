@@ -5,7 +5,7 @@
 #include "../global/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include "../global/GameGlobals.h"
-#include "../computation/GamePlayFunctional.h"
+#include "../computation/InGameCalculations.h"
 
 
 namespace GosChess {

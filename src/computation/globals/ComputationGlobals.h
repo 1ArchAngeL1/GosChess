@@ -1,11 +1,15 @@
+//
+// Created by Leo Gogichaishvili on 29.01.22.
+//
 
-#ifndef PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
-#define PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
+#ifndef PROJECT_NAME_COMPUTATIONGLOBALS_H
+#define PROJECT_NAME_COMPUTATIONGLOBALS_H
 
-#include "../global/GameObjects.h"
+
+#include "../../global/GameObjects.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
-#include "../global/GameGlobals.h"
+#include "../../global/GameGlobals.h"
 
 
 namespace GosChess {
@@ -56,23 +60,6 @@ namespace GosChess {
         }
     };
 
-
-    GosChess::Cell GetNode(const int &num);
-
-    bool MakeMove(GosChess::Move mv, GosChess::Board &brd);
-
-    bool CanMakeMove(GosChess::Move mv);
-
-    bool CheckMate(GosChess::Board &brd, GosChess::Color clr);
-
-    int GetNumFromNode(const GosChess::Cell &_cell);
-
-    GosChess::Cell GetNodeFromScreen(const float &_y, const float &_x);
-
-    void GenerateOffsets();
-
-    void CalculateAvailableMoves(const unsigned char *game_board);
-
     extern const std::int8_t *const direction_offsets;
 
     extern Offset *precalculated_offsets;
@@ -81,9 +68,11 @@ namespace GosChess {
 
     extern const unsigned char *sliding_pieces;
 
-    void ChangeActiveColour();
+    template<typename ae>
+    void printe(ae & i);
+
 
 }
 
 
-#endif
+#endif //PROJECT_NAME_COMPUTATIONGLOBALS_H

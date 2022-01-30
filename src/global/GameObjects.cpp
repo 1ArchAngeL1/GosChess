@@ -4,7 +4,6 @@
 
 #include "GameObjects.h"
 
-typedef enum GosChess::FigureTypes FIGTYPE;
 
 static bool isCharacter(const char &character_figure) {
     return (character_figure >= 'a' && character_figure <= 'z') ||
@@ -24,13 +23,14 @@ static GosChess::Figure FigureFromChar(const char &figure_rep) {
 
 }
 
+typedef enum GosChess::FigureTypes FIGTYPE;
 
-const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FigureTypes::PAWN},
-                                                                   {'q', FigureTypes::QUEEN},
-                                                                   {'k', FigureTypes::KING},
-                                                                   {'b', FigureTypes::BISHOP},
-                                                                   {'r', FigureTypes::ROOK},
-                                                                   {'n', FigureTypes::KNIGHT}};
+const std::map<char, unsigned char> GosChess::Board::FEN_TO_FIG = {{'p', FIGTYPE::PAWN},
+                                                                   {'q', FIGTYPE::QUEEN},
+                                                                   {'k', FIGTYPE::KING},
+                                                                   {'b', FIGTYPE::BISHOP},
+                                                                   {'r', FIGTYPE::ROOK},
+                                                                   {'n', FIGTYPE::KNIGHT}};
 
 
 const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color::WHITE, FIGTYPE::ROOK).full_type, 'R'},
@@ -128,7 +128,7 @@ void GosChess::Board::SaveState() {
 }
 
 void GosChess::Board::Undo() {
-    delete [] Board::board;
+    delete[] Board::board;
     board = this->game_rev.top();
     this->game_rev.pop();
 }

@@ -4,8 +4,7 @@
 #include "../global/GameObjects.h"
 #include "../global/GameGlobals.h"
 #include "../render/GameDraw.h"
-#include "../computation/GamePlayFunctional.h"
-#include "../util/GameInput.h"
+#include "GamePlay/GamePlayFunctional.h"
 
 
 int main() {
@@ -17,13 +16,8 @@ int main() {
     GosChess::DrawingConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
-    bool fig_selected = false;
-    /* for(int i = 0;i < oe.size();i++) {
-         std:: cout << (int)oe[i].move_from << " move to " << "y: " << (int)oe[i].move_to / 8 << " "
-                                                                                                 "x :" << (int)oe[i].move_to % 8 << std::endl;
-     }*/
-    GosChess::Cell selecteed_node;
-    GosChess::Cell target_node;
+    std::optional<GosChess::Cell> src_cell;
+    std::optional<GosChess::Cell> trg_cell;
     while (window.isOpen()) {
         GosChess::InputHandle::Listen();
         sf::Event event;
@@ -34,31 +28,21 @@ int main() {
         }
 
         if (GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-            if (fig_selected) {
-                target_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                          sf::Mouse::getPosition(window).x);
-                GosChess::Move desired_move = {(std::int8_t) GosChess::GetNumFromNode(selecteed_node),
-                                               (std::int8_t) GosChess::GetNumFromNode(target_node)};
-                if (GosChess::CanMakeMove(desired_move)) {
-                    if(GosChess::MakeMove(desired_move, board)) {
-                        GosChess::ChangeActiveColour();
-                    }
-                }
-
-                GosChess::ResetBoardColours();
-                fig_selected = false;
+            if (!GosChess::highlited) {
+                src_cell = GosChess::ChooseSrcFigure(board, window);
             } else {
-                GosChess::CalculateAvailableMoves(board.GetRawBoard());
-                selecteed_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                             sf::Mouse::getPosition(window).x);
-                if(GosChess::CheckMate(board,GosChess::color_to_play))window.close();
-                std::cout << "y : " << selecteed_node.y << std::endl << " x : "
-                          << selecteed_node.x << std::endl;
-                std::cout <<  "num : " << GosChess::GetNumFromNode(selecteed_node) << std::endl;
-                GosChess::ColoriseAvailableMoves(GosChess::GetNumFromNode(selecteed_node));
-                fig_selected = true;
+                trg_cell = GosChess::ChooseTrgFigure(board, window);
             }
-
+            if (src_cell.has_value() && trg_cell.has_value()) {
+                int8_t from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
+                int8_t to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
+                if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
+                    GosChess::ChangeActiveColour();
+                }
+                src_cell = std::nullopt;
+                trg_cell = std::nullopt;
+                if(GosChess::CheckMate(board,GosChess::color_to_play))break;
+            }
         }
 
         window.clear(GosChess::background_color);

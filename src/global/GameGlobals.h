@@ -31,6 +31,9 @@ namespace GosChess {
 
     extern GosChess::Color color_to_play;
 
+    extern GosChess::Color enemy_color;
+
+    extern GosChess::Color my_color;
 
 }
 
