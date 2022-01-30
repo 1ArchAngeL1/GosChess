@@ -1,0 +1,8 @@
+//
+// Created by Leo Gogichaishvili on 31.01.22.
+//
+
+#ifndef PROJECT_NAME_RENDERGLOBALS_H
+#define PROJECT_NAME_RENDERGLOBALS_H
+
+#endif //PROJECT_NAME_RENDERGLOBALS_H

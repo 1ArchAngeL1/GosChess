@@ -2,7 +2,7 @@
 #ifndef PROJECT_NAME_INGAMECALCULATIONS_H
 #define PROJECT_NAME_INGAMECALCULATIONS_H
 
-#include "../global/GameObjects.h"
+#include "../global/MainObjects/GameObjects.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
 #include "../global/GameGlobals.h"

@@ -10,6 +10,6 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-I/opt/homebrew/Cellar/sfml/2.5.1_1/include -L/o
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 file (
         GLOB_RECURSE SOURCE_FILES
-        src/*
+        src/*.cpp
 )
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} )
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})

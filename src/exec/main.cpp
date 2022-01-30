@@ -1,15 +1,14 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../global/GameObjects.h"
-#include "../global/GameGlobals.h"
+#include "../chess_api/global/MainObjects/GameObjects.h"
+#include "../chess_api/global/GameGlobals.h"
 #include "../render/GameDraw.h"
 #include "GamePlay/GamePlayFunctional.h"
 
 
 int main() {
-    std::string fen_string = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/";
-    //std::string fen_string = "/K7/8/3N4/8/8/8/8/8/";
+    std::string fen_string = GosChess::GetInitialFenBoard();
     GosChess::Board board(fen_string);
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "GosChess");
     std::cout << board.BoardStateToFen() << std::endl;
@@ -41,7 +40,8 @@ int main() {
                 }
                 src_cell = std::nullopt;
                 trg_cell = std::nullopt;
-                if(GosChess::CheckMate(board,GosChess::color_to_play))break;
+                GosChess::CalculateAvailableMoves(board.GetRawBoard());
+                if (GosChess::CheckMate(board, GosChess::color_to_play))break;
             }
         }
 

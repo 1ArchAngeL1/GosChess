@@ -47,10 +47,6 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, std::int8_t col
 }
 
 
-
-
-
-
 void GosChess::DrawingConfig() {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColoriseBoardSeed(GosChess::main_color, GosChess::secondary_color);
@@ -80,6 +76,7 @@ void GosChess::DrawBoard(sf::RenderWindow &game_window) {
 }
 
 void GosChess::LoadChessFigureSprites() {
+    int (*fn)(int,int) = [](int x,int y){return x + y;};
     if (!root_texture.loadFromFile("../resources/chessPieces.png")) {
         std::cout << "couldn't load root_texture for figures" << std::endl;
         return;

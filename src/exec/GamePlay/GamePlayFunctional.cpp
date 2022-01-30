@@ -5,6 +5,12 @@
 #include "GamePlayFunctional.h"
 
 
+
+std::string GosChess::GetInitialFenBoard() {
+    return GosChess::player_color == GosChess::Color::WHITE ? "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/" :
+    "rnbqkbnr/PPPPPPPP/8/8/8/8/pppppppp/RNBQKBNR/";
+}
+
 bool GosChess::Play(GosChess::Board &brd, const GosChess::Move &move) {
     if (GosChess::CanMakeMove(move)) {
         return GosChess::MakeMove(move, brd);

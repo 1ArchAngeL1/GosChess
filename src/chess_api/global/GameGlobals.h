@@ -2,7 +2,7 @@
 #ifndef PROJECT_NAME_GAMEGLOBALS_H
 #define PROJECT_NAME_GAMEGLOBALS_H
 
-#include "GameObjects.h"
+#include "MainObjects/GameObjects.h"
 #include <unordered_map>
 
 namespace GosChess {
@@ -33,7 +33,7 @@ namespace GosChess {
 
     extern GosChess::Color enemy_color;
 
-    extern GosChess::Color my_color;
+    extern GosChess::Color player_color;
 
 }
 

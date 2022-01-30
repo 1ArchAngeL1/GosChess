@@ -27,6 +27,6 @@ std::unordered_map<unsigned char, sf::Sprite> GosChess::figure_sprites;
 
 GosChess::Color GosChess::color_to_play = GosChess::Color::WHITE;
 
-GosChess::Color GosChess::enemy_color;
+GosChess::Color GosChess::enemy_color = GosChess::Color::BLACK;
 
-GosChess::Color GosChess::my_color;
+GosChess::Color GosChess::player_color = GosChess::Color::WHITE;

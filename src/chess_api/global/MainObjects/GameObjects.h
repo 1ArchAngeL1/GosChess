@@ -34,7 +34,7 @@ namespace GosChess {
 
 
     union Figure {
-        explicit Figure(const unsigned char &color, const unsigned char &type);
+        explicit Figure(const unsigned char &, const unsigned char &);
 
         explicit Figure(const unsigned char &full_type) : full_type(full_type) {}
 
@@ -54,13 +54,13 @@ namespace GosChess {
 
         std::stack<unsigned char *> game_rev;
     public:
-        explicit Board(std::string initial_state);
+        explicit Board(std::string);
 
         const unsigned char *GetRawBoard() const;
 
-        Figure GetPosition(const int &index) const;
+        Figure GetPosition(const int &) const;
 
-        void SetPosition(const int &grid_num, unsigned char figure);
+        void SetPosition(const int &, unsigned char);
 
         std::string BoardStateToFen();
 
@@ -68,7 +68,7 @@ namespace GosChess {
 
         void Undo();
 
-        static unsigned char *DecodeFen(std::string fen_str);
+        static unsigned char *DecodeFen(std::string);
 
         static const std::map<char, unsigned char> FEN_TO_FIG;
 

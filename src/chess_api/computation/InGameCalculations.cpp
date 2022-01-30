@@ -67,7 +67,7 @@ static bool CheckForKingChecksSlidingPieces(const unsigned char *brd, GosChess::
 
 static bool CheckForKingChecksPawns(const unsigned char *brd, GosChess::Figure kng, int king_index) {
     GosChess::Figure test_fig;
-    int direction_start_index = kng.color == GosChess::Color::WHITE ? 4 : 5;
+    int direction_start_index = kng.color == GosChess::player_color ? 4 : 5;
     for (int direction_index = direction_start_index; direction_index < 8; direction_index += 2) {
         if (GosChess::precalculated_offsets[king_index][direction_index] >= 1) {
             unsigned char target_fig = brd[king_index + GosChess::direction_offsets[direction_index]];
@@ -169,7 +169,7 @@ static void GenerateSlidingMoves(const unsigned char *board, GosChess::Figure pi
 
 
 static void GeneratePawnKillMoves(const unsigned char *board, GosChess::Figure piece, int index) {
-    int start_index = piece.color == GosChess::Color::WHITE ? 4 : 5;
+    int start_index = piece.color == GosChess::color_to_play ? 4 : 5;
     if (GosChess::precalculated_offsets[index][start_index] >= 1) {
         unsigned char fig_rep = board[index + GosChess::direction_offsets[start_index]];
         if (fig_rep != 0) {
@@ -195,12 +195,12 @@ static void GeneratePawnKillMoves(const unsigned char *board, GosChess::Figure p
 
 static void GeneratePawnMoves(const unsigned char *board, GosChess::Figure piece, int index) {
     if (piece.type != GosChess::FigureTypes::PAWN)return;
-    int multiplier = piece.color == GosChess::Color::BLACK ? -1 : 1;
+    int multiplier = piece.color == GosChess::enemy_color ? -1 : 1;
     if (index + 8 * multiplier < GosChess::Board::BOARD_SIZE && index + 8 * multiplier >= 0) {
         if (board[index + 8 * multiplier] == 0)
             GosChess::available_moves[index].insert(GosChess::Move(index, index + 8 * multiplier));
-        if ((piece.color == GosChess::Color::WHITE && index / GosChess::Board::ROW_NUM == 1) ||
-            (piece.color == GosChess::Color::BLACK && index / GosChess::Board::ROW_NUM == 6)) {
+        if ((piece.color == GosChess::player_color && index / GosChess::Board::ROW_NUM == 1) ||
+            (piece.color == GosChess::enemy_color && index / GosChess::Board::ROW_NUM == 6)) {
             if (board[index + 8 * 2 * multiplier] == 0)
                 GosChess::available_moves[index].insert(GosChess::Move(index, index + 8 * 2 * multiplier));
         }
@@ -310,7 +310,6 @@ void GosChess::ChangeActiveColour() {
 
 
 bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
-    if(!CheckForKingCheck(brd.GetRawBoard(),clr))return false;
     GosChess::Figure test_fig;
     for (auto it = GosChess::available_moves.begin(); it != GosChess::available_moves.end(); it++) {
         test_fig.full_type = brd.GetRawBoard()[it->first];

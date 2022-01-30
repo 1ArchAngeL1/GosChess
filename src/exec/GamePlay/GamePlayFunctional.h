@@ -7,20 +7,22 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../../global/GameObjects.h"
-#include "../../global/GameGlobals.h"
+#include "../../chess_api/global/MainObjects/GameObjects.h"
+#include "../../chess_api/global/GameGlobals.h"
 #include "../../render/GameDraw.h"
-#include "../../computation/InGameCalculations.h"
+#include "../../chess_api/computation/InGameCalculations.h"
 #include "../../util/GameInput.h"
 #include <optional>
 
 namespace GosChess {
 
-    bool Play(GosChess::Board & brd,const GosChess::Move &move);
+    std::string GetInitialFenBoard();
 
-    std::optional<GosChess::Cell> ChooseTrgFigure(GosChess::Board &brd, sf::Window &window);
+    bool Play(GosChess::Board &, const GosChess::Move &);
 
-    std::optional<GosChess::Cell> ChooseSrcFigure(GosChess::Board &brd, sf::Window &window);
+    std::optional<GosChess::Cell> ChooseTrgFigure(GosChess::Board &, sf::Window &);
+
+    std::optional<GosChess::Cell> ChooseSrcFigure(GosChess::Board &, sf::Window &);
 
     extern bool highlited;
 
