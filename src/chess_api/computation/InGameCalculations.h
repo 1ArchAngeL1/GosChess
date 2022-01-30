@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
 #include "../global/GameGlobals.h"
-#include "globals/ComputationGlobals.h"
+#include "computation_globals/ComputationGlobals.h"
 
 
 namespace GosChess {

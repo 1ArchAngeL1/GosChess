@@ -9,7 +9,7 @@
 #include "../../global/MainObjects/GameObjects.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
-#include "../../global/GameGlobals.h"
+#include "../../../render/globals/RenderGlobals.h"
 
 
 namespace GosChess {
