@@ -1,6 +1,4 @@
-//
-// Created by Leo Gogichaishvili on 29.01.22.
-//
+
 
 #include "ComputationGlobals.h"
 

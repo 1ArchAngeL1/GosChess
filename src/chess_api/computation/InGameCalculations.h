@@ -12,23 +12,27 @@
 namespace GosChess {
 
 
-    GosChess::Cell GetNode(const int &num);
+    GosChess::Cell GetNode(const int &);
 
-    GosChess::Cell GetNodeFromScreen(const float &_y, const float &_x);
+    GosChess::Cell GetNodeFromScreen(const float &, const float &);
 
-    int GetNumFromNode(const GosChess::Cell &_cell);
+    int GetNumFromNode(const GosChess::Cell &);
 
-    bool MakeMove(GosChess::Move mv, GosChess::Board &brd);
+    bool MakeMove(GosChess::Move, GosChess::Board &);
 
-    bool CanMakeMove(GosChess::Move mv);
+    void MakeMoveForce(GosChess::Move, GosChess::Board&);
 
-    bool CheckMate(GosChess::Board &brd, GosChess::Color clr);
+    bool CanMakeMove(GosChess::Move);
+
+    bool CheckMate(GosChess::Board &, GosChess::Color);
 
     void GenerateOffsets();
 
-    void CalculateAvailableMoves(const unsigned char *game_board);
+    void CalculateAvailableMoves(const unsigned char *);
 
     void ChangeActiveColour();
+
+    GosChess::Move InvertMove(GosChess::Move);
 
 }
 

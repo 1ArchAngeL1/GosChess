@@ -47,6 +47,8 @@ namespace GosChess {
 
         Move(int8_t move_from, std::int8_t move_to) : move_from(move_from), move_to(move_to) {};
 
+        Move() {}
+
         bool operator==(const GosChess::Move &rhm) const {
             return this->move_from == rhm.move_from && this->move_to == rhm.move_to;
         }
@@ -69,7 +71,7 @@ namespace GosChess {
     extern const unsigned char *sliding_pieces;
 
     template<typename ae>
-    void printe(ae & i);
+    void printe(ae &i);
 
 
 }

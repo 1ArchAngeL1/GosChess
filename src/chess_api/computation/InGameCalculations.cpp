@@ -169,7 +169,7 @@ static void GenerateSlidingMoves(const unsigned char *board, GosChess::Figure pi
 
 
 static void GeneratePawnKillMoves(const unsigned char *board, GosChess::Figure piece, int index) {
-    int start_index = piece.color == GosChess::color_to_play ? 4 : 5;
+    int start_index = piece.color == GosChess::player_color ? 4 : 5;
     if (GosChess::precalculated_offsets[index][start_index] >= 1) {
         unsigned char fig_rep = board[index + GosChess::direction_offsets[start_index]];
         if (fig_rep != 0) {
@@ -323,6 +323,28 @@ bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
         }
     }
     return true;
+}
+
+
+void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
+    unsigned char current = board.GetPosition(mv.move_from).full_type;
+    board.SetPosition(mv.move_from, 0);
+    board.SetPosition(mv.move_to, current);
+}
+
+static bool IsMiddle(int8_t indx) {
+    if (indx == static_cast<int8_t >(GosChess::Board::ROW_LENGTH / 2))
+        return true;
+    return false;
+}
+
+
+GosChess::Move GosChess::InvertMove(GosChess::Move move) {
+    GosChess::Cell from = GosChess::GetNode(move.move_from);
+    GosChess::Cell to = GosChess::GetNode(move.move_to);
+    from.y = GosChess::Board::ROW_NUM - from.y - 1;
+    to.y = GosChess::Board::ROW_NUM - to.y - 1;
+    return GosChess::Move(GosChess::GetNumFromNode(from), GosChess::GetNumFromNode(to));
 }
 
 
