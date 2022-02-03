@@ -7,7 +7,9 @@
 
 #include <SFML/Network.hpp>
 #include "../render/globals/RenderGlobals.h"
-#include "../chess_api/computation/computation_globals/ComputationGlobals.h"
+#include "../chess/computation/computation_globals/ComputationGlobals.h"
+#include "../chess/computation/computation_globals/ComputationGlobals.h"
+#include "../chess/global/GameGlobals.h"
 #include <optional>
 
 namespace GosChess {

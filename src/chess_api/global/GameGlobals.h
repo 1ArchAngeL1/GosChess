@@ -1,9 +1,0 @@
-
-#ifndef PROJECT_NAME_GAMEGLOBALS_H
-#define PROJECT_NAME_GAMEGLOBALS_H
-
-
-
-
-
-#endif

@@ -21,14 +21,12 @@ static bool IsKnight(const GosChess::Figure &_fig) {
     return _fig.type == GosChess::FigureTypes::KNIGHT;
 }
 
-
 static bool IsSlidingPiece(const GosChess::Figure &_fig) {
     for (int i = 0; i < 3; i++) {
         if (_fig.type == GosChess::sliding_pieces[i])return true;
     }
     return false;
 }
-
 
 static int GetKingPosition(const unsigned char *board, GosChess::Color clr) {
     GosChess::Figure fig_check;
@@ -38,7 +36,6 @@ static int GetKingPosition(const unsigned char *board, GosChess::Color clr) {
     }
     return -1;
 }
-
 
 static bool CheckForKingChecksSlidingPieces(const unsigned char *brd, GosChess::Figure kng, int king_index) {
     GosChess::Figure test_fig;
@@ -96,7 +93,6 @@ static bool CheckForKingChecksKing(const unsigned char *brd, GosChess::Figure kn
     return false;
 }
 
-
 static bool CheckForKingChecksKnight(const unsigned char *brd, GosChess::Figure kng, int king_index) {
     int additional_moves[] = {3, 3, 2, 2};
     GosChess::Figure test_fig;
@@ -139,7 +135,6 @@ static bool CheckForKingChecksKnight(const unsigned char *brd, GosChess::Figure 
     return false;
 }
 
-
 static bool CheckForKingCheck(const unsigned char *brd, GosChess::Color clr) {
     int king_index = GetKingPosition(brd, clr);
     GosChess::Figure arg_kng(brd[king_index]);
@@ -167,7 +162,6 @@ static void GenerateSlidingMoves(const unsigned char *board, GosChess::Figure pi
     }
 }
 
-
 static void GeneratePawnKillMoves(const unsigned char *board, GosChess::Figure piece, int index) {
     int start_index = piece.color == GosChess::player_color ? 4 : 5;
     if (GosChess::precalculated_offsets[index][start_index] >= 1) {
@@ -192,7 +186,6 @@ static void GeneratePawnKillMoves(const unsigned char *board, GosChess::Figure p
     }
 }
 
-
 static void GeneratePawnMoves(const unsigned char *board, GosChess::Figure piece, int index) {
     if (piece.type != GosChess::FigureTypes::PAWN)return;
     int multiplier = piece.color == GosChess::enemy_color ? -1 : 1;
@@ -207,7 +200,6 @@ static void GeneratePawnMoves(const unsigned char *board, GosChess::Figure piece
     }
     GeneratePawnKillMoves(board, piece, index);
 }
-
 
 static void GenerateKingMoves(const unsigned char *board, GosChess::Figure piece, int index) {
     if (piece.type != GosChess::FigureTypes::KING)return;
@@ -235,13 +227,11 @@ static void GenerateKnightMoves(const unsigned char *board, GosChess::Figure pie
     }
 }
 
-
 GosChess::Cell GosChess::GetNode(const int &num) {
     int x = num % GosChess::Board::ROW_LENGTH;
     int y = num / GosChess::Board::ROW_NUM;
     return {y, x};
 }
-
 
 void GosChess::GenerateOffsets() {
     int curr_y, curr_x;
@@ -272,23 +262,19 @@ void GosChess::CalculateAvailableMoves(const unsigned char *game_board) {
     }
 }
 
-
 GosChess::Cell GosChess::GetNodeFromScreen(const float &_y, const float &_x) {
     int real_y = (int) (GosChess::window_height - _y) / (int) GosChess::square_size;
     int real_x = (int) _x / (int) GosChess::square_size;
     return GosChess::Cell(real_y, real_x);
 }
 
-
 int GosChess::GetNumFromNode(const GosChess::Cell &_cell) {
     return _cell.y * GosChess::Board::ROW_NUM + _cell.x;
 }
 
-
 bool GosChess::CanMakeMove(GosChess::Move mv) {
     return GosChess::available_moves[mv.move_from].find(mv) != GosChess::available_moves[mv.move_from].end();
 }
-
 
 bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
     if (!CanMakeMove(mv)) return false;
@@ -303,11 +289,10 @@ bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
     return true;
 }
 
-
 void GosChess::ChangeActiveColour() {
     GosChess::color_to_play = static_cast<GosChess::Color>(!(int) GosChess::color_to_play);
-}
 
+}
 
 bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
     GosChess::Figure test_fig;
@@ -325,19 +310,11 @@ bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
     return true;
 }
 
-
 void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
     unsigned char current = board.GetPosition(mv.move_from).full_type;
     board.SetPosition(mv.move_from, 0);
     board.SetPosition(mv.move_to, current);
 }
-
-static bool IsMiddle(int8_t indx) {
-    if (indx == static_cast<int8_t >(GosChess::Board::ROW_LENGTH / 2))
-        return true;
-    return false;
-}
-
 
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
     GosChess::Cell from = GosChess::GetNode(move.move_from);
@@ -346,5 +323,3 @@ GosChess::Move GosChess::InvertMove(GosChess::Move move) {
     to.y = GosChess::Board::ROW_NUM - to.y - 1;
     return GosChess::Move(GosChess::GetNumFromNode(from), GosChess::GetNumFromNode(to));
 }
-
-

@@ -2,10 +2,10 @@
 #ifndef PROJECT_NAME_GAMEDRAW_H
 #define PROJECT_NAME_GAMEDRAW_H
 
-#include "../chess_api/global/MainObjects/GameObjects.h"
+#include "../chess/global/MainObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"
-#include "../chess_api/global/GameGlobals.h"
-#include "../chess_api/computation/InGameCalculations.h"
+#include "../chess/global/GameGlobals.h"
+#include "../chess/computation/InGameCalculations.h"
 
 
 namespace GosChess {

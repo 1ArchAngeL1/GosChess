@@ -1,8 +1,8 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../chess_api/global/MainObjects/GameObjects.h"
-#include "../chess_api/global/GameGlobals.h"
+#include "../chess/global/MainObjects/GameObjects.h"
+#include "../chess/global/GameGlobals.h"
 #include "../render/GameDraw.h"
 #include "GamePlay/GamePlayFunctional.h"
 #include "../network/GameNetwok.h"
@@ -30,13 +30,12 @@ int main() {
     std::string fen_string = GosChess::GetInitialFenBoard();
     GosChess::Board board(fen_string);
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "GosChess");
-    std::cout << board.BoardStateToFen() << std::endl;
-    std::cout << GosChess::player_color << std::endl;
     GosChess::DrawingConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
     std::optional<GosChess::Cell> src_cell;
     std::optional<GosChess::Cell> trg_cell;
+
     while (window.isOpen()) {
         GosChess::InputHandle::Listen();
         sf::Event event;
@@ -48,11 +47,8 @@ int main() {
             }
 
         }
-        std::optional<GosChess::Move> move = GosChess::ReceiveMove();
-        if (move.has_value()) {
-            GosChess::MakeMoveForce(GosChess::InvertMove(move.value()), board);
-            GosChess::ChangeActiveColour();
-        }
+
+        GosChess::CheckReceivedMove(GosChess::ReceiveMove(), board);
 
         if (GosChess::player_color == GosChess::color_to_play &&
             GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {

@@ -5,7 +5,7 @@
 #ifndef PROJECT_NAME_RENDERGLOBALS_H
 #define PROJECT_NAME_RENDERGLOBALS_H
 
-#include "../../chess_api/global/MainObjects/GameObjects.h"
+#include "../../chess/global/MainObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include <unordered_map>
 
@@ -32,12 +32,6 @@ namespace GosChess {
     extern sf::Vector2f board_position;
 
     extern std::unordered_map<unsigned char, sf::Sprite> figure_sprites;
-
-    extern GosChess::Color color_to_play;
-
-    extern GosChess::Color enemy_color;
-
-    extern GosChess::Color player_color;
 
 }
 

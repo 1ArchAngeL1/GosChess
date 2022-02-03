@@ -5,14 +5,14 @@
 #include "GameObjects.h"
 
 
-static bool isCharacter(const char &character_figure) {
+static bool IsCharacter(const char &character_figure) {
     return (character_figure >= 'a' && character_figure <= 'z') ||
            (character_figure >= 'A' && character_figure <= 'Z');
 }
 
 
 static GosChess::Figure FigureFromChar(const char &figure_rep) {
-    if (isCharacter(figure_rep)) {
+    if (IsCharacter(figure_rep)) {
         GosChess::Figure figure;
         if (std::isupper(figure_rep))figure.color = GosChess::Color::WHITE;
         else figure.color = GosChess::Color::BLACK;
@@ -63,7 +63,7 @@ unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
     short curr_pos = 0;
     for (int i = 0; i < fen_str.length(); i++) {
         if (fen_str[i] == '/')continue;
-        if (isCharacter(fen_str[i])) {
+        if (IsCharacter(fen_str[i])) {
             Figure fig = FigureFromChar(fen_str[i]);
             board_demo[curr_pos] = fig.full_type;
             curr_pos++;
@@ -75,11 +75,9 @@ unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
     return board_demo;
 }
 
-
 GosChess::Board::Board(std::string initial_state) {
     this->board = Board::DecodeFen(initial_state);
 }
-
 
 void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
     this->board[grid_num] = figure;
@@ -113,13 +111,11 @@ GosChess::Figure GosChess::Board::GetPosition(const int &index) const {
     return GosChess::Figure(fig_char);
 }
 
-
 GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) {
     this->full_type = 0;
     this->color = color;
     this->type = type;
 }
-
 
 void GosChess::Board::SaveState() {
     unsigned char *state = new unsigned char[GosChess::Board::BOARD_SIZE];

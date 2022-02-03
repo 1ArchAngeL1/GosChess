@@ -70,10 +70,6 @@ namespace GosChess {
 
     extern const unsigned char *sliding_pieces;
 
-    template<typename ae>
-    void printe(ae &i);
-
-
 }
 
 

@@ -11,7 +11,6 @@
 
 namespace GosChess {
 
-
     GosChess::Cell GetNode(const int &);
 
     GosChess::Cell GetNodeFromScreen(const float &, const float &);

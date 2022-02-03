@@ -3,23 +3,19 @@
 //
 
 #include "GameNetwok.h"
-#include "../chess_api/computation/computation_globals/ComputationGlobals.h"
 
 
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Color &clr) {
     return packet << static_cast<int>(clr);
 }
 
-
 sf::Packet &operator>>(sf::Packet &packet, GosChess::Color &clr) {
-    int temp = static_cast<int>(clr);
-    return packet >> temp;
+    return packet >> clr;
 }
 
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Move &mv) {
     return packet << mv.move_from << mv.move_to;
 }
-
 
 sf::Packet &operator>>(sf::Packet &packet, GosChess::Move &mv) {
     return packet >> mv.move_from >> mv.move_to;
@@ -39,7 +35,6 @@ std::optional<GosChess::Move> GosChess::ReceiveMove() {
         return std::optional<GosChess::Move>(ret);
     return std::nullopt;
 }
-
 
 void GosChess::SetConnectionType(GosChess::ConnectionType type) {
     GosChess::connection_role = type;
@@ -66,7 +61,7 @@ void GosChess::InitHost() {
     GosChess::enemy_color = static_cast<GosChess::Color>(!n);
     sf::Packet init_info;
     init_info << n;
-    while(GosChess::connection.send(init_info) == sf::Socket::Partial);
+    while(GosChess::connection.send(init_info) != sf::Socket::Done);
 }
 
 void GosChess::InitClient() {
@@ -77,7 +72,6 @@ void GosChess::InitClient() {
     GosChess::player_color = static_cast<GosChess::Color>(!n);
     GosChess::enemy_color = static_cast<GosChess::Color>(n);
 }
-
 
 sf::IpAddress GosChess::remote_ip;
 
