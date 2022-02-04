@@ -289,9 +289,9 @@ bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
     return true;
 }
 
-void GosChess::ChangeActiveColour() {
+void GosChess::ChangeActiveColour(GosChess::Board &board) {
     GosChess::color_to_play = static_cast<GosChess::Color>(!(int) GosChess::color_to_play);
-
+    GosChess::CalculateAvailableMoves(board.GetRawBoard());
 }
 
 bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
@@ -317,9 +317,9 @@ void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
 }
 
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
-    GosChess::Cell from = GosChess::GetNode(move.move_from);
-    GosChess::Cell to = GosChess::GetNode(move.move_to);
-    from.y = GosChess::Board::ROW_NUM - from.y - 1;
-    to.y = GosChess::Board::ROW_NUM - to.y - 1;
-    return GosChess::Move(GosChess::GetNumFromNode(from), GosChess::GetNumFromNode(to));
+    GosChess::Cell move_from = GosChess::GetNode(move.move_from);
+    GosChess::Cell move_to = GosChess::GetNode(move.move_to);
+    move_from.y = GosChess::Board::ROW_NUM - move_from.y - 1;
+    move_to.y = GosChess::Board::ROW_NUM - move_to.y - 1;
+    return GosChess::Move(GosChess::GetNumFromNode(move_from), GosChess::GetNumFromNode(move_to));
 }

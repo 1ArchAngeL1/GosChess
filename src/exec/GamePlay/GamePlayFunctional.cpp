@@ -5,6 +5,29 @@
 #include "GamePlayFunctional.h"
 
 
+void GosChess::MultiPlayer::MouseClicked(GosChess::Board &board) {
+    static std::optional<GosChess::Cell> src_cell = std::nullopt;
+    static std::optional<GosChess::Cell> trg_cell = std::nullopt;
+
+    if (!GosChess::highlited) {
+        src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
+    } else {
+        trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
+    }
+    if (src_cell.has_value() && trg_cell.has_value()) {
+        int8_t from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
+        int8_t to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
+        if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
+            GosChess::ChangeActiveColour(board);
+            GosChess::SendMove(GosChess::Move(from, to));
+        }
+        src_cell, trg_cell = std::nullopt;
+        if (GosChess::CheckMate(board, GosChess::color_to_play)) GosChess::SetGameFlagFinished();
+
+    }
+}
+
+
 static constexpr std::string_view WHITE_STARTS_FEN = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/";
 static constexpr std::string_view BLACK_STARTS_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/";
 
@@ -33,8 +56,6 @@ std::optional<GosChess::Cell> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf
 std::optional<GosChess::Cell> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
     if (GosChess::highlited) {
         GosChess::ResetBoardColours();
-    } else {
-        GosChess::CalculateAvailableMoves(brd.GetRawBoard());
     }
     GosChess::Cell src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
                                                           sf::Mouse::getPosition(window).x);
@@ -47,8 +68,16 @@ std::optional<GosChess::Cell> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf
 void GosChess::CheckReceivedMove(std::optional<GosChess::Move> move, GosChess::Board &board) {
     if (move.has_value()) {
         GosChess::MakeMoveForce(GosChess::InvertMove(move.value()), board);
-        GosChess::ChangeActiveColour();
+        GosChess::ChangeActiveColour(board);
     }
+}
+
+void GosChess::SetGameFlagFinished() {
+    GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
+}
+
+bool GosChess::IsGameFinished() {
+    return GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
 }
 
 

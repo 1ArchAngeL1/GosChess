@@ -11,10 +11,30 @@
 #include "../../chess/global/GameGlobals.h"
 #include "../../render/GameDraw.h"
 #include "../../chess/computation/InGameCalculations.h"
+#include "../../network/GameNetwok.h"
 #include "../../util/GameInput.h"
 #include <optional>
 
 namespace GosChess {
+
+    class GameMode {
+    protected:
+        sf::RenderWindow &game_window;
+    public:
+        explicit GameMode(sf::RenderWindow &game_window) : game_window(game_window) {}
+
+        virtual void MouseClicked(GosChess::Board &board) = 0;
+
+    };
+
+
+    class MultiPlayer : public GameMode {
+    public:
+        explicit MultiPlayer(sf::RenderWindow &game_window) : GameMode(game_window) {}
+
+        virtual void MouseClicked(GosChess::Board &board) override;
+    };
+
 
     std::string GetInitialFenBoard();
 
@@ -25,6 +45,10 @@ namespace GosChess {
     std::optional<GosChess::Cell> ChooseSrcFigure(GosChess::Board &, sf::Window &);
 
     void CheckReceivedMove(std::optional<GosChess::Move>, GosChess::Board &);
+
+    void SetGameFlagFinished();
+
+    bool IsGameFinished();
 
     extern bool highlited;
 

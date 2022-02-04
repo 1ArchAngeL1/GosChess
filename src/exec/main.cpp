@@ -8,6 +8,8 @@
 #include "../network/GameNetwok.h"
 
 
+
+
 int main() {
     char type;
 
@@ -33,11 +35,14 @@ int main() {
     GosChess::DrawingConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
-    std::optional<GosChess::Cell> src_cell;
-    std::optional<GosChess::Cell> trg_cell;
-
+    GosChess::GameMode* performer = new GosChess::MultiPlayer(window);
+    GosChess::CalculateAvailableMoves(board.GetRawBoard());
     while (window.isOpen()) {
-        GosChess::InputHandle::Listen();
+        if(GosChess::IsGameFinished()) {
+            GosChess::client_listener.close();
+            window.close();
+        }
+
         sf::Event event;
 
         while (window.pollEvent(event)) {
@@ -45,33 +50,13 @@ int main() {
                 GosChess::client_listener.close();
                 window.close();
             }
-
         }
 
         GosChess::CheckReceivedMove(GosChess::ReceiveMove(), board);
-
+        GosChess::InputHandle::Listen();
         if (GosChess::player_color == GosChess::color_to_play &&
             GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-            if (!GosChess::highlited) {
-                src_cell = GosChess::ChooseSrcFigure(board, window);
-            } else {
-                trg_cell = GosChess::ChooseTrgFigure(board, window);
-            }
-            if (src_cell.has_value() && trg_cell.has_value()) {
-                int8_t from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
-                int8_t to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-                if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
-                    GosChess::ChangeActiveColour();
-                    GosChess::SendMove(GosChess::Move(from, to));
-                }
-                src_cell = std::nullopt;
-                trg_cell = std::nullopt;
-                GosChess::CalculateAvailableMoves(board.GetRawBoard());
-                if (GosChess::CheckMate(board, GosChess::color_to_play)) {
-                    break;
-                }
-
-            }
+            performer->MouseClicked(board);
         }
 
         window.clear(GosChess::background_color);

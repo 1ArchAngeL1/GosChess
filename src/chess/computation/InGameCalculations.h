@@ -29,7 +29,7 @@ namespace GosChess {
 
     void CalculateAvailableMoves(const unsigned char *);
 
-    void ChangeActiveColour();
+    void ChangeActiveColour(GosChess::Board&);
 
     GosChess::Move InvertMove(GosChess::Move);
 

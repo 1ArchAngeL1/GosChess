@@ -2,6 +2,7 @@
 // Created by Leo Gogichaishvili on 12.12.21.
 //
 
+
 #include "GameDraw.h"
 
 static sf::Image board_image;
@@ -13,10 +14,12 @@ static sf::Sprite board_sprite;
 static sf::Texture root_texture;
 
 static void ColoriseBoardSeed(sf::Color first_color, sf::Color second_color) {
-    if(GosChess::player_color == GosChess::Color::WHITE);
+    if (GosChess::player_color == GosChess::Color::WHITE);
     for (int i = 0; i < GosChess::Board::ROW_LENGTH; i++)
         for (int j = 0; j < GosChess::Board::ROW_NUM; j++)
-            (i + j) % 2 == 0 ? board_image.setPixel(i, j, GosChess::player_color == GosChess::Color::WHITE ? second_color : first_color) :
+            (i + j) % 2 == 0 ? board_image.setPixel(i, j,
+                                                    GosChess::player_color == GosChess::Color::WHITE ? second_color
+                                                                                                     : first_color) :
             board_image.setPixel(i, j, GosChess::player_color == GosChess::Color::WHITE ? first_color : second_color);
 }
 
