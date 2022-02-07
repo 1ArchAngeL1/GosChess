@@ -17,20 +17,28 @@
 
 namespace GosChess {
 
-    class GameMode {
+    class GameModeListener {
     protected:
         sf::RenderWindow &game_window;
     public:
-        explicit GameMode(sf::RenderWindow &game_window) : game_window(game_window) {}
+        explicit GameModeListener(sf::RenderWindow &game_window) : game_window(game_window) {}
 
         virtual void MouseClicked(GosChess::Board &board) = 0;
 
     };
 
 
-    class MultiPlayer : public GameMode {
+    class MultiPlayerListener : public GameModeListener {
     public:
-        explicit MultiPlayer(sf::RenderWindow &game_window) : GameMode(game_window) {}
+        explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
+
+        virtual void MouseClicked(GosChess::Board &board) override;
+    };
+
+
+    class MainMenuListener : public GameModeListener {
+    public:
+        explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
         virtual void MouseClicked(GosChess::Board &board) override;
     };
@@ -51,6 +59,8 @@ namespace GosChess {
     bool IsGameFinished();
 
     extern bool highlited;
+
+    extern char opponent_ip[];
 
 }
 

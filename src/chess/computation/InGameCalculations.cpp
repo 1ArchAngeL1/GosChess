@@ -3,15 +3,13 @@
 #include "InGameCalculations.h"
 
 
-static const std::int8_t *const knight_moves_y = new std::int8_t[]{2, 2, 1, -1, 1, -1, -2, -2};
+static constexpr int8_t knight_moves_y[]{2, 2, 1, -1, 1, -1, -2, -2};
 
-static const std::int8_t *const knight_moves_x = new std::int8_t[]{1, -1, 2, 2, -2, -2, 1, -1};
-
+static constexpr int8_t knight_moves_x[]{1, -1, 2, 2, -2, -2, 1, -1};
 
 static bool IsPawn(const GosChess::Figure &_fig) {
     return _fig.type == GosChess::FigureTypes::PAWN;
 }
-
 
 static bool IsKing(const GosChess::Figure &_fig) {
     return _fig.type == GosChess::FigureTypes::KING;
@@ -263,8 +261,8 @@ void GosChess::CalculateAvailableMoves(const unsigned char *game_board) {
 }
 
 GosChess::Cell GosChess::GetNodeFromScreen(const float &_y, const float &_x) {
-    int real_y = (int) (GosChess::window_height - _y) / (int) GosChess::square_size;
-    int real_x = (int) _x / (int) GosChess::square_size;
+    int real_y = static_cast<int>(GosChess::window_height - _y) / static_cast<int>(GosChess::square_size);
+    int real_x = static_cast<int>(_x - GosChess::board_position.x) / static_cast<int>(GosChess::square_size);
     return GosChess::Cell(real_y, real_x);
 }
 
@@ -290,7 +288,7 @@ bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
 }
 
 void GosChess::ChangeActiveColour(GosChess::Board &board) {
-    GosChess::color_to_play = static_cast<GosChess::Color>(!(int) GosChess::color_to_play);
+    GosChess::color_to_play = static_cast<GosChess::Color>(!static_cast<int>(GosChess::color_to_play));
     GosChess::CalculateAvailableMoves(board.GetRawBoard());
 }
 

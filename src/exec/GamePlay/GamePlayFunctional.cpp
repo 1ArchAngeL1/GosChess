@@ -2,10 +2,12 @@
 // Created by Leo Gogichaishvili on 29.01.22.
 //
 
+#include <imgui-SFML.h>
 #include "GamePlayFunctional.h"
+#include "../../render/menu/MenuRender.h"
 
 
-void GosChess::MultiPlayer::MouseClicked(GosChess::Board &board) {
+void GosChess::MultiPlayerListener::MouseClicked(GosChess::Board &board) {
     static std::optional<GosChess::Cell> src_cell = std::nullopt;
     static std::optional<GosChess::Cell> trg_cell = std::nullopt;
 
@@ -27,9 +29,15 @@ void GosChess::MultiPlayer::MouseClicked(GosChess::Board &board) {
     }
 }
 
+void GosChess::MainMenuListener::MouseClicked(GosChess::Board &board) {
+
+}
+
 
 static constexpr std::string_view WHITE_STARTS_FEN = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/";
+
 static constexpr std::string_view BLACK_STARTS_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/";
+
 
 std::string GosChess::GetInitialFenBoard() {
     return GosChess::player_color == GosChess::Color::WHITE ? std::string(WHITE_STARTS_FEN) :
@@ -80,5 +88,6 @@ bool GosChess::IsGameFinished() {
     return GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
 }
 
+char GosChess::opponent_ip[50];
 
 bool GosChess::highlited = false;

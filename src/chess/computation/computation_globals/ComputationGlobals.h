@@ -15,7 +15,7 @@
 namespace GosChess {
 
     struct Offset {
-        Offset(std::int8_t north, std::int8_t south, std::int8_t west, std::int8_t east) :
+        Offset(int8_t north, int8_t south, int8_t west, int8_t east) :
                 north(north), south(south), west(west), east(east),
                 north_east(std::min(north, east)),
                 north_west(std::min(north, west)),
@@ -45,7 +45,7 @@ namespace GosChess {
         int8_t move_from;
         int8_t move_to;
 
-        Move(int8_t move_from, std::int8_t move_to) : move_from(move_from), move_to(move_to) {};
+        Move(int8_t move_from, int8_t move_to) : move_from(move_from), move_to(move_to) {};
 
         Move() = default;
 
@@ -62,13 +62,13 @@ namespace GosChess {
         }
     };
 
-    extern const std::int8_t *const direction_offsets;
+    extern const std::unique_ptr<const std::int8_t[]> direction_offsets;
 
-    extern Offset *precalculated_offsets;
+    extern std::unique_ptr<Offset[]> precalculated_offsets;
 
     extern std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> available_moves;
 
-    extern const unsigned char *sliding_pieces;
+    extern std::unique_ptr<unsigned char[]> sliding_pieces;
 
 }
 

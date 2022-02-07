@@ -11,11 +11,13 @@
 
 namespace GosChess {
 
+    extern sf::Sprite menu_wallpaper_sprite;
+
+    extern sf::Texture menu_wallpaper_txt;
+
     extern sf::Color main_color;
 
     extern sf::Color secondary_color;
-
-    extern sf::Color background_color;
 
     extern sf::Color available_move_color;
 

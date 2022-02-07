@@ -24,7 +24,7 @@ static void ColoriseBoardSeed(sf::Color first_color, sf::Color second_color) {
 }
 
 
-static void LoadFigureTexturesByColor(sf::Texture &root_texture, std::int8_t color) {
+static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
     const float figure_texture_width = root_texture.getSize().x / 6.f;
     const float figure_texture_height = root_texture.getSize().y / 2.f;
     unsigned char *figure_chars;
@@ -52,7 +52,7 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, std::int8_t col
 }
 
 
-void GosChess::DrawingConfig() {
+void GosChess::ChessDrawingConfig() {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColoriseBoardSeed(GosChess::main_color, GosChess::secondary_color);
     board_texture.loadFromImage(board_image);

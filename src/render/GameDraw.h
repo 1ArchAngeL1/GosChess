@@ -10,7 +10,7 @@
 
 namespace GosChess {
 
-    void DrawingConfig();
+    void ChessDrawingConfig();
 
     void ColoriseAvailableMoves(const int &);
 
