@@ -32,8 +32,7 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init_func,
 
 
 void GosChess::GameInit(sf::RenderWindow &window) {
-    std::string fen_string = GosChess::GetInitialFenBoard();
-    GosChess::Board board(fen_string);
+    GosChess::Board board(GosChess::GetInitialFenBoard());
     GosChess::ChessDrawingConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();

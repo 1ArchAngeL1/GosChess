@@ -19,11 +19,26 @@ namespace GosChess {
         HOST, CLIENT
     };
 
-    extern void SendMove(GosChess::Move);
+    enum TransferType {
+        INITIAL,
+        MOVE
+    };
 
-    extern std::optional<GosChess::Move> ReceiveMove();
+    template<typename T>
+    struct DataTransfer {
+        DataTransfer() = default;
 
-    extern void SetConnectionType(ConnectionType);
+        DataTransfer(TransferType protocol, T body) : protocol(protocol), body(body) {};
+
+        TransferType protocol;
+        T body;
+    };
+
+    void SendMove(GosChess::Move);
+
+    std::optional<GosChess::Move> ReceiveMove();
+
+    void SetConnectionType(ConnectionType);
 
     void InitNewtork();
 
@@ -35,9 +50,9 @@ namespace GosChess {
 
     void TryJoin();
 
-    void InitHost();
+    void InitialSend();
 
-    void InitClient();
+    void InitialReceive();
 
     void SetConnected(bool);
 
