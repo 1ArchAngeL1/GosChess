@@ -24,19 +24,15 @@ namespace GosChess {
     }
 
     void GameLoop(sf::RenderWindow &window, void (*OnUserInit)(sf::RenderWindow &),
-                  void (*OnUserListen)(sf::RenderWindow &, GosChess::GameModeListener *),
-                  void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener),
+                  void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener, ...),
                   GosChess::GameModeListener *listener);
 
-    void GameUpdate(sf::RenderWindow &, GosChess::GameModeListener *);
+    void GameUpdate(sf::RenderWindow &, GosChess::GameModeListener *, ...);
 
-    void GameListen(sf::RenderWindow &, GosChess::GameModeListener *);
 
     void GameInit(sf::RenderWindow &);
 
-    void MenuUpdate(sf::RenderWindow &, GosChess::GameModeListener *);
-
-    void MenuListen(sf::RenderWindow &, GosChess::GameModeListener *);
+    void MenuUpdate(sf::RenderWindow &, GosChess::GameModeListener *, ...);
 
     void MenuInit(sf::RenderWindow &);
 

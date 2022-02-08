@@ -9,12 +9,9 @@
 
 typedef void (*OnUserInit)(sf::RenderWindow &);
 
-typedef void (*OnUserListen)(sf::RenderWindow &, GosChess::GameModeListener *);
-
-typedef void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener);
+typedef void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener, ...);
 
 void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init_func,
-                        OnUserListen listen_func,
                         OnUserUpdate update_func,
                         GosChess::GameModeListener *listener) {
     init_func(window);
@@ -27,33 +24,12 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init_func,
                 window.close();
             }
         }
-        listen_func(window, listener);
 
         update_func(window, listener);
 
     }
 }
 
-void GosChess::GameUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener) {
-    if (GosChess::IsGameFinished()) {
-        GosChess::client_listener.close();
-        delete listener;
-        window.close();
-    }
-
-    window.clear();
-    GosChess::DrawCurrentBoardState(board.GetRawBoard(), window);
-    window.display();
-}
-
-void GosChess::GameListen(sf::RenderWindow &window, GosChess::GameModeListener *listener) {
-    GosChess::CheckReceivedMove(GosChess::ReceiveMove(), board);
-    GosChess::InputHandle::Listen();
-    if (GosChess::player_color == GosChess::color_to_play &&
-        GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-        listener->MouseClicked(board);
-    }
-}
 
 void GosChess::GameInit(sf::RenderWindow &window) {
     std::string fen_string = GosChess::GetInitialFenBoard();
@@ -61,11 +37,32 @@ void GosChess::GameInit(sf::RenderWindow &window) {
     GosChess::ChessDrawingConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
-    GosChess::GameModeListener *performer = new GosChess::MultiPlayerListener(window);
     GosChess::CalculateAvailableMoves(board.GetRawBoard());
 }
 
-void GosChess::MenuUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener) {
+void GosChess::GameUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener, ...) {
+    va_list args;
+    va_start(args, listener);
+    GosChess::Board *board = va_arg(args, GosChess::Board*);
+    va_end(args);
+    if (GosChess::IsGameFinished()) {
+        GosChess::client_listener.close();
+        delete listener;
+        window.close();
+    }
+    GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
+    GosChess::InputHandle::Listen();
+    if (GosChess::player_color == GosChess::color_to_play &&
+        GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
+        listener->MouseClicked(*board);
+    }
+
+    window.clear();
+    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window);
+    window.display();
+}
+
+void GosChess::MenuUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener, ...) {
     ImGui::SFML::Update(window, GosChess::delta_clock.restart());
 
     switch (GosChess::RenderFlags::render_menu_flag) {
@@ -92,10 +89,6 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, GosChess::GameModeListener *
     GosChess::RenderBackgroundWallpaper(window);
     ImGui::SFML::Render(window);
     window.display();
-
-}
-
-void GosChess::MenuListen(sf::RenderWindow &window, GosChess::GameModeListener *listener) {
 
 }
 

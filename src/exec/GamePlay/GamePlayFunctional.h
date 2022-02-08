@@ -11,7 +11,7 @@
 #include "../../chess/global/GameGlobals.h"
 #include "../../render/GameDraw.h"
 #include "../../chess/computation/InGameCalculations.h"
-#include "../../network/GameNetwok.h"
+#include "../../network/GameNetwork.h"
 #include "../../util/GameInput.h"
 #include <optional>
 

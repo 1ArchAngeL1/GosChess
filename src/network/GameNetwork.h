@@ -2,8 +2,8 @@
 // Created by Leo Gogichaishvili on 31.01.22.
 //
 
-#ifndef PROJECT_NAME_GAMENETWOK_H
-#define PROJECT_NAME_GAMENETWOK_H
+#ifndef PROJECT_NAME_GAMENETWORK_H
+#define PROJECT_NAME_GAMENETWORK_H
 
 #include <SFML/Network.hpp>
 #include "../render/globals/RenderGlobals.h"
@@ -11,6 +11,7 @@
 #include "../chess/computation/computation_globals/ComputationGlobals.h"
 #include "../chess/global/GameGlobals.h"
 #include <optional>
+#include <thread>
 
 namespace GosChess {
 
@@ -24,13 +25,21 @@ namespace GosChess {
 
     extern void SetConnectionType(ConnectionType);
 
-    extern bool HostGame();
+    void InitNewtork();
 
-    extern bool JoinGame();
+    void HostInit();
 
-    extern void InitHost();
+    void TryAccept();
 
-    extern void InitClient();
+    void JoinInit();
+
+    void TryJoin();
+
+    void InitHost();
+
+    void InitClient();
+
+    void SetConnected(bool);
 
     extern sf::IpAddress remote_ip;
 
@@ -40,8 +49,14 @@ namespace GosChess {
 
     extern ConnectionType connection_role;
 
+    extern bool connected;
+
+    extern std::mutex connected_lock;
+
+    extern bool listen_flag;
+
 }
 
 
-#endif //PROJECT_NAME_GAMENETWOK_H
+#endif //PROJECT_NAME_GAMENETWORK_H
 

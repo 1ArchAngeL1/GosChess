@@ -37,7 +37,7 @@ file(
         src/*.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} src/exec/GamePlay/GameLoops.cpp src/exec/GamePlay/GameLoops.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-network)
 
