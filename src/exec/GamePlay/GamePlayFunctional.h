@@ -32,7 +32,7 @@ namespace GosChess {
     public:
         explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        virtual void MouseClicked(GosChess::Board &board) override;
+        void MouseClicked(GosChess::Board &board) override;
     };
 
 
@@ -40,7 +40,7 @@ namespace GosChess {
     public:
         explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        virtual void MouseClicked(GosChess::Board &board) override;
+        void MouseClicked(GosChess::Board &board) override;
     };
 
 

@@ -5,6 +5,8 @@
 #ifndef PROJECT_NAME_MENURENDER_H
 #define PROJECT_NAME_MENURENDER_H
 
+#include "../../exec/GamePlay/GamePlayFunctional.h"
+#include "../../exec/GamePlay/GameLoops.h"
 #include "../globals/RenderGlobals.h"
 #include <imgui.h>
 
@@ -35,8 +37,6 @@ namespace GosChess {
     extern int main_menu_width;
 
     extern int main_menu_height;
-
-    extern bool main_menu_opened;
 
 }
 

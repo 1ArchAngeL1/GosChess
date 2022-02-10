@@ -27,7 +27,6 @@ namespace GosChess {
     template<typename T>
     struct DataTransfer {
         DataTransfer() = default;
-
         DataTransfer(TransferType protocol, T body) : protocol(protocol), body(body) {};
 
         TransferType protocol;
@@ -55,6 +54,7 @@ namespace GosChess {
     void InitialReceive();
 
     void SetConnected(bool);
+
 
     extern sf::IpAddress remote_ip;
 

@@ -79,12 +79,12 @@ void GosChess::SetConnectionType(GosChess::ConnectionType type) {
 void GosChess::InitNewtork() {
     GosChess::connection.setBlocking(true);
     GosChess::client_listener.setBlocking(false);
+    
 }
-
 
 void GosChess::HostInit() {
     GosChess::SetConnectionType(GosChess::ConnectionType::HOST);
-    GosChess::client_listener.listen(2013);
+    GosChess::client_listener.listen(2015);
     GosChess::listen_flag = true;
     std::thread accept_thread(GosChess::TryAccept);
     accept_thread.detach();
@@ -92,7 +92,12 @@ void GosChess::HostInit() {
 
 void GosChess::TryAccept() {
     while (GosChess::client_listener.accept(GosChess::connection) != sf::Socket::Done) {
-        if (!GosChess::listen_flag)return;
+        if (!GosChess::listen_flag){
+            client_listener.close();
+            GosChess::connection.disconnect();
+            std::cout << "gamovedi" << std::endl;
+            return;
+        }
     }
     GosChess::SetConnected(true);
 }
@@ -104,26 +109,37 @@ void GosChess::JoinInit() {
 }
 
 void GosChess::TryJoin() {
-    GosChess::connection.connect(GosChess::remote_ip, 2013);
-    GosChess::SetConnected(true);
+    std::cout << "joining" << std::endl;
+    std::cout << GosChess::remote_ip << std::endl;
+    sf::Time timeout =sf::Time::Zero;
+    if(GosChess::connection.connect(GosChess::remote_ip, 2015, timeout) == sf::Socket::Done) {
+        GosChess::SetConnected(true);
+        std::cout << "joined" << std::endl;
+    } else {
+        std::cout << "cant join" << std::endl;
+    }
+
+
 }
 
 void GosChess::InitialSend() {
-    int n = 0;
+    int n = 1;
     GosChess::player_color = static_cast<GosChess::Color>(n);
     GosChess::enemy_color = static_cast<GosChess::Color>(!n);
     sf::Packet init_info;
     init_info << GosChess::DataTransfer(GosChess::TransferType::INITIAL,enemy_color);
-    while (GosChess::connection.send(init_info) != sf::Socket::Done);
+    while (GosChess::connection.send(init_info) == sf::Socket::Partial);
+    std::cout << "sent" << std::endl;
 }
 
 void GosChess::InitialReceive() {
     sf::Packet init_info;
     GosChess::DataTransfer<GosChess::Color> req;
-    while (GosChess::connection.receive(init_info) != sf::Socket::Done);
+    while (GosChess::connection.receive(init_info) == sf::Socket::Partial);
     init_info >> req;
     GosChess::player_color = static_cast<GosChess::Color>(req.body);
     GosChess::enemy_color = static_cast<GosChess::Color>(!req.body);
+    std::cout << "received" << std::endl;
 }
 
 void GosChess::SetConnected(bool value) {
