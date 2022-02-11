@@ -10,7 +10,7 @@
 
 
 int main() {
-//    GosChess::InitNewtork();
+//    GosChess::initNewtork();
 //    char type;
 //
 //    std::cin >> type;
@@ -35,19 +35,18 @@ int main() {
 //        std::cout << (int)mv.value().move_from << " " << (int)mv.value().move_to << std::endl;
 //    }
 
-    GosChess::InitNewtork();
+    GosChess::MenuNetworkMode();
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "window");
     GosChess::MainMenuListener menu_listener(window);
-    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, &menu_listener, GosChess::LoopType::MENU);
+    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, &menu_listener, GosChess::LoopType::MENU,
+                       nullptr);
     if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
         GosChess::InitialSend();
     } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT) {
         GosChess::InitialReceive();
     }
-    std::cout << "mevidaa" << std::endl;
     window.clear();
-    GosChess::connection.setBlocking(false);
-    GosChess::client_listener.setBlocking(false);
+    GosChess::GamePlayNetworkMode();
     GosChess::MultiPlayerListener game_listener(window);
     GosChess::Board board(GosChess::GetInitialFenBoard());
     GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate, &game_listener, GosChess::LoopType::GAMEPLAY,

@@ -9,35 +9,27 @@
 
 typedef void (*OnUserInit)(sf::RenderWindow &, ...);
 
-typedef void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener, ...);
+typedef void (*OnUserUpdate)(sf::RenderWindow & ...);
 
-void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init,
-                        OnUserUpdate update,
-                        GosChess::GameModeListener *listener, GosChess::LoopType type, ...) {
-    GosChess::Board *board;
-    if (type == GosChess::LoopType::GAMEPLAY) {
-        va_list args;
-        va_start(args, type);
-        board = va_arg(args, GosChess::Board*);
-        va_end(args);
-    }
-    init(window, board);
+void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update,
+                        GosChess::GameModeListener *listener, GosChess::LoopType type, GosChess::Board *game_board) {
+
+    type == GosChess::LoopType::MENU ? init(window) : init(window, game_board);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
 
             if (event.type == sf::Event::Closed) {
-                GosChess::connection.disconnect();
+                GosChess::KillNetwork();
                 window.close();
                 exit(3);
             }
-
         }
         if (GosChess::connected && type == GosChess::LoopType::MENU) {
             return;
         }
-        update(window, listener, board);
+        type == GosChess::LoopType::MENU ? update(window) : update(window, listener, game_board);
     }
 }
 
@@ -47,23 +39,20 @@ void GosChess::GameInit(sf::RenderWindow &window, ...) {
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     GosChess::ChessDrawingConfig();
-    std::cout << "configi moxdai" << std::endl;
     GosChess::LoadChessFigureSprites();
-    std::cout << "figurebi chaiseta moxdai" << std::endl;
     GosChess::GenerateOffsets();
-    std::cout << "opesetebica moxidai" << std::endl;
     GosChess::CalculateAvailableMoves(board->GetRawBoard());
-    std::cout << "vgulaobt karoche ra" << std::endl;
 }
 
-void GosChess::GameUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener, ...) {
+void GosChess::GameUpdate(sf::RenderWindow &window, ...) {
     va_list args;
-    va_start(args, listener);
+    va_start(args, window);
+    GosChess::GameModeListener *listener = va_arg(args, GosChess::GameModeListener*);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    std::cout << board->BoardStateToFen() << std::endl;
+
     if (GosChess::IsGameFinished()) {
-        GosChess::client_listener.close();
+        GosChess::KillNetwork();
         window.close();
     }
 
@@ -72,7 +61,7 @@ void GosChess::GameUpdate(sf::RenderWindow &window, GosChess::GameModeListener *
     GosChess::InputHandle::Listen();
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-        listener->MouseClicked(*board);
+        listener->Action(*board);
     }
 
     window.clear();
@@ -84,11 +73,12 @@ void GosChess::MenuInit(sf::RenderWindow &window, ...) {
     ImGui::SFML::Init(window);
     GosChess::MenuRenderConfig();
     ImGuiIO *imgui_io = &ImGui::GetIO();
+    //imgui_io->Fonts->AddFontFromFileTTF("GosChess/resources/Lato2FFL/Lato-Black.ttf", 10);
     imgui_io->FontGlobalScale = 3.f;
     GosChess::delta_clock.restart();
 }
 
-void GosChess::MenuUpdate(sf::RenderWindow &window, GosChess::GameModeListener *listener, ...) {
+void GosChess::MenuUpdate(sf::RenderWindow &window, ...) {
     ImGui::SFML::Update(window, GosChess::delta_clock.restart());
 
     switch (GosChess::RenderFlags::render_menu_flag) {
@@ -102,7 +92,7 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, GosChess::GameModeListener *
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderHostGameWidgets, window);
             break;
         case GosChess::RenderFlags::RenderMenuFLag::OPTION:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderHostGameWidgets, window);
+            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderOptionsWidgets, window);
             break;
         case GosChess::RenderFlags::RenderMenuFLag::NONE:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderJoinGameWidgets, window);

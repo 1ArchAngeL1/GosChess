@@ -35,6 +35,8 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
         case 1:
             figure_chars = new unsigned char[]{'k', 'q', 'b', 'n', 'r', 'p'};
             break;
+        default:
+            break;
     }
     for (int i = 0; i < 6; i++) {
         sf::Sprite curr_figure(root_texture, sf::IntRect(i * figure_texture_width,
@@ -42,9 +44,11 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
                                                          figure_texture_width,
                                                          figure_texture_height));
         curr_figure.setScale(
-                sf::Vector2f((float) GosChess::board_width / (float) GosChess::Board::ROW_LENGTH / figure_texture_width,
-                             (float) GosChess::board_height / (float) GosChess::Board::ROW_NUM /
-                             figure_texture_height));
+                sf::Vector2f(
+                        static_cast<float>(GosChess::board_width) / static_cast<float>(GosChess::Board::ROW_LENGTH) /
+                        figure_texture_width,
+                        static_cast<float> (GosChess::board_height) / static_cast<float>(GosChess::Board::ROW_NUM) /
+                        figure_texture_height));
 
         GosChess::figure_sprites[figure_chars[i]] = curr_figure;
     }
@@ -57,8 +61,8 @@ void GosChess::ChessDrawingConfig() {
     ColoriseBoardSeed(GosChess::main_color, GosChess::secondary_color);
     board_texture.loadFromImage(board_image);
     board_sprite.setTexture(board_texture);
-    board_sprite.setScale((float) GosChess::board_width / GosChess::Board::ROW_LENGTH,
-                          (float) GosChess::board_height / GosChess::Board::ROW_NUM);
+    board_sprite.setScale(static_cast<float>(GosChess::board_width) / GosChess::Board::ROW_LENGTH,
+                          static_cast<float>(GosChess::board_height) / GosChess::Board::ROW_NUM);
     board_sprite.setPosition(GosChess::board_position);
 }
 
@@ -71,7 +75,6 @@ void GosChess::ColoriseAvailableMoves(const int &index) {
         if (GosChess::CanMakeMove(move))
             board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
                                  GosChess::available_move_color);
-
     }
     board_texture.loadFromImage(board_image);
 }
@@ -92,8 +95,10 @@ void GosChess::LoadChessFigureSprites() {
 void GosChess::DrawFigure(unsigned char figure_type, sf::Vector2f figure_pos, sf::RenderWindow &game_window) {
     sf::Sprite figure_sprite = GosChess::figure_sprites.at(Board::FIG_TO_FEN.at(figure_type));
     figure_sprite.setPosition(sf::Vector2f(
-            (figure_pos.x * GosChess::board_width / (float) GosChess::Board::ROW_LENGTH) + GosChess::board_position.x,
-            (figure_pos.y * GosChess::board_height / (float) GosChess::Board::ROW_NUM) + GosChess::board_position.y));
+            (figure_pos.x * GosChess::board_width / static_cast<float>(GosChess::Board::ROW_LENGTH)) +
+            GosChess::board_position.x,
+            (figure_pos.y * GosChess::board_height / static_cast<float>(GosChess::Board::ROW_NUM)) +
+            GosChess::board_position.y));
     game_window.draw(figure_sprite);
 }
 

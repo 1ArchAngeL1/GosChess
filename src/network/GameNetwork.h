@@ -39,7 +39,9 @@ namespace GosChess {
 
     void SetConnectionType(ConnectionType);
 
-    void InitNewtork();
+    void MenuNetworkMode();
+
+    void GamePlayNetworkMode();
 
     void HostInit();
 
@@ -55,6 +57,7 @@ namespace GosChess {
 
     void SetConnected(bool);
 
+    void KillNetwork();
 
     extern sf::IpAddress remote_ip;
 

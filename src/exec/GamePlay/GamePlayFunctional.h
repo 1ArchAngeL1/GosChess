@@ -23,24 +23,22 @@ namespace GosChess {
     public:
         explicit GameModeListener(sf::RenderWindow &game_window) : game_window(game_window) {}
 
-        virtual void MouseClicked(GosChess::Board &board) = 0;
+        virtual void Action(GosChess::Board &board) = 0;
 
     };
-
 
     class MultiPlayerListener : public GameModeListener {
     public:
         explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void MouseClicked(GosChess::Board &board) override;
+        void Action(GosChess::Board &board) override;
     };
-
 
     class MainMenuListener : public GameModeListener {
     public:
         explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void MouseClicked(GosChess::Board &board) override;
+        void Action(GosChess::Board &board) override;
     };
 
 

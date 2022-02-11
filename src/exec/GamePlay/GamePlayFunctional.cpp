@@ -7,7 +7,7 @@
 #include "../../render/menu/MenuRender.h"
 
 
-void GosChess::MultiPlayerListener::MouseClicked(GosChess::Board &board) {
+void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
     static std::optional<GosChess::Cell> src_cell = std::nullopt;
     static std::optional<GosChess::Cell> trg_cell = std::nullopt;
 
@@ -17,19 +17,20 @@ void GosChess::MultiPlayerListener::MouseClicked(GosChess::Board &board) {
         trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
     }
     if (src_cell.has_value() && trg_cell.has_value()) {
-        int8_t from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
-        int8_t to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
+        auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
+        auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
         if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
             GosChess::ChangeActiveColour(board);
             GosChess::SendMove(GosChess::Move(from, to));
         }
-        src_cell, trg_cell = std::nullopt;
+        src_cell = std::nullopt,
+                trg_cell = std::nullopt;
         if (GosChess::CheckMate(board, GosChess::color_to_play)) GosChess::SetGameFlagFinished();
 
     }
 }
 
-void GosChess::MainMenuListener::MouseClicked(GosChess::Board &board) {
+void GosChess::MainMenuListener::Action(GosChess::Board &board) {
 
 }
 
@@ -58,7 +59,7 @@ std::optional<GosChess::Cell> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf
                                                           sf::Mouse::getPosition(window).x);
     GosChess::ResetBoardColours();
     highlited = false;
-    return std::optional<GosChess::Cell>(trg_node);
+    return {trg_node};
 }
 
 std::optional<GosChess::Cell> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
@@ -69,7 +70,7 @@ std::optional<GosChess::Cell> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf
                                                           sf::Mouse::getPosition(window).x);
     GosChess::ColoriseAvailableMoves(GosChess::GetNumFromNode(src_node));
     highlited = true;
-    return std::optional<GosChess::Cell>(src_node);
+    return {src_node};
 }
 
 

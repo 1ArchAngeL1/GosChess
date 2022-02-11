@@ -38,6 +38,8 @@ namespace GosChess {
 
     extern int main_menu_height;
 
+    extern bool menu_active_flag;
+
 }
 
 

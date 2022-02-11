@@ -28,18 +28,18 @@ namespace GosChess {
         MENU
     };
 
-    void GameLoop(sf::RenderWindow &window, void (*OnUserInit)(sf::RenderWindow &,...),
-                  void (*OnUserUpdate)(sf::RenderWindow &, GosChess::GameModeListener *listener, ...),
-                  GosChess::GameModeListener *listener,GosChess::LoopType,...);
+    void GameLoop(sf::RenderWindow &window, void (*OnUserInit)(sf::RenderWindow &, ...),
+                  void (*OnUserUpdate)(sf::RenderWindow & ...),
+                  GosChess::GameModeListener *listener, GosChess::LoopType, GosChess::Board *);
 
-    void GameUpdate(sf::RenderWindow &, GosChess::GameModeListener *, ...);
+    void GameUpdate(sf::RenderWindow &, ...);
 
 
-    void GameInit(sf::RenderWindow &,...);
+    void GameInit(sf::RenderWindow &, ...);
 
-    void MenuUpdate(sf::RenderWindow &, GosChess::GameModeListener *, ...);
+    void MenuUpdate(sf::RenderWindow &, ...);
 
-    void MenuInit(sf::RenderWindow &,...);
+    void MenuInit(sf::RenderWindow &, ...);
 
     extern sf::Clock delta_clock;
 
