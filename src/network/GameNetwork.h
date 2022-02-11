@@ -6,12 +6,15 @@
 #define PROJECT_NAME_GAMENETWORK_H
 
 #include <SFML/Network.hpp>
+#include <optional>
+#include <thread>
+
 #include "../render/globals/RenderGlobals.h"
 #include "../chess/computation/computation_globals/ComputationGlobals.h"
 #include "../chess/computation/computation_globals/ComputationGlobals.h"
 #include "../chess/global/GameGlobals.h"
-#include <optional>
-#include <thread>
+#include "../render/menu/MenuRender.h"
+
 
 namespace GosChess {
 

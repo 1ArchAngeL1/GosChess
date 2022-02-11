@@ -4,6 +4,7 @@
 
 #include "GameNetwork.h"
 
+
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Color &clr) {
     return packet << static_cast<int>(clr);
 }
@@ -123,6 +124,7 @@ void GosChess::InitialSend() {
     sf::Packet init_info;
     init_info << GosChess::DataTransfer(GosChess::TransferType::INITIAL, enemy_color);
     while (GosChess::connection.send(init_info) == sf::Socket::Partial);
+    GosChess::menu_active_flag = false;
 }
 
 void GosChess::InitialReceive() {
@@ -132,6 +134,7 @@ void GosChess::InitialReceive() {
     init_info >> req;
     GosChess::player_color = static_cast<GosChess::Color>(req.body);
     GosChess::enemy_color = static_cast<GosChess::Color>(!req.body);
+    GosChess::menu_active_flag = false;
 }
 
 void GosChess::SetConnected(bool value) {

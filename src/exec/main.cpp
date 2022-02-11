@@ -38,7 +38,7 @@ int main() {
     GosChess::MenuNetworkMode();
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "window");
     GosChess::MainMenuListener menu_listener(window);
-    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, &menu_listener, GosChess::LoopType::MENU,
+    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate,GosChess::ChecMenuModeFinished, &menu_listener, GosChess::LoopType::MENU,
                        nullptr);
     if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
         GosChess::InitialSend();
@@ -49,7 +49,7 @@ int main() {
     GosChess::GamePlayNetworkMode();
     GosChess::MultiPlayerListener game_listener(window);
     GosChess::Board board(GosChess::GetInitialFenBoard());
-    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate, &game_listener, GosChess::LoopType::GAMEPLAY,
+    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate,GosChess::CheckGameModeFinished, &game_listener, GosChess::LoopType::GAMEPLAY,
                        &board);
 }
 

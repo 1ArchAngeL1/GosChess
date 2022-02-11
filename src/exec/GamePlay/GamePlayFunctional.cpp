@@ -4,7 +4,6 @@
 
 #include <imgui-SFML.h>
 #include "GamePlayFunctional.h"
-#include "../../render/menu/MenuRender.h"
 
 
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
@@ -85,8 +84,17 @@ void GosChess::SetGameFlagFinished() {
     GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
 }
 
-bool GosChess::IsGameFinished() {
-    return GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
+bool GosChess::CheckGameModeFinished() {
+    bool finished = GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
+    if(finished) {
+        GosChess::KillNetwork();
+        return true;
+    }
+    return false;
+}
+
+bool GosChess::ChecMenuModeFinished() {
+    return GosChess::menu_active_flag == false;
 }
 
 char GosChess::opponent_ip[50];

@@ -5,14 +5,15 @@
 #ifndef PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
 #define PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
+
 #include "../../chess/global/MainObjects/GameObjects.h"
 #include "../../chess/global/GameGlobals.h"
 #include "../../render/GameDraw.h"
 #include "../../chess/computation/InGameCalculations.h"
 #include "../../network/GameNetwork.h"
 #include "../../util/GameInput.h"
+#include <iostream>
+#include <SFML/Graphics.hpp>
 #include <optional>
 
 namespace GosChess {
@@ -54,7 +55,9 @@ namespace GosChess {
 
     void SetGameFlagFinished();
 
-    bool IsGameFinished();
+    bool CheckGameModeFinished();
+
+    bool ChecMenuModeFinished();
 
     extern bool highlited;
 

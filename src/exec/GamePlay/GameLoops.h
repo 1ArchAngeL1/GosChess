@@ -6,6 +6,7 @@
 #define GOSCHESS_GAMELOOPS_H
 
 #include "GamePlayFunctional.h"
+#include "../../render/menu/MenuRender.h"
 
 
 namespace GosChess {
@@ -28,9 +29,9 @@ namespace GosChess {
         MENU
     };
 
-    void GameLoop(sf::RenderWindow &window, void (*OnUserInit)(sf::RenderWindow &, ...),
-                  void (*OnUserUpdate)(sf::RenderWindow & ...),
-                  GosChess::GameModeListener *listener, GosChess::LoopType, GosChess::Board *);
+    void GameLoop(sf::RenderWindow &, void (*)(sf::RenderWindow &, ...),
+                  void (*)(sf::RenderWindow &...), bool (*)(),
+                  GameModeListener *, GosChess::LoopType, GosChess::Board *);
 
     void GameUpdate(sf::RenderWindow &, ...);
 

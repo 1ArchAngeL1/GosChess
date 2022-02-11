@@ -5,31 +5,31 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include "GameLoops.h"
-#include "../../render/menu/MenuRender.h"
+
 
 typedef void (*OnUserInit)(sf::RenderWindow &, ...);
 
 typedef void (*OnUserUpdate)(sf::RenderWindow & ...);
 
-void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update,
+typedef bool (*ModeTeminator)();
+
+void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTeminator stop,
                         GosChess::GameModeListener *listener, GosChess::LoopType type, GosChess::Board *game_board) {
 
     type == GosChess::LoopType::MENU ? init(window) : init(window, game_board);
     while (window.isOpen()) {
+        if (stop) return;
         sf::Event event;
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
-
             if (event.type == sf::Event::Closed) {
                 GosChess::KillNetwork();
                 window.close();
                 exit(3);
             }
         }
-        if (GosChess::connected && type == GosChess::LoopType::MENU) {
-            return;
-        }
         type == GosChess::LoopType::MENU ? update(window) : update(window, listener, game_board);
+
     }
 }
 
@@ -51,9 +51,7 @@ void GosChess::GameUpdate(sf::RenderWindow &window, ...) {
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
 
-    if (GosChess::IsGameFinished()) {
-        GosChess::KillNetwork();
-        window.close();
+    if (GosChess::CheckGameModeFinished()) {
     }
 
     GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
