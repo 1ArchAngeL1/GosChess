@@ -7,6 +7,9 @@
 
 #include "GamePlayFunctional.h"
 #include "../../render/menu/MenuRender.h"
+#include <imgui-SFML.h>
+#include <imgui.h>
+#include "../../network/GameNetwork.h"
 
 
 namespace GosChess {
@@ -29,8 +32,8 @@ namespace GosChess {
         MENU
     };
 
-    void GameLoop(sf::RenderWindow &, void (*)(sf::RenderWindow &, ...),
-                  void (*)(sf::RenderWindow &...), bool (*)(),
+    void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &, ...),
+                  void (*OnUserUpdate)(sf::RenderWindow &...), bool (*ModeTeminator)(),
                   GameModeListener *, GosChess::LoopType, GosChess::Board *);
 
     void GameUpdate(sf::RenderWindow &, ...);

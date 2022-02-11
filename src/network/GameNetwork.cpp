@@ -89,7 +89,7 @@ void GosChess::GamePlayNetworkMode() {
 
 void GosChess::HostInit() {
     GosChess::SetConnectionType(GosChess::ConnectionType::HOST);
-    GosChess::client_listener.listen(2015);
+    GosChess::client_listener.listen(2000);
     GosChess::listen_flag = true;
     std::thread accept_thread(GosChess::TryAccept);
     accept_thread.detach();
@@ -113,18 +113,17 @@ void GosChess::JoinInit() {
 
 void GosChess::TryJoin() {
     sf::Time timeout = sf::Time::Zero;
-    if (GosChess::connection.connect(GosChess::remote_ip, 2015, timeout) == sf::Socket::Done)
+    if (GosChess::connection.connect(GosChess::remote_ip, 2000, timeout) == sf::Socket::Done)
         GosChess::SetConnected(true);
 }
 
 void GosChess::InitialSend() {
-    int n = 1;
+    int n = rand() % 2;
     GosChess::player_color = static_cast<GosChess::Color>(n);
     GosChess::enemy_color = static_cast<GosChess::Color>(!n);
     sf::Packet init_info;
     init_info << GosChess::DataTransfer(GosChess::TransferType::INITIAL, enemy_color);
     while (GosChess::connection.send(init_info) == sf::Socket::Partial);
-    GosChess::menu_active_flag = false;
 }
 
 void GosChess::InitialReceive() {
@@ -134,7 +133,6 @@ void GosChess::InitialReceive() {
     init_info >> req;
     GosChess::player_color = static_cast<GosChess::Color>(req.body);
     GosChess::enemy_color = static_cast<GosChess::Color>(!req.body);
-    GosChess::menu_active_flag = false;
 }
 
 void GosChess::SetConnected(bool value) {

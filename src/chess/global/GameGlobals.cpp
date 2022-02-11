@@ -9,4 +9,4 @@ GosChess::Color GosChess::enemy_color;
 
 GosChess::Color GosChess::player_color;
 
-extern GosChess::GameStatus GosChess::game_status_flag = GosChess::GameStatus::INGAME;
+GosChess::GameStatus GosChess::game_status_flag = GosChess::GameStatus::INGAME;

@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_NAME_GAMEGLOBALS_H
-#define PROJECT_NAME_GAMEGLOBALS_H
+#ifndef GOSCHESS_GAMEGLOBALS_H
+#define GOSCHESS_GAMEGLOBALS_H
 
 
 #include "MainObjects/GameObjects.h"

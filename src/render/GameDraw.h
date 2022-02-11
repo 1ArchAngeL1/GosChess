@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_NAME_GAMEDRAW_H
-#define PROJECT_NAME_GAMEDRAW_H
+#ifndef GOSCHESS_GAMEDRAW_H
+#define GOSCHESS_GAMEDRAW_H
 
 #include "../chess/global/MainObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"

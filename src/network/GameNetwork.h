@@ -2,13 +2,12 @@
 // Created by Leo Gogichaishvili on 31.01.22.
 //
 
-#ifndef PROJECT_NAME_GAMENETWORK_H
-#define PROJECT_NAME_GAMENETWORK_H
+#ifndef GOSCHESS_GAMENETWORK_H
+#define GOSCHESS_GAMENETWORK_H
 
 #include <SFML/Network.hpp>
 #include <optional>
 #include <thread>
-
 #include "../render/globals/RenderGlobals.h"
 #include "../chess/computation/computation_globals/ComputationGlobals.h"
 #include "../chess/computation/computation_globals/ComputationGlobals.h"

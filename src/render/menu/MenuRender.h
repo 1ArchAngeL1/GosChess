@@ -2,13 +2,14 @@
 // Created by Leo Gogichaishvili on 01.02.22.
 //
 
-#ifndef PROJECT_NAME_MENURENDER_H
-#define PROJECT_NAME_MENURENDER_H
+#ifndef GOSCHESS_MENURENDER_H
+#define GOSCHESS_MENURENDER_H
 
 #include "../../exec/GamePlay/GamePlayFunctional.h"
 #include "../../exec/GamePlay/GameLoops.h"
 #include "../globals/RenderGlobals.h"
 #include <imgui.h>
+#include <imgui-SFML.h>
 
 namespace GosChess {
 

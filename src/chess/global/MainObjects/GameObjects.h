@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_NAME_GAMEOBJECTS_H
-#define PROJECT_NAME_GAMEOBJECTS_H
+#ifndef GOSCHESS_GAMEOBJECTS_H
+#define GOSCHESS_GAMEOBJECTS_H
 
 #include <iostream>
 #include <map>

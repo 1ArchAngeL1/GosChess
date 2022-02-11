@@ -2,15 +2,14 @@
 // Created by Leo Gogichaishvili on 29.01.22.
 //
 
-#ifndef PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
-#define PROJECT_NAME_GAMEPLAYFUNCTIONAL_H
+#ifndef GOSCHESS_GAMEPLAYFUNCTIONAL_H
+#define GOSCHESS_GAMEPLAYFUNCTIONAL_H
 
 
 #include "../../chess/global/MainObjects/GameObjects.h"
 #include "../../chess/global/GameGlobals.h"
 #include "../../render/GameDraw.h"
 #include "../../chess/computation/InGameCalculations.h"
-#include "../../network/GameNetwork.h"
 #include "../../util/GameInput.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -57,7 +56,7 @@ namespace GosChess {
 
     bool CheckGameModeFinished();
 
-    bool ChecMenuModeFinished();
+    bool CheckMenuModeFinished();
 
     extern bool highlited;
 

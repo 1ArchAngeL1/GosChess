@@ -2,8 +2,8 @@
 // Created by Leo Gogichaishvili on 18.01.22.
 //
 
-#ifndef PROJECT_NAME_GAMEINPUT_H
-#define PROJECT_NAME_GAMEINPUT_H
+#ifndef GOSCHESS_GAMEINPUT_H
+#define GOSCHESS_GAMEINPUT_H
 
 #include <SFML/Window.hpp>
 

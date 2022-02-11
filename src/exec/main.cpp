@@ -4,9 +4,8 @@
 #include "../render/GameDraw.h"
 #include "GamePlay/GamePlayFunctional.h"
 #include "GamePlay/GameLoops.h"
+#include "../network/GameNetwork.h"
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <imgui-SFML.h>
-#include <imgui.h>
 
 
 int main() {
@@ -34,11 +33,11 @@ int main() {
 //        }
 //        std::cout << (int)mv.value().move_from << " " << (int)mv.value().move_to << std::endl;
 //    }
-
     GosChess::MenuNetworkMode();
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "window");
     GosChess::MainMenuListener menu_listener(window);
-    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate,GosChess::ChecMenuModeFinished, &menu_listener, GosChess::LoopType::MENU,
+    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
+                       &menu_listener, GosChess::LoopType::MENU,
                        nullptr);
     if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
         GosChess::InitialSend();

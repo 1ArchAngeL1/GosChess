@@ -2,8 +2,8 @@
 // Created by Leo Gogichaishvili on 29.01.22.
 //
 
-#ifndef PROJECT_NAME_COMPUTATIONGLOBALS_H
-#define PROJECT_NAME_COMPUTATIONGLOBALS_H
+#ifndef GOSCHESS_COMPUTATIONGLOBALS_H
+#define GOSCHESS_COMPUTATIONGLOBALS_H
 
 
 #include "../../global/MainObjects/GameObjects.h"

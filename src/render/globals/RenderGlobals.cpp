@@ -5,9 +5,13 @@
 #include "RenderGlobals.h"
 
 
+sf::Texture GosChess::menu_wallpaper_txt;
+
 sf::Sprite GosChess::menu_wallpaper_sprite;
 
-sf::Texture GosChess::menu_wallpaper_txt;
+sf::Texture GosChess::chess_logo_txt;
+
+sf::Sprite GosChess::chess_logo_sprite;
 
 sf::Color GosChess::main_color = sf::Color(128, 150, 86);
 
@@ -22,6 +26,10 @@ unsigned int GosChess::window_width = 1800;
 unsigned int GosChess::board_width = GosChess::window_height;
 
 unsigned int GosChess::board_height = GosChess::window_height;
+
+unsigned int GosChess::logo_width = 200;
+
+unsigned int GosChess::logo_height = 200;
 
 float GosChess::square_size = GosChess::board_width / GosChess::Board::ROW_NUM;
 

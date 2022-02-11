@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_NAME_INGAMECALCULATIONS_H
-#define PROJECT_NAME_INGAMECALCULATIONS_H
+#ifndef GOSCHESS_INGAMECALCULATIONS_H
+#define GOSCHESS_INGAMECALCULATIONS_H
 
 #include "../global/MainObjects/GameObjects.h"
 #include <SFML/Graphics.hpp>

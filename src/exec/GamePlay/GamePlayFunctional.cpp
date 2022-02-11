@@ -2,35 +2,51 @@
 // Created by Leo Gogichaishvili on 29.01.22.
 //
 
-#include <imgui-SFML.h>
+
 #include "GamePlayFunctional.h"
+#include "../../network/GameNetwork.h"
+#include <imgui-SFML.h>
 
 
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
-    static std::optional<GosChess::Cell> src_cell = std::nullopt;
-    static std::optional<GosChess::Cell> trg_cell = std::nullopt;
+    if (GosChess::player_color == GosChess::color_to_play &&
+        GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
 
-    if (!GosChess::highlited) {
-        src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
-    } else {
-        trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
-    }
-    if (src_cell.has_value() && trg_cell.has_value()) {
-        auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
-        auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-        if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
-            GosChess::ChangeActiveColour(board);
-            GosChess::SendMove(GosChess::Move(from, to));
+        static std::optional<GosChess::Cell> src_cell = std::nullopt;
+        static std::optional<GosChess::Cell> trg_cell = std::nullopt;
+
+        if (!GosChess::highlited) {
+            src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
+        } else {
+            trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
         }
-        src_cell = std::nullopt,
-                trg_cell = std::nullopt;
-        if (GosChess::CheckMate(board, GosChess::color_to_play)) GosChess::SetGameFlagFinished();
+        if (src_cell.has_value() && trg_cell.has_value()) {
+            auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
+            auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
+            if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
+                GosChess::ChangeActiveColour(board);
+                GosChess::SendMove(GosChess::Move(from, to));
+            }
+            src_cell = std::nullopt,
+                    trg_cell = std::nullopt;
+            if (GosChess::CheckMate(board, GosChess::color_to_play)) GosChess::SetGameFlagFinished();
 
+        }
     }
 }
 
 void GosChess::MainMenuListener::Action(GosChess::Board &board) {
-
+    if (GosChess::connection_role == GosChess::HOST) {
+        if (connected) {
+            GosChess::menu_active_flag = false;
+            GosChess::InitialSend();
+        }
+    } else if (GosChess::connection_role == GosChess::CLIENT) {
+        if (connected) {
+            GosChess::menu_active_flag = false;
+            GosChess::InitialReceive();
+        }
+    }
 }
 
 
@@ -86,15 +102,15 @@ void GosChess::SetGameFlagFinished() {
 
 bool GosChess::CheckGameModeFinished() {
     bool finished = GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
-    if(finished) {
+    if (finished) {
         GosChess::KillNetwork();
         return true;
     }
     return false;
 }
 
-bool GosChess::ChecMenuModeFinished() {
-    return GosChess::menu_active_flag == false;
+bool GosChess::CheckMenuModeFinished() {
+    return !GosChess::menu_active_flag;
 }
 
 char GosChess::opponent_ip[50];

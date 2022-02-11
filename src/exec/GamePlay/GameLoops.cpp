@@ -2,23 +2,21 @@
 // Created by Leo Gogichaishvili on 07.02.22.
 //
 
-#include <imgui-SFML.h>
-#include <imgui.h>
-#include "GameLoops.h"
 
+#include "GameLoops.h"
 
 typedef void (*OnUserInit)(sf::RenderWindow &, ...);
 
-typedef void (*OnUserUpdate)(sf::RenderWindow & ...);
+typedef void (*OnUserUpdate)(sf::RenderWindow &...);
 
 typedef bool (*ModeTeminator)();
 
 void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTeminator stop,
                         GosChess::GameModeListener *listener, GosChess::LoopType type, GosChess::Board *game_board) {
 
-    type == GosChess::LoopType::MENU ? init(window) : init(window, game_board);
+    init(window, game_board);
     while (window.isOpen()) {
-        if (stop) return;
+        if (stop()) return;
         sf::Event event;
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
@@ -28,8 +26,8 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
                 exit(3);
             }
         }
-        type == GosChess::LoopType::MENU ? update(window) : update(window, listener, game_board);
-
+        listener->Action(*game_board);
+        update(window, game_board);
     }
 }
 
@@ -47,20 +45,12 @@ void GosChess::GameInit(sf::RenderWindow &window, ...) {
 void GosChess::GameUpdate(sf::RenderWindow &window, ...) {
     va_list args;
     va_start(args, window);
-    GosChess::GameModeListener *listener = va_arg(args, GosChess::GameModeListener*);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-
-    if (GosChess::CheckGameModeFinished()) {
-    }
 
     GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
 
     GosChess::InputHandle::Listen();
-    if (GosChess::player_color == GosChess::color_to_play &&
-        GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-        listener->Action(*board);
-    }
 
     window.clear();
     GosChess::DrawCurrentBoardState(board->GetRawBoard(), window);
@@ -71,7 +61,7 @@ void GosChess::MenuInit(sf::RenderWindow &window, ...) {
     ImGui::SFML::Init(window);
     GosChess::MenuRenderConfig();
     ImGuiIO *imgui_io = &ImGui::GetIO();
-    //imgui_io->Fonts->AddFontFromFileTTF("GosChess/resources/Lato2FFL/Lato-Black.ttf", 10);
+    //imgui_io->Fonts->AddFontFromFileTTF("//Users//leogogichaishvili//CLionProjects//GosChess//resources//Lato2FFL//Lato-Black.ttf", 10);
     imgui_io->FontGlobalScale = 3.f;
     GosChess::delta_clock.restart();
 }
