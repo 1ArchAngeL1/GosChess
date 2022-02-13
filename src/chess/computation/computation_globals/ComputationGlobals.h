@@ -62,13 +62,13 @@ namespace GosChess {
         }
     };
 
-    extern const std::unique_ptr<const std::int8_t[]> direction_offsets;
+    extern const std::int8_t direction_offsets[];
 
-    extern std::unique_ptr<Offset[]> precalculated_offsets;
+    extern GosChess::Offset precalculated_offsets[];
 
     extern std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> available_moves;
 
-    extern std::unique_ptr<unsigned char[]> sliding_pieces;
+    extern unsigned char sliding_pieces[];
 
 }
 

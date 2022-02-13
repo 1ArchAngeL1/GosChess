@@ -1,6 +1,6 @@
 
-#ifndef GOSCHESS_GAMEDRAW_H
-#define GOSCHESS_GAMEDRAW_H
+#ifndef GOSCHESS_GAMEPLAYRENDER_H
+#define GOSCHESS_GAMEPLAYRENDER_H
 
 #include "../chess/global/MainObjects/GameObjects.h"
 #include "SFML/Graphics.hpp"
@@ -12,15 +12,17 @@ namespace GosChess {
 
     void ChessDrawingConfig();
 
-    void ColoriseAvailableMoves(const int &);
+    void ColorizeAvailableMoves(const int &);
 
     void DrawBoard(sf::RenderWindow &);
+
+    void DrawTimer(sf::RenderWindow &, const std::string &, const std::string &);
 
     void LoadChessFigureSprites();
 
     void DrawFigure(unsigned char, sf::Vector2f, sf::RenderWindow &);
 
-    void DrawCurrentBoardState(const unsigned char *, sf::RenderWindow &);
+    void DrawCurrentBoardState(const unsigned char *, sf::RenderWindow &, const std::string &, const std::string &);
 
     void ResetBoardColours();
 

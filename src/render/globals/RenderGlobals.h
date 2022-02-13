@@ -37,6 +37,10 @@ namespace GosChess {
 
     extern unsigned int logo_height;
 
+    extern float board_offset_ver;
+
+    extern float board_offset_hor;
+
     extern float square_size;
 
     extern sf::Vector2f board_position;

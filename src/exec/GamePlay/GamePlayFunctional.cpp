@@ -5,15 +5,14 @@
 
 #include "GamePlayFunctional.h"
 #include "../../network/GameNetwork.h"
-#include <imgui-SFML.h>
 
 
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
 
-        static std::optional<GosChess::Cell> src_cell = std::nullopt;
-        static std::optional<GosChess::Cell> trg_cell = std::nullopt;
+        static std::optional<GosChess::Square> src_cell = std::nullopt;
+        static std::optional<GosChess::Square> trg_cell = std::nullopt;
 
         if (!GosChess::highlited) {
             src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
@@ -33,6 +32,11 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
 
         }
     }
+}
+
+//coming soon
+void GosChess::GamePlayAIListener::Action(GosChess::Board &board) {
+
 }
 
 void GosChess::MainMenuListener::Action(GosChess::Board &board) {
@@ -66,24 +70,24 @@ bool GosChess::Play(GosChess::Board &brd, const GosChess::Move &move) {
     }
 }
 
-std::optional<GosChess::Cell> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf::Window &window) {
+std::optional<GosChess::Square> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf::Window &window) {
     if (!GosChess::highlited) {
         return std::nullopt;
     }
-    GosChess::Cell trg_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                          sf::Mouse::getPosition(window).x);
+    GosChess::Square trg_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                            sf::Mouse::getPosition(window).x);
     GosChess::ResetBoardColours();
     highlited = false;
     return {trg_node};
 }
 
-std::optional<GosChess::Cell> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
+std::optional<GosChess::Square> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
     if (GosChess::highlited) {
         GosChess::ResetBoardColours();
     }
-    GosChess::Cell src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                          sf::Mouse::getPosition(window).x);
-    GosChess::ColoriseAvailableMoves(GosChess::GetNumFromNode(src_node));
+    GosChess::Square src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                            sf::Mouse::getPosition(window).x);
+    GosChess::ColorizeAvailableMoves(GosChess::GetNumFromNode(src_node));
     highlited = true;
     return {src_node};
 }
@@ -111,6 +115,46 @@ bool GosChess::CheckGameModeFinished() {
 
 bool GosChess::CheckMenuModeFinished() {
     return !GosChess::menu_active_flag;
+}
+
+
+namespace GosChess::Time {
+
+    Timer::Timer(const float &time) {
+        this->Convert(time);
+    }
+
+    bool Timer::Subtract(const float &amount) {
+        this->seconds -= amount;
+        if (this->seconds < 0) {
+            this->seconds += 60;
+            this->minutes--;
+        }
+        return minutes >= 0;
+    }
+
+    std::string Timer::ToString() const {
+        std::string minute_str = std::to_string(this->minutes);
+        std::string seconds_str = std::to_string(this->seconds).substr(0, 2);
+        if (seconds_str[1] == '.')seconds_str.erase(seconds_str.begin() + 1);
+        if (seconds_str.length() == 1)seconds_str = "0" + seconds_str;
+        if (minute_str.length() == 1)minute_str = "0" + minute_str;
+        return minute_str + " : " + seconds_str;
+    }
+
+    void Timer::Convert(const float &time) {
+        this->minutes = static_cast<short>(time) / 60;
+        this->seconds = time - this->minutes * 60;
+    }
+
+    void Timer::Set(const float &time) {
+        this->Convert(time);
+    }
+
+    float Timer::GetAmount() const {
+        return static_cast<float>(this->minutes * 60) + this->seconds;
+    }
+
 }
 
 char GosChess::opponent_ip[50];

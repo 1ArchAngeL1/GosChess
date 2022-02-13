@@ -1,14 +1,18 @@
 
 #include <iostream>
 #include "../chess/global/MainObjects/GameObjects.h"
-#include "../render/GameDraw.h"
+#include "../render/GamePlayRender.h"
 #include "GamePlay/GamePlayFunctional.h"
 #include "GamePlay/GameLoops.h"
-#include "../network/GameNetwork.h"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 
 
+
 int main() {
+    std::cout << std::stoi("04") << std::endl;
+    std::cout << std::to_string(2.124) << std::endl;
+
 //    GosChess::initNewtork();
 //    char type;
 //
@@ -33,22 +37,19 @@ int main() {
 //        }
 //        std::cout << (int)mv.value().move_from << " " << (int)mv.value().move_to << std::endl;
 //    }
+
+
+
     GosChess::MenuNetworkMode();
-    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height), "window");
+    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height,24), "window");
     GosChess::MainMenuListener menu_listener(window);
     GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
-                       &menu_listener, GosChess::LoopType::MENU,
+                       &menu_listener,
                        nullptr);
-    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
-        GosChess::InitialSend();
-    } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT) {
-        GosChess::InitialReceive();
-    }
-    window.clear();
     GosChess::GamePlayNetworkMode();
     GosChess::MultiPlayerListener game_listener(window);
     GosChess::Board board(GosChess::GetInitialFenBoard());
-    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate,GosChess::CheckGameModeFinished, &game_listener, GosChess::LoopType::GAMEPLAY,
+    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate,GosChess::CheckGameModeFinished, &game_listener,
                        &board);
 }
 

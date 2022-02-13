@@ -51,6 +51,22 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Colo
     return packet >> dt.protocol >> dt.body;
 }
 
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::Time::TimerTransferObject &dto) {
+    return packet << dto.player_timer_amount << dto.enemy_timer_amount;
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GosChess::Time::TimerTransferObject &dto) {
+    return packet >> dto.player_timer_amount >> dto.enemy_timer_amount;
+}
+
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::Time::TimerTransferObject> &dt) {
+    return packet << dt.protocol << dt.body;
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Time::TimerTransferObject> &dt) {
+    return packet >> dt.protocol >> dt.body;
+}
+
 template<typename T>
 static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
     sf::Packet packet;
@@ -61,16 +77,24 @@ static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
     return std::nullopt;
 }
 
-
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
     packet << GosChess::DataTransfer<GosChess::Move>(GosChess::TransferType::MOVE, move);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-
 std::optional<GosChess::Move> GosChess::ReceiveMove() {
     return ReceiveGeneric<GosChess::Move>(GosChess::TransferType::MOVE);
+}
+
+void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
+    sf::Packet packet;
+    packet << GosChess::DataTransfer<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER, obj);
+    while (GosChess::connection.send(packet) == sf::Socket::Partial);
+}
+
+std::optional<GosChess::Time::TimerTransferObject> GosChess::ReceiveTime() {
+    return ReceiveGeneric<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER);
 }
 
 void GosChess::SetConnectionType(GosChess::ConnectionType type) {
@@ -89,7 +113,7 @@ void GosChess::GamePlayNetworkMode() {
 
 void GosChess::HostInit() {
     GosChess::SetConnectionType(GosChess::ConnectionType::HOST);
-    GosChess::client_listener.listen(2000);
+    GosChess::client_listener.listen(2001);
     GosChess::listen_flag = true;
     std::thread accept_thread(GosChess::TryAccept);
     accept_thread.detach();
@@ -112,8 +136,7 @@ void GosChess::JoinInit() {
 }
 
 void GosChess::TryJoin() {
-    sf::Time timeout = sf::Time::Zero;
-    if (GosChess::connection.connect(GosChess::remote_ip, 2000, timeout) == sf::Socket::Done)
+    if (GosChess::connection.connect(GosChess::remote_ip, 2001) == sf::Socket::Done)
         GosChess::SetConnected(true);
 }
 

@@ -23,7 +23,8 @@ namespace GosChess {
 
     enum TransferType {
         INITIAL,
-        MOVE
+        MOVE,
+        TIMER
     };
 
     template<typename T>
@@ -38,6 +39,10 @@ namespace GosChess {
     void SendMove(GosChess::Move);
 
     std::optional<GosChess::Move> ReceiveMove();
+
+    void SendTime(GosChess::Time::TimerTransferObject);
+
+    std::optional<GosChess::Time::TimerTransferObject> ReceiveTime();
 
     void SetConnectionType(ConnectionType);
 

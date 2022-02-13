@@ -5,16 +5,22 @@
 
 #include "GameLoops.h"
 
+
 typedef void (*OnUserInit)(sf::RenderWindow &, ...);
 
-typedef void (*OnUserUpdate)(sf::RenderWindow &...);
+typedef void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *...);
 
 typedef bool (*ModeTeminator)();
 
-void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTeminator stop,
-                        GosChess::GameModeListener *listener, GosChess::LoopType type, GosChess::Board *game_board) {
+static GosChess::Time::Timer player_timer;
 
+static GosChess::Time::Timer enemy_timer;
+
+void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTeminator stop,
+                        GosChess::GameModeListener *listener, GosChess::Board *game_board) {
     init(window, game_board);
+    sf::Clock delta_clock;
+    delta_clock.restart();
     while (window.isOpen()) {
         if (stop()) return;
         sf::Event event;
@@ -26,12 +32,15 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
                 exit(3);
             }
         }
+        GosChess::InputHandle::Listen();
         listener->Action(*game_board);
-        update(window, game_board);
+        update(window, &delta_clock, game_board);
     }
 }
 
 void GosChess::GameInit(sf::RenderWindow &window, ...) {
+    player_timer.Set(180.f);
+    enemy_timer.Set(180.f);
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
@@ -42,18 +51,29 @@ void GosChess::GameInit(sf::RenderWindow &window, ...) {
     GosChess::CalculateAvailableMoves(board->GetRawBoard());
 }
 
-void GosChess::GameUpdate(sf::RenderWindow &window, ...) {
+void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) {
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-
+    if(GosChess::connection_role == GosChess::ConnectionType::HOST) {
+        if (GosChess::color_to_play == GosChess::player_color) {
+            player_timer.Subtract(delta_clock->restart().asSeconds());
+        } else {
+            enemy_timer.Subtract(delta_clock->restart().asSeconds());
+        }
+        GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(),player_timer.GetAmount()));
+    } else {
+        std::optional<GosChess::Time::TimerTransferObject> res = GosChess::ReceiveTime();
+        if(res.has_value()) {
+            player_timer.Set(res->player_timer_amount);
+            enemy_timer.Set(res->enemy_timer_amount);
+        }
+    }
     GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
 
-    GosChess::InputHandle::Listen();
-
     window.clear();
-    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window);
+    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());
     window.display();
 }
 
@@ -61,28 +81,26 @@ void GosChess::MenuInit(sf::RenderWindow &window, ...) {
     ImGui::SFML::Init(window);
     GosChess::MenuRenderConfig();
     ImGuiIO *imgui_io = &ImGui::GetIO();
-    //imgui_io->Fonts->AddFontFromFileTTF("//Users//leogogichaishvili//CLionProjects//GosChess//resources//Lato2FFL//Lato-Black.ttf", 10);
     imgui_io->FontGlobalScale = 3.f;
-    GosChess::delta_clock.restart();
 }
 
-void GosChess::MenuUpdate(sf::RenderWindow &window, ...) {
-    ImGui::SFML::Update(window, GosChess::delta_clock.restart());
+void GosChess::MenuUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...) {
+    ImGui::SFML::Update(window, delta_clock->restart());
 
-    switch (GosChess::RenderFlags::render_menu_flag) {
-        case GosChess::RenderFlags::RenderMenuFLag::MAIN_MENU:
+    switch (GosChess::render_menu_flag) {
+        case GosChess::RenderMenuFLag::MAIN_MENU:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderMainMenuWidgets, window);
             break;
-        case GosChess::RenderFlags::RenderMenuFLag::JOINING:
+        case GosChess::RenderMenuFLag::JOINING:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderJoinGameWidgets, window);
             break;
-        case GosChess::RenderFlags::RenderMenuFLag::HOSTING:
+        case GosChess::RenderMenuFLag::HOSTING:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderHostGameWidgets, window);
             break;
-        case GosChess::RenderFlags::RenderMenuFLag::OPTION:
+        case GosChess::RenderMenuFLag::OPTION:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderOptionsWidgets, window);
             break;
-        case GosChess::RenderFlags::RenderMenuFLag::NONE:
+        case GosChess::RenderMenuFLag::NONE:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderJoinGameWidgets, window);
             break;
         default:
@@ -96,6 +114,4 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, ...) {
 
 }
 
-GosChess::RenderFlags::RenderMenuFLag GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::RenderMenuFLag::MAIN_MENU;
-
-sf::Clock GosChess::delta_clock;
+GosChess::RenderMenuFLag GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;

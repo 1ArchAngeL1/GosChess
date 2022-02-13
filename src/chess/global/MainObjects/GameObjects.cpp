@@ -57,7 +57,6 @@ const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color
                                                                    {Figure(Color::BLACK,
                                                                            FIGTYPE::QUEEN).full_type,              'q'}};
 
-
 unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
     unsigned char *board_demo = new unsigned char[Board::BOARD_SIZE]{0};
     short curr_pos = 0;
@@ -82,7 +81,7 @@ GosChess::Board::Board(std::string initial_state) {
 void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
     this->board[grid_num] = figure;
 }
-
+// ignore this block of code, it was little challenge for my self :))) i know i looks hoooriibbleee :))
 std::string GosChess::Board::BoardStateToFen() {
     unsigned char *target_board = this->board;
     std::string fen_str = "";
@@ -106,7 +105,7 @@ const unsigned char *GosChess::Board::GetRawBoard() const {
     return this->board;
 }
 
-GosChess::Figure GosChess::Board::GetPosition(const int &index) const {
+GosChess::Figure GosChess::Board::At(const int &index) const {
     unsigned char fig_char = this->board[index];
     return GosChess::Figure(fig_char);
 }
@@ -118,14 +117,17 @@ GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) 
 }
 
 void GosChess::Board::SaveState() {
-    unsigned char *state = new unsigned char[GosChess::Board::BOARD_SIZE];
-    memcpy(state, Board::board, BOARD_SIZE);
-    this->game_rev.push(state);
+    std::array<unsigned char, Board::BOARD_SIZE> arr;
+    std::copy(Board::board, Board::board + BOARD_SIZE, arr.begin());
+    this->game_rev.push(arr);
 }
 
 void GosChess::Board::Undo() {
-    delete[] Board::board;
-    board = this->game_rev.top();
+    std::copy(this->game_rev.top().begin(), this->game_rev.top().end(), Board::board);
     this->game_rev.pop();
+}
+
+GosChess::Board::~Board() {
+    delete [] this->board;
 }
 

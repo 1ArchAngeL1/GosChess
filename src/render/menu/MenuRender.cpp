@@ -4,7 +4,6 @@
 
 #include <imgui_internal.h>
 #include "MenuRender.h"
-#include "../../network/GameNetwork.h"
 
 static constexpr int buffer_size = 100;
 
@@ -104,18 +103,18 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
     ImGui::Dummy(ImVec2(0.0f, 80.0f));
     ImGui::Indent(200);
     if (ImGui::Button("Join Game", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::JOINING;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::JOINING;
     }
     ImGui::Indent(-200);
     ImGui::Indent(200);
     if (ImGui::Button("Host Game", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::HOSTING;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::HOSTING;
         GosChess::HostInit();
     }
     ImGui::Indent(-200);
     ImGui::Indent(200);
     if (ImGui::Button("Options", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::OPTION;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::OPTION;
     }
     ImGui::Indent(-200);
 }
@@ -150,7 +149,7 @@ void GosChess::RenderOptionsWidgets(sf::RenderWindow &window, ImGuiContext *cont
     ImGui::Dummy(ImVec2(0, 80));
     ImGui::Indent(GosChess::main_menu_width * 0.5f - 250);
     if (ImGui::Button("Return", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::MAIN_MENU;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
     }
     ImGui::PushItemWidth(500);
     ToggleButton(toggle_button, &button);
@@ -177,7 +176,7 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     ImGui::Dummy(ImVec2(0.0f, 20.0f));
     ImGui::Indent(200);
     if (ImGui::Button("Return", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::MAIN_MENU;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
         GosChess::listen_flag = false;
     }
     ImGui::Indent(-200);
@@ -210,7 +209,7 @@ void GosChess::RenderJoinGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     ImGui::Indent(-200);
     ImGui::Indent(200);
     if (ImGui::Button("Return", ImVec2(500, 100))) {
-        GosChess::RenderFlags::render_menu_flag = GosChess::RenderFlags::MAIN_MENU;
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
     }
     ImGui::Indent(-200);
 
@@ -254,7 +253,7 @@ static void InitLogoAssets() {
         std::cout << "couldn't load root_texture for figures" << std::endl;
         return;
     }
-    sf::RectangleShape ae;
+    GosChess::chess_logo_txt.setSmooth(true);
     GosChess::chess_logo_sprite.setTexture(GosChess::chess_logo_txt);
     sf::Vector2f texture_dimensions = {static_cast<float>(GosChess::chess_logo_txt.getSize().y),
                                        static_cast<float>(GosChess::chess_logo_txt.getSize().x)};
