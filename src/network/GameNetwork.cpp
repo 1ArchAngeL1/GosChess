@@ -67,6 +67,21 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Time
     return packet >> dt.protocol >> dt.body;
 }
 
+
+GosChess::TransferType GosChess::SocketListen() {
+    sf::Packet packet;
+    int protocol;
+    while (GosChess::connection.receive(packet) == sf::Socket::Partial);
+    packet >> protocol;
+    return static_cast<GosChess::TransferType>(protocol);
+}
+
+void GosChess::SendProtocol(GosChess::TransferType type) {
+    sf::Packet packet;
+    packet << type;
+    while (GosChess::connection.send(packet) == sf::Socket::Partial);
+}
+
 template<typename T>
 static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
     sf::Packet packet;
@@ -80,6 +95,7 @@ static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
     packet << GosChess::DataTransfer<GosChess::Move>(GosChess::TransferType::MOVE, move);
+    GosChess::SendProtocol(GosChess::TransferType::MOVE);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
@@ -90,6 +106,7 @@ std::optional<GosChess::Move> GosChess::ReceiveMove() {
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
     packet << GosChess::DataTransfer<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER, obj);
+    GosChess::SendProtocol(GosChess::TransferType::TIMER);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 

@@ -98,6 +98,8 @@ namespace GosChess {
 
     void CheckReceivedMove(std::optional<GosChess::Move>, GosChess::Board &);
 
+    void CheckReceivedTime(GosChess::Time::Timer&,GosChess::Time::Timer&);
+
     void SetGameFlagFinished();
 
     bool CheckGameModeFinished();

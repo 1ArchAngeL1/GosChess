@@ -56,21 +56,17 @@ void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) 
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    if(GosChess::connection_role == GosChess::ConnectionType::HOST) {
+    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
         if (GosChess::color_to_play == GosChess::player_color) {
             player_timer.Subtract(delta_clock->restart().asSeconds());
         } else {
             enemy_timer.Subtract(delta_clock->restart().asSeconds());
         }
-        GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(),player_timer.GetAmount()));
-    } else {
-        std::optional<GosChess::Time::TimerTransferObject> res = GosChess::ReceiveTime();
-        if(res.has_value()) {
-            player_timer.Set(res->player_timer_amount);
-            enemy_timer.Set(res->enemy_timer_amount);
-        }
+        GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
     }
-    GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
+    if (GosChess::SocketListen() == GosChess::TransferType::MOVE)
+        GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
+    else if(GosChess::connection_role == GosChess::ConnectionType::CLIENT)GosChess::CheckReceivedTime(player_timer, enemy_timer);
 
     window.clear();
     GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());

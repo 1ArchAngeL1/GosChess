@@ -7,41 +7,46 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "imgui.h"
+#include "imgui-SFML.h"
 
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
 
 int main() {
-    std::cout << std::stoi("04") << std::endl;
-    std::cout << std::to_string(2.124) << std::endl;
 
-//    GosChess::initNewtork();
-//    char type;
+//    sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
+//    window.setFramerateLimit(60);
+//    ImGui::SFML::Init(window);
+//    ImGuiIO *imgui_io = &ImGui::GetIO();
+//    imgui_io->FontGlobalScale = 3.f;
 //
-//    std::cin >> type;
-//    if(type == 's') {
-//        GosChess::HostInit();
-//    } else {
-//        GosChess::remote_ip = sf::IpAddress("127.0.0.1");
-//        GosChess::JoinInit();
-//    }
+//    sf::Clock deltaClock;
+//    while (window.isOpen()) {
+//        sf::Event event;
+//        while (window.pollEvent(event)) {
+//            ImGui::SFML::ProcessEvent(window, event);
 //
-//    while(!GosChess::connected);
-//    if(type == 's') {
-//        GosChess::InitialSend();
-//        std::cout << GosChess::player_color << std::endl;
-//        std::this_thread::sleep_for(std::chrono::duration<int>(2));
-//    }else {
-//        GosChess::InitialReceive();
-//        std::optional<GosChess::Move> mv = std::nullopt;
-//        while(mv == std::nullopt) {
-//           mv = GosChess::ReceiveMove();
+//            if (event.type == sf::Event::Closed) {
+//                window.close();
+//            }
 //        }
-//        std::cout << (int)mv.value().move_from << " " << (int)mv.value().move_to << std::endl;
+//
+//        ImGui::SFML::Update(window, deltaClock.restart());
+//
+//        ImGui::ShowDemoWindow();
+//        window.clear();
+//        ImGui::SFML::Render(window);
+//        window.display();
 //    }
-
+//
+//    ImGui::SFML::Shutdown();
 
 
     GosChess::MenuNetworkMode();
-    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height,24), "window");
+    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height, 24), "window");
     GosChess::MainMenuListener menu_listener(window);
     GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
                        &menu_listener,
@@ -49,7 +54,8 @@ int main() {
     GosChess::GamePlayNetworkMode();
     GosChess::MultiPlayerListener game_listener(window);
     GosChess::Board board(GosChess::GetInitialFenBoard());
-    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate,GosChess::CheckGameModeFinished, &game_listener,
+    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate, GosChess::CheckGameModeFinished,
+                       &game_listener,
                        &board);
 }
 

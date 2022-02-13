@@ -36,6 +36,10 @@ namespace GosChess {
         T body;
     };
 
+    GosChess::TransferType SocketListen();
+
+    void SendProtocol(GosChess::TransferType);
+
     void SendMove(GosChess::Move);
 
     std::optional<GosChess::Move> ReceiveMove();
