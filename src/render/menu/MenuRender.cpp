@@ -14,8 +14,8 @@ static const char *entered_ip = "Enter opponents public ip";
 static const char *waiting_to_join = "Waiting someone to join ...";
 static const char *choose_color = "Choose Board Colors";
 static const char *toggle_button = "Toogle button";
-static const char* choose_time = "Choose Time limit";
-static const char* game_options = "Choose Game Options";
+static const char *choose_time = "Choose Time limit";
+static const char *game_options = "Choose Game Options";
 
 static const char *time_choose[] = {"3", "5", "10", "30"};
 static const char *current_choice = time_choose[0];
@@ -188,10 +188,10 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     ImGui::Indent(200);
     ImGui::PushItemWidth(500);
     if (ImGui::BeginCombo("##combo", current_choice)) {
-        for (int n = 0; n < IM_ARRAYSIZE(time_choose); n++) {
-            bool is_selected = (current_choice == time_choose[n]);
-            if (ImGui::Selectable(time_choose[n], is_selected))
-                current_choice = time_choose[n];
+        for (int i = 0; i < IM_ARRAYSIZE(time_choose); i++) {
+            bool is_selected = (current_choice == time_choose[i]);
+            if (ImGui::Selectable(time_choose[i], is_selected))
+                current_choice = time_choose[i];
             if (is_selected)
                 ImGui::SetItemDefaultFocus();
         }

@@ -13,6 +13,7 @@
 #include "../chess/computation/computation_globals/ComputationGlobals.h"
 #include "../chess/global/GameGlobals.h"
 #include "../render/menu/MenuRender.h"
+#include <any>
 
 
 namespace GosChess {
@@ -27,6 +28,7 @@ namespace GosChess {
         TIMER
     };
 
+
     template<typename T>
     struct DataTransfer {
         DataTransfer() = default;
@@ -36,9 +38,7 @@ namespace GosChess {
         T body;
     };
 
-    GosChess::TransferType SocketListen();
-
-    void SendProtocol(GosChess::TransferType);
+    std::optional<DataTransfer<std::any>> Receive();
 
     void SendMove(GosChess::Move);
 

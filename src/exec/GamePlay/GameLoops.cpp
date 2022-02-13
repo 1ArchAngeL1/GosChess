@@ -64,9 +64,15 @@ void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) 
         }
         GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
     }
-    if (GosChess::SocketListen() == GosChess::TransferType::MOVE)
-        GosChess::CheckReceivedMove(GosChess::ReceiveMove(), *board);
-    else if(GosChess::connection_role == GosChess::ConnectionType::CLIENT)GosChess::CheckReceivedTime(player_timer, enemy_timer);
+    std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
+    if(info.has_value()) {
+        GosChess::DataTransfer<std::any> inside = info.value();
+        if(inside.protocol == GosChess::TransferType::MOVE) {
+            GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
+        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT && inside.protocol == GosChess::TransferType::TIMER) {
+            GosChess::CheckReceivedTime(player_timer,enemy_timer,std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
+        }
+    }
 
     window.clear();
     GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());

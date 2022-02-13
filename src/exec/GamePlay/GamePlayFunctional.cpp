@@ -100,12 +100,10 @@ void GosChess::CheckReceivedMove(std::optional<GosChess::Move> move, GosChess::B
     }
 }
 
-void GosChess::CheckReceivedTime(GosChess::Time::Timer& player_timer,GosChess::Time::Timer& enemy_timer) {
-    std::optional<GosChess::Time::TimerTransferObject> dto = GosChess::ReceiveTime();
-    if(dto.has_value()) {
-        player_timer.Set(dto->player_timer_amount);
-        enemy_timer.Set(dto->enemy_timer_amount);
-    }
+void GosChess::CheckReceivedTime(GosChess::Time::Timer& player_timer,GosChess::Time::Timer& enemy_timer,GosChess::Time::TimerTransferObject dto) {
+    player_timer.Set(dto.player_timer_amount);
+    enemy_timer.Set(dto.enemy_timer_amount);
+
 }
 
 void GosChess::SetGameFlagFinished() {

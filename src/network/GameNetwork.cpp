@@ -67,19 +67,32 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Time
     return packet >> dt.protocol >> dt.body;
 }
 
-
-GosChess::TransferType GosChess::SocketListen() {
-    sf::Packet packet;
-    int protocol;
-    while (GosChess::connection.receive(packet) == sf::Socket::Partial);
-    packet >> protocol;
-    return static_cast<GosChess::TransferType>(protocol);
+sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<std::any> &dt) {
+    packet >> dt.protocol;
+    GosChess::Time::TimerTransferObject time;
+    GosChess::Move move;
+    switch (dt.protocol) {
+        case GosChess::TransferType::TIMER:
+            packet >> time;
+            dt.body = static_cast<std::any>(time);
+            break;
+        case GosChess::TransferType::MOVE:
+            packet >> move;
+            dt.body = static_cast<std::any>(move);;
+            break;
+        default:
+            break;
+    }
+    return packet;
 }
 
-void GosChess::SendProtocol(GosChess::TransferType type) {
+
+std::optional<GosChess::DataTransfer<std::any>> GosChess::Receive() {
     sf::Packet packet;
-    packet << type;
-    while (GosChess::connection.send(packet) == sf::Socket::Partial);
+    GosChess::DataTransfer<std::any> ret;
+    GosChess::connection.receive(packet);
+    if (packet >> ret)return ret;
+    return std::nullopt;
 }
 
 template<typename T>
@@ -95,7 +108,6 @@ static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
     packet << GosChess::DataTransfer<GosChess::Move>(GosChess::TransferType::MOVE, move);
-    GosChess::SendProtocol(GosChess::TransferType::MOVE);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
@@ -106,7 +118,6 @@ std::optional<GosChess::Move> GosChess::ReceiveMove() {
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
     packet << GosChess::DataTransfer<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER, obj);
-    GosChess::SendProtocol(GosChess::TransferType::TIMER);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
