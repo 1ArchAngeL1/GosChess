@@ -37,7 +37,7 @@ file(
         src/*.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} src/ai/SimpleAi.cpp src/ai/SimpleAi.h src/ai/AiConstants.cpp src/ai/AiConstants.h)
 
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-network)
 

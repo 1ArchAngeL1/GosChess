@@ -15,9 +15,10 @@ static const char *waiting_to_join = "Waiting someone to join ...";
 static const char *choose_color = "Choose Board Colors";
 static const char *toggle_button = "Toogle button";
 static const char *choose_time = "Choose Time limit";
-static const char *game_options = "Choose Game Options";
+static const char *game_options = "Game Options";
 
-static const char *time_choose[] = {"3", "5", "10", "30"};
+static const char *time_choose[] = {"0","3", "5", "10", "30"};
+static bool play_on_time = false;
 static const char *current_choice = time_choose[0];
 
 static ImVec4 main_clr(GosChess::main_color.r / 255.f, GosChess::main_color.g / 255.f,
@@ -49,9 +50,11 @@ static void ToggleButton(const char *str_id, bool *v) {
 
     ImU32 col_bg;
     if (ImGui::IsItemHovered())
-        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.78f, 0.78f, 0.78f, 1.0f), ImVec4(0.64f, 0.83f, 0.34f, 1.0f), t));
+        col_bg = ImGui::GetColorU32(
+                ImLerp(ImVec4(0.78f, 0.78f, 0.78f, 1.0f), ImVec4(165.f / 255.f, 0.f / 255.f, 255.f / 255.f, 0.60f), t));
     else
-        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.85f, 0.85f, 0.85f, 1.0f), ImVec4(0.56f, 0.83f, 0.26f, 1.0f), t));
+        col_bg = ImGui::GetColorU32(
+                ImLerp(ImVec4(0.85f, 0.85f, 0.85f, 1.0f), ImVec4(165.f / 255.f, 0.f / 255.f, 255.f / 255.f, 0.60f), t));
 
     draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height * 0.5f);
     draw_list->AddCircleFilled(ImVec2(p.x + radius + t * (width - radius * 2.0f), p.y + radius), radius - 1.5f,
@@ -89,6 +92,15 @@ void GosChess::RenderMainMenuBackground(sf::RenderWindow &window, ImGuiContext *
     style->Colors[ImGuiCol_FrameBg] = ImColor(0.188, 0.09f, 0.203f, 0.4);
     style->Colors[ImGuiCol_FrameBgActive] = ImColor(0.188, 0.09f, 0.203f, 0.85);
     style->Colors[ImGuiCol_FrameBgHovered] = ImColor(0.188, 0.09f, 0.203f, 1.f);
+
+    style->Colors[ImGuiCol_PopupBg] = ImColor(0.188, 0.09f, 0.203f, 0.4);
+    style->Colors[ImGuiCol_PopupBg] = ImColor(0.188, 0.09f, 0.203f, 0.85);
+    style->Colors[ImGuiCol_PopupBg] = ImColor(0.188, 0.09f, 0.203f, 1.f);
+
+    style->Colors[ImGuiCol_SeparatorHovered] = ImColor(0.188, 0.09f, 0.203f, 1.f);
+    style->Colors[ImGuiCol_Separator] = ImColor(0.188, 0.09f, 0.203f, 1.f);
+    style->Colors[ImGuiCol_SeparatorActive] = ImColor(0.188, 0.09f, 0.203f, 1.f);
+
 }
 
 void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *context) {
@@ -114,7 +126,6 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
     ImGui::Indent(200);
     if (ImGui::Button("Host Game", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::HOSTING;
-        GosChess::HostInit();
     }
     ImGui::Indent(-200);
     ImGui::Indent(200);
@@ -156,28 +167,40 @@ void GosChess::RenderOptionsWidgets(sf::RenderWindow &window, ImGuiContext *cont
     if (ImGui::Button("Return", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
     }
-    ImGui::PushItemWidth(500);
-    ToggleButton(toggle_button, &button);
-    ImGui::PopItemWidth();
-    ImGui::Indent(-GosChess::main_menu_width * 0.5f + 250);
     ImGui::PopStyleColor();
-    style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(255, 0, 0, 1.00f);
-    style->Colors[ImGuiCol_SliderGrab] = ImVec4(255, 0, 0, 1.00f);
-    style->Colors[ImGuiCol_ChildBg] = ImVec4(52.f / 255.f, 61.f / 255.f, 70.f / 255.f, 1.00f);
-    style->ChildRounding = 25;
 }
 
 void GosChess::RenderHostGameBackground(sf::RenderWindow &window, ImGuiContext *context) {
 
 }
 
+
+static void HostingPage() {
+    ImGui::Dummy(ImVec2(0.0f, static_cast<float>(GosChess::main_menu_height) * 0.1f));
+    auto text_width = ImGui::CalcTextSize(waiting_to_join).x;
+    ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - text_width) * 0.5f);
+    ImGui::Text("%s", waiting_to_join);
+    ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - text_width) * -0.5f);
+    ImGui::Dummy(ImVec2(0.0f, static_cast<float>(GosChess::main_menu_height) * 0.2f));
+    ImGui::Indent(200);
+    if (ImGui::Button("Return", ImVec2(500, 100))) {
+        GosChess::listen_flag = false;
+    }
+    ImGui::Indent(-200);
+}
+
+
 void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) {
+    if (listen_flag) {
+        HostingPage();
+        return;
+    }
     ImGui::Dummy(ImVec2(0.0f, static_cast<float>(GosChess::main_menu_height) * 0.1f));
     auto text_width = ImGui::CalcTextSize(game_options).x;
     ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - text_width) * 0.5f);
     ImGui::Text("%s", game_options);
     ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - text_width) * -0.5f);
-    ImGui::Dummy(ImVec2(0.0f, static_cast<float>(GosChess::main_menu_height) * 0.3f));
+    ImGui::Dummy(ImVec2(0.0f, static_cast<float>(GosChess::main_menu_height) * 0.1f));
     text_width = ImGui::CalcTextSize(choose_time).x;
     ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - text_width) * 0.5f);
     ImGui::Text("%s", choose_time);
@@ -186,19 +209,34 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
 
     ImGui::Dummy(ImVec2(0.0f, 20.0f));
     ImGui::Indent(200);
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(0.188, 0.09f, 0.203f, 0.4f));
+    ImGui::PushItemWidth(100);
+    ToggleButton("a", &play_on_time);
+    ImGui::SameLine();
+    ImGui::Text("Time");
     ImGui::PushItemWidth(500);
     if (ImGui::BeginCombo("##combo", current_choice)) {
-        for (int i = 0; i < IM_ARRAYSIZE(time_choose); i++) {
-            bool is_selected = (current_choice == time_choose[i]);
-            if (ImGui::Selectable(time_choose[i], is_selected))
-                current_choice = time_choose[i];
-            if (is_selected)
-                ImGui::SetItemDefaultFocus();
+        if (play_on_time) {
+            for (int i = 0; i < IM_ARRAYSIZE(time_choose); i++) {
+                bool is_selected = (current_choice == time_choose[i]);
+                if (ImGui::Selectable(time_choose[i], is_selected))
+                    current_choice = time_choose[i];
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
         }
         ImGui::EndCombo();
     }
+    ImGui::PopStyleColor();
     ImGui::PopItemWidth();
+
     ImGui::Dummy(ImVec2(0.0f, 20.0f));
+    ImGui::Indent(-200);
+    ImGui::Indent(200);
+    if (ImGui::Button("Host", ImVec2(500, 100))) {
+        GosChess::time_limit_minutes = std::stoi(current_choice);
+        GosChess::HostInit();
+    }
     ImGui::Indent(-200);
     ImGui::Indent(200);
     if (ImGui::Button("Return", ImVec2(500, 100))) {

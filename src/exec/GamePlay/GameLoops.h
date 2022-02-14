@@ -35,6 +35,8 @@ namespace GosChess {
 
     void MenuInit(sf::RenderWindow &, ...);
 
+    extern short time_limit_minutes;
+
 }
 
 

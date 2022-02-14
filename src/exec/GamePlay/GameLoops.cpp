@@ -39,8 +39,8 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
 }
 
 void GosChess::GameInit(sf::RenderWindow &window, ...) {
-    player_timer.Set(180.f);
-    enemy_timer.Set(180.f);
+    player_timer.Set(60 * time_limit_minutes);
+    enemy_timer.Set(60 * time_limit_minutes);
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
@@ -49,6 +49,18 @@ void GosChess::GameInit(sf::RenderWindow &window, ...) {
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
     GosChess::CalculateAvailableMoves(board->GetRawBoard());
+}
+
+static void ProcessData(GosChess::Board* board) {
+    std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
+    if(info.has_value()) {
+        GosChess::DataTransfer<std::any> inside = info.value();
+        if(inside.protocol == GosChess::TransferType::MOVE) {
+            GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
+        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT && inside.protocol == GosChess::TransferType::TIMER) {
+            GosChess::CheckReceivedTime(player_timer,enemy_timer,std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
+        }
+    }
 }
 
 void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) {
@@ -64,15 +76,7 @@ void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) 
         }
         GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
     }
-    std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
-    if(info.has_value()) {
-        GosChess::DataTransfer<std::any> inside = info.value();
-        if(inside.protocol == GosChess::TransferType::MOVE) {
-            GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
-        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT && inside.protocol == GosChess::TransferType::TIMER) {
-            GosChess::CheckReceivedTime(player_timer,enemy_timer,std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
-        }
-    }
+    ProcessData(board);
 
     window.clear();
     GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());
@@ -115,5 +119,7 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...)
     window.display();
 
 }
+
+short GosChess::time_limit_minutes = 0;
 
 GosChess::RenderMenuFLag GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
