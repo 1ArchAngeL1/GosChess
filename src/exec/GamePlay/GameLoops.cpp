@@ -38,7 +38,17 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
     }
 }
 
-void GosChess::GameInit(sf::RenderWindow &window, ...) {
+
+void GosChess::AIGameInit(sf::RenderWindow &, ...) {
+
+}
+
+
+void AIGameUpdate(sf::RenderWindow &, sf::Clock *...) {
+
+}
+
+void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
     player_timer.Set(60 * time_limit_minutes);
     enemy_timer.Set(60 * time_limit_minutes);
     va_list args;
@@ -51,30 +61,39 @@ void GosChess::GameInit(sf::RenderWindow &window, ...) {
     GosChess::CalculateAvailableMoves(board->GetRawBoard());
 }
 
-static void ProcessData(GosChess::Board* board) {
+static void ProcessData(GosChess::Board *board) {
     std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
-    if(info.has_value()) {
+    if (info.has_value()) {
         GosChess::DataTransfer<std::any> inside = info.value();
-        if(inside.protocol == GosChess::TransferType::MOVE) {
+        if (inside.protocol == GosChess::TransferType::MOVE) {
             GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
-        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT && inside.protocol == GosChess::TransferType::TIMER) {
-            GosChess::CheckReceivedTime(player_timer,enemy_timer,std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
+        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT &&
+                   inside.protocol == GosChess::TransferType::TIMER) {
+            GosChess::CheckReceivedTime(player_timer, enemy_timer,
+                                        std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
         }
     }
 }
 
-void GosChess::GameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) {
+void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) {
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
+    static float chrono = 0;
     if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
+        float dt = delta_clock->restart().asSeconds();
+        chrono += dt;
         if (GosChess::color_to_play == GosChess::player_color) {
-            player_timer.Subtract(delta_clock->restart().asSeconds());
+            player_timer.Subtract(dt);
         } else {
-            enemy_timer.Subtract(delta_clock->restart().asSeconds());
+            enemy_timer.Subtract(dt);
         }
-        GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
+        if (chrono >= 0.3) {
+            GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
+            chrono = 0;
+        }
+
     }
     ProcessData(board);
 

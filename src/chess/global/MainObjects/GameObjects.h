@@ -53,7 +53,7 @@ namespace GosChess {
     public:
         explicit Board(std::string);
 
-        ~Board();
+        explicit Board(unsigned char *);
 
         const unsigned char *GetRawBoard() const;
 
@@ -67,6 +67,10 @@ namespace GosChess {
 
         void Undo();
 
+        ~Board();
+
+        // static members from here
+
         static unsigned char *DecodeFen(std::string);
 
         static const std::map<char, unsigned char> FEN_TO_FIG;
@@ -79,9 +83,12 @@ namespace GosChess {
 
         static constexpr int BOARD_SIZE = ROW_LENGTH * ROW_NUM;
     private:
+
+        //board representation
         unsigned char *board;
 
-        std::stack<std::array<unsigned char,BOARD_SIZE>> game_rev;
+        //game history
+        std::stack<std::array<unsigned char, BOARD_SIZE>> game_rev;
 
     };
 

@@ -54,7 +54,7 @@ int main() {
     GosChess::GamePlayNetworkMode();
     GosChess::MultiPlayerListener game_listener(window);
     GosChess::Board board(GosChess::GetInitialFenBoard());
-    GosChess::GameLoop(window, GosChess::GameInit, GosChess::GameUpdate, GosChess::CheckGameModeFinished,
+    GosChess::GameLoop(window, GosChess::OnlineGameInit, GosChess::OnlineGameUpdate, GosChess::CheckGameModeFinished,
                        &game_listener,
                        &board);
 }

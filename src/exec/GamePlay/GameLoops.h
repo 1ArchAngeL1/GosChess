@@ -23,17 +23,25 @@ namespace GosChess {
 
 
     void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &, ...),
-                  void (*OnUserUpdate)(sf::RenderWindow &,sf::Clock*,...), bool (*ModeTeminator)(),
+                  void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *, ...), bool (*ModeTeminator)(),
                   GameModeListener *, GosChess::Board *);
 
-    void GameUpdate(sf::RenderWindow &,sf::Clock* ...);
+
+    void AIGameInit(sf::RenderWindow &, ...);
 
 
-    void GameInit(sf::RenderWindow &, ...);
+    void AIGameUpdate(sf::RenderWindow &, sf::Clock *...);
 
-    void MenuUpdate(sf::RenderWindow &,sf::Clock*, ...);
+
+    void OnlineGameInit(sf::RenderWindow &, ...);
+
+
+    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *...);
+
 
     void MenuInit(sf::RenderWindow &, ...);
+
+    void MenuUpdate(sf::RenderWindow &, sf::Clock *, ...);
 
     extern short time_limit_minutes;
 

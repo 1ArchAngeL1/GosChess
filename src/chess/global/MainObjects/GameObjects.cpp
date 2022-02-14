@@ -117,7 +117,7 @@ GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) 
 }
 
 void GosChess::Board::SaveState() {
-    std::array<unsigned char, Board::BOARD_SIZE> arr;
+    std::array<unsigned char, Board::BOARD_SIZE> arr{};
     std::copy(Board::board, Board::board + BOARD_SIZE, arr.begin());
     this->game_rev.push(arr);
 }
@@ -129,5 +129,9 @@ void GosChess::Board::Undo() {
 
 GosChess::Board::~Board() {
     delete [] this->board;
+}
+
+GosChess::Board::Board(unsigned char *) {
+
 }
 
