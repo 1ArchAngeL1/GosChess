@@ -27,7 +27,7 @@ namespace GosChess {
 
     void GenerateOffsets();
 
-    void CalculateAvailableMoves(const unsigned char *);
+    void CalculateAvailableMoves(const unsigned char *,GosChess::Color);
 
     void ChangeActiveColour(GosChess::Board&);
 

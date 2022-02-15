@@ -81,6 +81,7 @@ GosChess::Board::Board(std::string initial_state) {
 void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
     this->board[grid_num] = figure;
 }
+
 // ignore this block of code, it was little challenge for my self :))) i know i looks hoooriibbleee :))
 std::string GosChess::Board::BoardStateToFen() {
     unsigned char *target_board = this->board;
@@ -128,10 +129,17 @@ void GosChess::Board::Undo() {
 }
 
 GosChess::Board::~Board() {
-    delete [] this->board;
+    delete[] this->board;
 }
 
-GosChess::Board::Board(unsigned char *) {
 
+GosChess::Board::Board(const GosChess::Board &board) {
+    this->board = new unsigned char[BOARD_SIZE];
+    memcpy(this->board, board.board, BOARD_SIZE * sizeof(unsigned char));
+    this->game_rev = board.game_rev;
+}
+
+void GosChess::Board::SetState(const std::string & state) {
+    this->board = Board::DecodeFen(state);
 }
 

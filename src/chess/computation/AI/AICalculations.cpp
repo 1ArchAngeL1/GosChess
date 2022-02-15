@@ -15,11 +15,6 @@ static std::unordered_map<unsigned char, short> figure_values{{FIG::PAWN,   100}
                                                               {FIG::QUEEN,  900}};
 
 
-GosChess::Move GosChess::BasicChessAi::GetBestMove(unsigned char *) {
-    return GosChess::Move();
-}
-
-
 int GosChess::CountScore(const unsigned char *board, GosChess::Color target_clr) {
     int score = 0;
     for (int i = 0; i < GosChess::Board::BOARD_SIZE; i++) {
@@ -47,30 +42,46 @@ int GosChess::Evaluate(const unsigned char *board) {
     return GosChess::color_to_play == GosChess::WHITE ? eval : -eval;
 }
 
-int GosChess::MiniMax(GosChess::Board &board, int depth, bool Maximize) {
-    GosChess::Color clr = Maximize ? GosChess::color_to_play : static_cast<GosChess::Color>(!GosChess::color_to_play);
-    if (depth <= 0 || GosChess::CheckMate(board, clr)) {
-        return GosChess::Evaluate(board.GetRawBoard());
-    }
-    GosChess::CalculateAvailableMoves(board.GetRawBoard());
-    std::vector<GosChess::Move> moves = GosChess::MergeColorMoves(color_to_play);
-    if (clr == GosChess::color_to_play) {
-        int max = INT_MIN;
-        for (auto & move : moves) {
-            if(!GosChess::MakeMove(move, board))continue;
-            int curr_eval = MiniMax(board, depth - 1, !Maximize);
-            max = std::max(max, curr_eval);
+
+GosChess::Move GosChess::BasicChessAi::GetBestMove(GosChess::Board board) {
+    GosChess::Move best_move;
+    int best_move_value = INT_MIN;
+    //int current_value = GosChess::CountScore(board.GetRawBoard(),GosChess::enemy_color);
+    std::vector<GosChess::Move> moves = GosChess::MergeColorMoves(GosChess::enemy_color);
+    int calculated_value;
+    for (auto &move: moves) {
+        if (GosChess::MakeMove(move, board)) {
+            calculated_value = GosChess::Search(board, 3, GosChess::enemy_color);
+            if (calculated_value < best_move_value) {
+                best_move_value = calculated_value;
+                best_move = move;
+            }
             board.Undo();
         }
-        return max;
-    } else {
-        int min = INT_MAX;
-        for (auto & move : moves) {
-            GosChess::MakeMove(move, board);
-            int curr_eval = MiniMax(board, depth - 1, !Maximize);
-            min = std::min(min, curr_eval);
-            board.Undo();
-        }
-        return min;
+
     }
+    return best_move;
 }
+
+
+int GosChess::Search(GosChess::Board &board, int depth, GosChess::Color clr) {
+    if (depth == 0) return GosChess::Evaluate(board.GetRawBoard());
+    if (clr == GosChess::enemy_color) {
+        if (GosChess::CheckMate(board, GosChess::color_to_play)) return INT_MIN;
+    }
+    if (GosChess::available_moves.size() == 0) return Evaluate(board.GetRawBoard());
+
+    GosChess::CalculateAvailableMoves(board.GetRawBoard(), clr);
+    std::vector<GosChess::Move> moves = GosChess::MergeColorMoves(clr);
+    int best = INT_MIN;
+    for (auto &move: moves) {
+        GosChess::MakeMove(move, board);
+        int curr_eval = -Search(board, depth - 1, static_cast<GosChess::Color>(!clr));
+        board.Undo();
+        best = std::max(best, curr_eval);
+
+    }
+    return best;
+
+}
+

@@ -53,7 +53,13 @@ namespace GosChess {
     public:
         explicit Board(std::string);
 
-        explicit Board(unsigned char *);
+        Board() = default;
+
+//        explicit Board(unsigned char *);
+
+        Board(const Board &board);
+
+        void SetState(const std::string &);
 
         const unsigned char *GetRawBoard() const;
 

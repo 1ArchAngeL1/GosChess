@@ -241,12 +241,12 @@ void GosChess::GenerateOffsets() {
     }
 }
 
-void GosChess::CalculateAvailableMoves(const unsigned char *game_board) {
+void GosChess::CalculateAvailableMoves(const unsigned char *game_board, GosChess::Color clr) {
     GosChess::available_moves.clear();
     for (int i = 0; i < Board::BOARD_SIZE; i++) {
         if (game_board[i] == 0)continue;
         Figure curr_fig(game_board[i]);
-        if (curr_fig.color == GosChess::color_to_play) {
+        if (curr_fig.color == clr) {
             if (IsSlidingPiece(curr_fig)) {
                 GenerateSlidingMoves(game_board, curr_fig, i);
             } else if (IsPawn(curr_fig)) {
@@ -290,8 +290,9 @@ bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
 
 void GosChess::ChangeActiveColour(GosChess::Board &board) {
     GosChess::color_to_play = static_cast<GosChess::Color>(!static_cast<int>(GosChess::color_to_play));
-    GosChess::CalculateAvailableMoves(board.GetRawBoard());
+    GosChess::CalculateAvailableMoves(board.GetRawBoard(), color_to_play);
 }
+
 
 bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
     GosChess::Figure test_fig;

@@ -16,14 +16,14 @@ namespace GosChess {
     private:
 
     public:
-        virtual GosChess::Move GetBestMove(unsigned char *) = 0;
+        virtual GosChess::Move GetBestMove(GosChess::Board) = 0;
     };
 
     //AI using mini-max and alpha beta prun
     class BasicChessAi : public IChessAi {
     private:
     public:
-        GosChess::Move GetBestMove(unsigned char *) override;
+        GosChess::Move GetBestMove(GosChess::Board) override;
     };
 
     int CountScore(const unsigned char *, GosChess::Color);
@@ -32,7 +32,7 @@ namespace GosChess {
 
     int Evaluate(const unsigned char *);
 
-    int MiniMax(GosChess::Board &, int, bool);
+    int Search(GosChess::Board &board, int depth, GosChess::Color);
 
 
 }

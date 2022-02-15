@@ -13,11 +13,10 @@ static const char *welcome_text = "Welcome To Chess!";
 static const char *entered_ip = "Enter opponents public ip";
 static const char *waiting_to_join = "Waiting someone to join ...";
 static const char *choose_color = "Choose Board Colors";
-static const char *toggle_button = "Toogle button";
 static const char *choose_time = "Choose Time limit";
 static const char *game_options = "Game Options";
 
-static const char *time_choose[] = {"0","3", "5", "10", "30"};
+static const char *time_choose[] = {"0", "3", "5", "10", "30"};
 static bool play_on_time = false;
 static const char *current_choice = time_choose[0];
 
@@ -302,7 +301,6 @@ static void InitWallpaperAssets() {
         std::cout << "couldn't load root_texture for figures" << std::endl;
         return;
     }
-    sf::RectangleShape ae;
     GosChess::menu_wallpaper_sprite.setTexture(GosChess::menu_wallpaper_txt);
     sf::Vector2f texture_dimensions = {static_cast<float>(GosChess::menu_wallpaper_txt.getSize().y),
                                        static_cast<float>(GosChess::menu_wallpaper_txt.getSize().x)};

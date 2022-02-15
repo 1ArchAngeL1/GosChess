@@ -12,6 +12,8 @@ namespace GosChess {
 
     void ChessDrawingConfig();
 
+    void BoardRenderConfig();
+
     void ColorizeAvailableMoves(const int &);
 
     void DrawBoard(sf::RenderWindow &);

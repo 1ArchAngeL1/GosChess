@@ -43,20 +43,27 @@ int main() {
 //    }
 //
 //    ImGui::SFML::Shutdown();
-
-
-    GosChess::MenuNetworkMode();
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height, 24), "window");
-    GosChess::MainMenuListener menu_listener(window);
-    GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
-                       &menu_listener,
-                       nullptr);
-    GosChess::GamePlayNetworkMode();
-    GosChess::MultiPlayerListener game_listener(window);
-    GosChess::Board board(GosChess::GetInitialFenBoard());
-    GosChess::GameLoop(window, GosChess::OnlineGameInit, GosChess::OnlineGameUpdate, GosChess::CheckGameModeFinished,
-                       &game_listener,
-                       &board);
+    GosChess::MenuRenderConfig();
+    GosChess::ChessDrawingConfig();
+    while (true) {
+        GosChess::MenuNetworkMode();
+        GosChess::MainMenuListener menu_listener(window);
+        GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
+                           &menu_listener,
+                           nullptr);
+        GosChess::GamePlayNetworkMode();
+        GosChess::MultiPlayerListener game_listener(window);
+        GosChess::Board board;
+        GosChess::GameLoop(window, GosChess::OnlineGameInit, GosChess::OnlineGameUpdate,
+                           GosChess::CheckGameModeFinished,
+                           &game_listener,
+                           &board);
+        GosChess::ResetGame(window);
+        window.clear();
+    }
+
+
 }
 
 

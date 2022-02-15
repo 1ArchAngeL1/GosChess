@@ -70,13 +70,18 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
 }
 
 
-void GosChess::ChessDrawingConfig() {
+void GosChess::BoardRenderConfig() {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
     board_texture.loadFromImage(board_image);
     board_sprite.setTexture(board_texture);
     board_sprite.setScale(static_cast<float>(GosChess::board_width) / GosChess::Board::ROW_LENGTH,
                           static_cast<float>(GosChess::board_height) / GosChess::Board::ROW_NUM);
+    board_sprite.setPosition(GosChess::board_position);
+}
+
+void GosChess::ChessDrawingConfig() {
+    BoardRenderConfig();
     board_sprite.setPosition(GosChess::board_position);
     game_theme.setPosition(sf::Vector2f(0, 0));
     game_theme.setFillColor(sf::Color(64, 64, 64));

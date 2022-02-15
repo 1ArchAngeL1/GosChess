@@ -8,6 +8,7 @@
 #include "GamePlayFunctional.h"
 #include "../../render/menu/MenuRender.h"
 #include "../../network/GameNetwork.h"
+#include "../../chess/computation/Ai/AICalculations.h"
 
 namespace GosChess {
 
@@ -29,19 +30,19 @@ namespace GosChess {
 
     void AIGameInit(sf::RenderWindow &, ...);
 
-
     void AIGameUpdate(sf::RenderWindow &, sf::Clock *...);
-
 
     void OnlineGameInit(sf::RenderWindow &, ...);
 
-
     void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *...);
-
 
     void MenuInit(sf::RenderWindow &, ...);
 
     void MenuUpdate(sf::RenderWindow &, sf::Clock *, ...);
+
+    bool CheckGameModeFinished();
+
+    bool CheckMenuModeFinished();
 
     extern short time_limit_minutes;
 

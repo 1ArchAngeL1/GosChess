@@ -22,7 +22,7 @@ namespace GosChess {
     public:
         explicit GameModeListener(sf::RenderWindow &game_window) : game_window(game_window) {}
 
-        virtual void Action(GosChess::Board &board) = 0;
+        virtual void Action(GosChess::Board &) = 0;
 
     };
 
@@ -30,21 +30,21 @@ namespace GosChess {
     public:
         explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &board) override;
+        void Action(GosChess::Board &) override;
     };
 
     class GamePlayAIListener : public GameModeListener {
     public:
         explicit GamePlayAIListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &board) override;
+        void Action(GosChess::Board &) override;
     };
 
     class MainMenuListener : public GameModeListener {
     public:
         explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &board) override;
+        void Action(GosChess::Board &) override;
     };
 
 
@@ -98,13 +98,11 @@ namespace GosChess {
 
     void CheckReceivedMove(std::optional<GosChess::Move>, GosChess::Board &);
 
-    void CheckReceivedTime(GosChess::Time::Timer&,GosChess::Time::Timer&,GosChess::Time::TimerTransferObject);
+    void CheckReceivedTime(GosChess::Time::Timer &, GosChess::Time::Timer &, GosChess::Time::TimerTransferObject);
 
     void SetGameFlagFinished();
 
-    bool CheckGameModeFinished();
-
-    bool CheckMenuModeFinished();
+    void ResetGame(sf::RenderWindow &);
 
     extern bool highlited;
 
