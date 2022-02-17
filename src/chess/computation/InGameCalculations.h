@@ -8,7 +8,6 @@
 #include "../global/GameGlobals.h"
 #include "computation_globals/ComputationGlobals.h"
 
-
 namespace GosChess {
 
     GosChess::Square GetSquare(const int &);

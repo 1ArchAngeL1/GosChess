@@ -90,20 +90,22 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<std::any> &dt)
 std::optional<GosChess::DataTransfer<std::any>> GosChess::Receive() {
     sf::Packet packet;
     GosChess::DataTransfer<std::any> ret;
-    GosChess::connection.receive(packet);
+    if(GosChess::connection.receive(packet) == sf::Socket::Disconnected) {
+        GosChess::Disconnected();
+    }
     if (packet >> ret)return ret;
     return std::nullopt;
 }
 
-template<typename T>
-static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
-    sf::Packet packet;
-    GosChess::DataTransfer<T> ret;
-    GosChess::connection.receive(packet);
-    if (packet >> ret)
-        if (ret.protocol == type) return ret.body;
-    return std::nullopt;
-}
+//template<typename T>
+//static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
+//    sf::Packet packet;
+//    GosChess::DataTransfer<T> ret;
+//    GosChess::connection.receive(packet);
+//    if (packet >> ret)
+//        if (ret.protocol == type) return ret.body;
+//    return std::nullopt;
+//}
 
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
@@ -111,9 +113,9 @@ void GosChess::SendMove(GosChess::Move move) {
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-std::optional<GosChess::Move> GosChess::ReceiveMove() {
-    return ReceiveGeneric<GosChess::Move>(GosChess::TransferType::MOVE);
-}
+//std::optional<GosChess::Move> GosChess::ReceiveMove() {
+//    return ReceiveGeneric<GosChess::Move>(GosChess::TransferType::MOVE);
+//}
 
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
@@ -121,9 +123,9 @@ void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-std::optional<GosChess::Time::TimerTransferObject> GosChess::ReceiveTime() {
-    return ReceiveGeneric<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER);
-}
+//std::optional<GosChess::Time::TimerTransferObject> GosChess::ReceiveTime() {
+//    return ReceiveGeneric<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER);
+//}
 
 void GosChess::SetConnectionType(GosChess::ConnectionType type) {
     GosChess::connection_role = type;

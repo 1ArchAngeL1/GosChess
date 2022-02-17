@@ -15,8 +15,10 @@ static const char *waiting_to_join = "Waiting someone to join ...";
 static const char *choose_color = "Choose Board Colors";
 static const char *choose_time = "Choose Time limit";
 static const char *game_options = "Game Options";
+static const char *game_won = "Game Won";
+static const char *game_lost = "Game Lost";
 
-static const char *time_choose[] = {"0", "3", "5", "10", "30"};
+static const char *time_choose[] = {"1", "3", "10", "30"};
 static bool play_on_time = false;
 static const char *current_choice = time_choose[0];
 
@@ -244,6 +246,38 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     }
     ImGui::Indent(-200);
 }
+
+
+void GosChess::RenderGameResultBackground(sf::RenderWindow &, ImGuiContext *) {
+
+
+}
+
+
+void GosChess::RenderGameResultWidgets(sf::RenderWindow &, ImGuiContext *) {
+    ImGui::Dummy(ImVec2(0.0f, 20.0f));
+    if (GosChess::game_result == GosChess::GameResult::WON) {
+        auto textWidth = ImGui::CalcTextSize(game_won).x;
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * 0.5f);
+        ImGui::Text("%s", game_won);
+        ImGui::Dummy(ImVec2(0.0f, 40.0f));
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * -0.5f);
+    } else {
+        auto textWidth = ImGui::CalcTextSize(game_lost).x;
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * 0.5f);
+        ImGui::Text("%s", game_lost);
+        ImGui::Dummy(ImVec2(0.0f, 40.0f));
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * -0.5f);
+    }
+
+    ImGui::Dummy(ImVec2(0.0f, 80.0f));
+    ImGui::Indent(200);
+    if (ImGui::Button("Return", ImVec2(500, 100))) {
+        GosChess::render_menu_flag = GosChess::RenderMenuFLag::MAIN_MENU;
+    }
+    ImGui::Indent(-200);
+}
+
 
 void GosChess::RenderJoinGameBackground(sf::RenderWindow &, ImGuiContext *context) {
 

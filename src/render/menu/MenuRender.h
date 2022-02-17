@@ -27,6 +27,10 @@ namespace GosChess {
 
     void RenderHostGameWidgets(sf::RenderWindow&,ImGuiContext*);
 
+    void RenderGameResultBackground(sf::RenderWindow&,ImGuiContext*);
+
+    void RenderGameResultWidgets(sf::RenderWindow&,ImGuiContext*);
+
     void RenderJoinGameBackground(sf::RenderWindow&,ImGuiContext*);
 
     void RenderJoinGameWidgets(sf::RenderWindow&, ImGuiContext*);

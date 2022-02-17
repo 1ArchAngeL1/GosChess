@@ -3,9 +3,10 @@
 #include "InGameCalculations.h"
 
 
-static constexpr int8_t knight_moves_y[]{2, 2, 1, -1, 1, -1, -2, -2};
+static unsigned char sliding_pieces[]{GosChess::FigureTypes::BISHOP,
+                                      GosChess::FigureTypes::ROOK,
+                                      GosChess::FigureTypes::QUEEN};
 
-static constexpr int8_t knight_moves_x[]{1, -1, 2, 2, -2, -2, 1, -1};
 
 static bool IsPawn(const GosChess::Figure &_fig) {
     return _fig.type == GosChess::FigureTypes::PAWN;
@@ -21,7 +22,7 @@ static bool IsKnight(const GosChess::Figure &_fig) {
 
 static bool IsSlidingPiece(const GosChess::Figure &_fig) {
     for (int i = 0; i < 3; i++) {
-        if (_fig.type == GosChess::sliding_pieces[i])return true;
+        if (_fig.type == sliding_pieces[i])return true;
     }
     return false;
 }
@@ -213,6 +214,8 @@ static void GenerateKingMoves(const unsigned char *board, GosChess::Figure piece
 }
 
 static void GenerateKnightMoves(const unsigned char *board, GosChess::Figure piece, int index) {
+    static constexpr int8_t knight_moves_y[]{2, 2, 1, -1, 1, -1, -2, -2};
+    static constexpr int8_t knight_moves_x[]{1, -1, 2, 2, -2, -2, 1, -1};
     if (piece.type != GosChess::FigureTypes::KNIGHT)return;
     for (int i = 0; i < 8; i++) {
         GosChess::Square curr = GosChess::GetSquare(index);

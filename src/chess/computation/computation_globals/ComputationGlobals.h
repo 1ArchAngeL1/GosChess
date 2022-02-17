@@ -68,8 +68,6 @@ namespace GosChess {
 
     extern std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> available_moves;
 
-    extern unsigned char sliding_pieces[];
-
 }
 
 

@@ -28,7 +28,6 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
             ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed) {
                 GosChess::KillNetwork();
-                window.close();
                 exit(3);
             }
         }
@@ -75,10 +74,10 @@ void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
     GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
     GosChess::LoadChessFigureSprites();
     GosChess::GenerateOffsets();
-
 }
 
 static void ProcessData(GosChess::Board *board) {
+    if(GosChess::game_status_flag == GosChess::GameStatus::FINISHED)return;
     std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
     if (info.has_value()) {
         GosChess::DataTransfer<std::any> inside = info.value();
@@ -88,16 +87,20 @@ static void ProcessData(GosChess::Board *board) {
                    inside.protocol == GosChess::TransferType::TIMER) {
             GosChess::CheckReceivedTime(player_timer, enemy_timer,
                                         std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
+            if (player_timer.GetAmount() <= 0) {
+                GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
+                GosChess::game_result = GosChess::GameResult::LOST;
+            }
         }
     }
 }
 
 void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock ...) {
+    static float chrono = 0;
     va_list args;
     va_start(args, delta_clock);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    static float chrono = 0;
     if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
         float dt = delta_clock->restart().asSeconds();
         chrono += dt;
@@ -112,8 +115,6 @@ void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock
         }
     }
     ProcessData(board);
-    if (GosChess::connection.getRemoteAddress() == sf::IpAddress::None)
-        GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
     window.clear();
     GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());
     window.display();
@@ -143,6 +144,9 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...)
             break;
         case GosChess::RenderMenuFLag::NONE:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderJoinGameWidgets, window);
+            break;
+        case GosChess::RenderMenuFLag::GAME_RESULT:
+            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderGameResultWidgets, window);
             break;
         default:
             break;

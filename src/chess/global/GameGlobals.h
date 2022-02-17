@@ -20,8 +20,6 @@ namespace GosChess {
 
     extern Color player_color;
 
-    extern GameStatus game_status_flag;
-
 }
 
 

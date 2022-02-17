@@ -19,7 +19,6 @@ namespace GosChess {
         KING, QUEEN
     };
 
-
     struct Square {
         int x;
         int y;

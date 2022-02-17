@@ -16,6 +16,12 @@
 
 namespace GosChess {
 
+    enum GameResult {
+        WON,
+        LOST,
+        NOT_FINISHED
+    };
+
     class GameModeListener {
     protected:
         sf::RenderWindow &game_window;
@@ -104,9 +110,15 @@ namespace GosChess {
 
     void ResetGame(sf::RenderWindow &);
 
+    void Disconnected();
+
     extern bool highlited;
 
     extern char opponent_ip[];
+
+    extern GameStatus game_status_flag;
+
+    extern GameResult game_result;
 
 }
 

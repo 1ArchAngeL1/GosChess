@@ -17,6 +17,7 @@ namespace GosChess {
         HOSTING,
         JOINING,
         OPTION,
+        GAME_RESULT,
         NONE
     };
 
