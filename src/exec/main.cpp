@@ -52,13 +52,24 @@ int main() {
         GosChess::GameLoop(window, GosChess::MenuInit, GosChess::MenuUpdate, GosChess::CheckMenuModeFinished,
                            &menu_listener,
                            nullptr);
-        GosChess::GamePlayNetworkMode();
-        GosChess::MultiPlayerListener game_listener(window);
-        GosChess::Board board;
-        GosChess::GameLoop(window, GosChess::OnlineGameInit, GosChess::OnlineGameUpdate,
-                           GosChess::CheckGameModeFinished,
-                           &game_listener,
-                           &board);
+        if (GosChess::game_mode == GosChess::GameMode::MULTI_PLAYER) {
+            GosChess::GamePlayNetworkMode();
+            GosChess::MultiPlayerListener game_listener(window);
+            GosChess::Board board;
+            GosChess::GameLoop(window, GosChess::OnlineGameInit, GosChess::OnlineGameUpdate,
+                               GosChess::CheckOnlineModeFinished,
+                               &game_listener,
+                               &board);
+        } else {
+            GosChess::Board board;
+            GosChess::GamePlayAIListener game_listener(window);
+            GosChess::GameLoop(window, GosChess::AIGameInit, GosChess::AIGameUpdate,
+                               GosChess::CheckSinglePLayerFinished,
+                               &game_listener,
+                               &board);
+
+        }
+
         GosChess::ResetGame(window);
         window.clear();
     }

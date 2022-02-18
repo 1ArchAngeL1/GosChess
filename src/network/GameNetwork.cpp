@@ -157,6 +157,7 @@ void GosChess::TryAccept() {
         }
     }
     GosChess::SetConnected(true);
+    GosChess::game_mode = GosChess::GameMode::MULTI_PLAYER;
 }
 
 void GosChess::JoinInit() {
@@ -166,8 +167,10 @@ void GosChess::JoinInit() {
 }
 
 void GosChess::TryJoin() {
-    if (GosChess::connection.connect(GosChess::remote_ip, 2001) == sf::Socket::Done)
+    if (GosChess::connection.connect(GosChess::remote_ip, 2001) == sf::Socket::Done) {
         GosChess::SetConnected(true);
+        GosChess::game_mode = GosChess::GameMode::MULTI_PLAYER;
+    }
 }
 
 void GosChess::InitialSend() {

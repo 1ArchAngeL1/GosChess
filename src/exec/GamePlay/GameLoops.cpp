@@ -37,26 +37,44 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
     }
 }
 
-
 void GosChess::AIGameInit(sf::RenderWindow &window, ...) {
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    GosChess::LoadChessFigureSprites();
-    GosChess::GenerateOffsets();
-    GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
     int tmp = std::rand() % 2;
-    GosChess::player_color = static_cast<GosChess::Color>(tmp);
-    GosChess::enemy_color = static_cast<GosChess::Color>(!tmp);
+    GosChess::player_color = static_cast<GosChess::Color>(0);
+    GosChess::enemy_color = static_cast<GosChess::Color>(1);
+    board->SetState(GosChess::GetInitialFenBoard());
+    GosChess::GenerateOffsets();
+    GosChess::BoardRenderConfig();
+    GosChess::LoadChessFigureSprites();
+    GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
+
+
 }
 
-void AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock...) {
+void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...) {
     va_list args;
     va_start(args, delta_clock);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
+    if (GosChess::color_to_play == GosChess::enemy_color) {
+        if (GosChess::CheckMate(*board, GosChess::enemy_color)) {
+            GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
+            GosChess::game_result = GosChess::GameResult::WON;
+            return;
+        }
+        GosChess::Move move = GosChess::GetBestMove(*board);
+        //std::cout << (int)move.move_from << " " << (int)move.move_to << std::endl;
+        if (GosChess::Play(*board, move)) {
+            GosChess::ChangeActiveColour(*board);
 
+        }
+    }
+    window.clear();
+    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, "00:00 ", "00:00");
+    window.display();
 }
 
 void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
@@ -65,8 +83,8 @@ void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
-    board->SetState(GosChess::GetInitialFenBoard());
     va_end(args);
+    board->SetState(GosChess::GetInitialFenBoard());
     GosChess::BoardRenderConfig();
     GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
     GosChess::LoadChessFigureSprites();
@@ -160,13 +178,17 @@ bool GosChess::CheckMenuModeFinished() {
     return !GosChess::menu_active_flag;
 }
 
-bool GosChess::CheckGameModeFinished() {
+bool GosChess::CheckOnlineModeFinished() {
     bool finished = GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
     if (finished) {
         GosChess::KillNetwork();
         return true;
     }
     return false;
+}
+
+bool GosChess::CheckSinglePLayerFinished() {
+    return GosChess::game_status_flag == GosChess::GameStatus::FINISHED;
 }
 
 

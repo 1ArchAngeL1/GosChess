@@ -31,7 +31,7 @@ namespace GosChess {
 
     void AIGameInit(sf::RenderWindow &, ...);
 
-    void AIGameUpdate(sf::RenderWindow &, sf::Clock *...);
+    void AIGameUpdate(sf::RenderWindow &, sf::Clock *, ...);
 
     void OnlineGameInit(sf::RenderWindow &, ...);
 
@@ -41,7 +41,9 @@ namespace GosChess {
 
     void MenuUpdate(sf::RenderWindow &, sf::Clock *, ...);
 
-    bool CheckGameModeFinished();
+    bool CheckOnlineModeFinished();
+
+    bool CheckSinglePLayerFinished();
 
     bool CheckMenuModeFinished();
 

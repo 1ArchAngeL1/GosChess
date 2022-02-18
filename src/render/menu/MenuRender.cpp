@@ -123,6 +123,13 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
     ImGui::Dummy(ImVec2(0.0f, 80.0f));
 
     ImGui::Indent(200);
+    if (ImGui::Button("Singleplayer", ImVec2(500, 100))) {
+        GosChess::SetConnected(true);
+        GosChess::game_mode = GosChess::GameMode::SINGLE_PLAYER;
+    }
+    ImGui::Indent(-200);
+
+    ImGui::Indent(200);
     if (ImGui::Button("Join Game", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::JOINING;
     }

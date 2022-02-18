@@ -5,6 +5,7 @@
 #include "AICalculations.h"
 #include "../../global/GameGlobals.h"
 #include "../InGameCalculations.h"
+#include "../../../exec/GamePlay/GamePlayFunctional.h"
 
 typedef GosChess::FigureTypes FIG;
 
@@ -41,21 +42,38 @@ static int Evaluate(const unsigned char *board) {
     return CountScore(board, GosChess::enemy_color) - CountScore(board, GosChess::player_color);
 }
 
-static int Search(GosChess::Board &board, int depth, bool Maximize) {
+static int Search(GosChess::Board &board, int depth, bool Maximize, int alpha, int beta) {
     GosChess::Color color_to_calculate = Maximize ? GosChess::player_color : GosChess::enemy_color;
+    CalculateAvailableMoves(board.GetRawBoard(), color_to_calculate);
     if (depth == 0)return Evaluate(board.GetRawBoard());
     if (GosChess::CheckMate(board, color_to_calculate))return INT_MIN;
-    int maximum = Maximize ? INT_MIN : INT_MAX;
-    CalculateAvailableMoves(board.GetRawBoard(), color_to_calculate);
     std::vector<GosChess::Move> moves = MergeColorMoves(color_to_calculate);
-    for (auto &move: moves) {
-        MakeMove(move, board);
-        int curr_score = Search(board, depth - 1, !Maximize);
-        if (!Maximize)curr_score *= -1;
-        if (curr_score > maximum) maximum = curr_score;
-        board.Undo();
+    if (Maximize) {
+        int maximum = INT_MIN;
+        for (auto &move: moves) {
+            if (MakeMove(move, board)) {
+                int curr_score = Search(board, depth - 1, false, alpha, beta);
+                maximum = std::max(curr_score, maximum);
+                alpha = std::max(alpha, maximum);
+                board.Undo();
+                if (beta <= alpha)break;
+            }
+        }
+        return maximum;
+    } else {
+        int minimum = INT_MAX;
+        for (auto &move: moves) {
+            if (MakeMove(move, board)) {
+                int curr_score = Search(board, depth - 1, true, alpha, beta);
+                minimum = std::min(curr_score, minimum);
+                beta = std::min(beta, minimum);
+                board.Undo();
+                if (beta <= alpha)break;
+            }
+        }
+        return minimum;
     }
-    return maximum;
+
 
 }
 
@@ -67,15 +85,15 @@ GosChess::Move GosChess::GetBestMove(GosChess::Board board) {
     std::vector<GosChess::Move> moves = MergeColorMoves(GosChess::enemy_color);
     int calculated_value;
     for (auto &move: moves) {
-        if (GosChess::MakeMove(move, board)) {
-            calculated_value = Search(board, 10, true);
+        if (GosChess::Play(board, move)) {
+            calculated_value = Search(board, 10, true, INT_MAX, INT_MIN);
             if (calculated_value > best_move_value) {
                 best_move_value = calculated_value;
                 best_move = move;
             }
             board.Undo();
+            GosChess::CalculateAvailableMoves(board.GetRawBoard(), GosChess::enemy_color);
         }
-
     }
     return best_move;
 }

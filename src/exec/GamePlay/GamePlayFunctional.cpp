@@ -10,7 +10,6 @@
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
     static std::optional<GosChess::Vector2i> src_cell = std::nullopt;
     static std::optional<GosChess::Vector2i> trg_cell = std::nullopt;
-
     if (GosChess::CheckMate(board, GosChess::color_to_play)) {
         GosChess::SetGameFlagFinished();
         GosChess::game_result = GosChess::GameResult::LOST;
@@ -39,7 +38,6 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
                 GosChess::game_result = GosChess::GameResult::WON;
                 return;
             }
-
         }
     }
 }
@@ -48,6 +46,7 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
 void GosChess::GamePlayAIListener::Action(GosChess::Board &board) {
     static std::optional<GosChess::Vector2i> src_cell = std::nullopt;
     static std::optional<GosChess::Vector2i> trg_cell = std::nullopt;
+
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
         if (!GosChess::highlited) {
@@ -62,28 +61,29 @@ void GosChess::GamePlayAIListener::Action(GosChess::Board &board) {
                 GosChess::ChangeActiveColour(board);
                 src_cell = std::nullopt;
                 trg_cell = std::nullopt;
+
+                if (GosChess::CheckMate(board, GosChess::enemy_color)) {
+                    GosChess::SetGameFlagFinished();
+                    GosChess::game_result = GosChess::GameResult::WON;
+                    return;
+                }
+
             }
-            if (GosChess::CheckMate(board, GosChess::color_to_play)) {
-                GosChess::SetGameFlagFinished();
-                GosChess::game_result = GosChess::GameResult::WON;
-                return;
-            }
+
         }
     }
 }
 
 void GosChess::MainMenuListener::Action(GosChess::Board &board) {
-    if (GosChess::connection_role == GosChess::HOST) {
-        if (connected) {
-            GosChess::menu_active_flag = false;
+    if (connected) {
+        GosChess::menu_active_flag = false;
+        if (GosChess::connection_role == GosChess::HOST) {
             GosChess::InitialSend();
-        }
-    } else if (GosChess::connection_role == GosChess::CLIENT) {
-        if (connected) {
-            GosChess::menu_active_flag = false;
+        } else if (GosChess::connection_role == GosChess::CLIENT) {
             GosChess::InitialReceive();
         }
     }
+
 }
 
 
@@ -207,3 +207,5 @@ bool GosChess::highlited = false;
 GosChess::GameStatus GosChess::game_status_flag = GosChess::GameStatus::INGAME;
 
 GosChess::GameResult GosChess::game_result = GosChess::GameResult::NOT_FINISHED;
+
+GosChess::GameMode GosChess::game_mode = GosChess::GameMode::SINGLE_PLAYER;

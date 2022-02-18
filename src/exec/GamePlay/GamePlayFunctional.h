@@ -22,6 +22,11 @@ namespace GosChess {
         NOT_FINISHED
     };
 
+    enum GameMode {
+        SINGLE_PLAYER,
+        MULTI_PLAYER
+    };
+
     class GameModeListener {
     protected:
         sf::RenderWindow &game_window;
@@ -119,6 +124,9 @@ namespace GosChess {
     extern GameStatus game_status_flag;
 
     extern GameResult game_result;
+
+    extern GameMode game_mode;
+
 
 }
 
