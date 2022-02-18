@@ -12,29 +12,8 @@
 namespace GosChess {
 
 
-    class IChessAi {
-    private:
 
-    public:
-        virtual GosChess::Move GetBestMove(GosChess::Board) = 0;
-    };
-
-    //AI using mini-max and alpha beta prun
-    class BasicChessAi : public IChessAi {
-    private:
-    public:
-        GosChess::Move GetBestMove(GosChess::Board) override;
-    };
-
-    int CountScore(const unsigned char *, GosChess::Color);
-
-    std::vector<GosChess::Move> MergeColorMoves(GosChess::Color);
-
-    int Evaluate(const unsigned char *);
-
-    int Search(GosChess::Board &board, int depth, GosChess::Color);
-
-
+    Move GetBestMove(GosChess::Board board);
 }
 
 

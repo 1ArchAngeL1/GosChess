@@ -98,9 +98,9 @@ namespace GosChess {
 
     bool Play(GosChess::Board &, const GosChess::Move &);
 
-    std::optional<GosChess::Square> ChooseTrgFigure(GosChess::Board &, sf::Window &);
+    std::optional<GosChess::Vector2i> ChooseTrgFigure(GosChess::Board &, sf::Window &);
 
-    std::optional<GosChess::Square> ChooseSrcFigure(GosChess::Board &, sf::Window &);
+    std::optional<GosChess::Vector2i> ChooseSrcFigure(GosChess::Board &, sf::Window &);
 
     void CheckReceivedMove(std::optional<GosChess::Move>, GosChess::Board &);
 

@@ -218,8 +218,8 @@ static void GenerateKnightMoves(const unsigned char *board, GosChess::Figure pie
     static constexpr int8_t knight_moves_x[]{1, -1, 2, 2, -2, -2, 1, -1};
     if (piece.type != GosChess::FigureTypes::KNIGHT)return;
     for (int i = 0; i < 8; i++) {
-        GosChess::Square curr = GosChess::GetSquare(index);
-        GosChess::Square res = GosChess::Square(knight_moves_y[i], knight_moves_x[i]) + curr;
+        GosChess::Vector2i curr = GosChess::GetSquare(index);
+        GosChess::Vector2i res = GosChess::Vector2i(knight_moves_y[i], knight_moves_x[i]) + curr;
         if ((res.x >= 0 && res.x < GosChess::Board::ROW_LENGTH && res.y >= 0 && res.y < GosChess::Board::ROW_NUM) &&
             (board[GosChess::GetNumFromNode(res)] == 0 ||
              GosChess::Figure(board[GosChess::GetNumFromNode(res)]).color != GosChess::color_to_play)) {
@@ -228,7 +228,7 @@ static void GenerateKnightMoves(const unsigned char *board, GosChess::Figure pie
     }
 }
 
-GosChess::Square GosChess::GetSquare(const int &num) {
+GosChess::Vector2i GosChess::GetSquare(const int &num) {
     int x = num % GosChess::Board::ROW_LENGTH;
     int y = num / GosChess::Board::ROW_NUM;
     return {y, x};
@@ -263,20 +263,21 @@ void GosChess::CalculateAvailableMoves(const unsigned char *game_board, GosChess
     }
 }
 
-GosChess::Square GosChess::GetNodeFromScreen(const float &_y, const float &_x) {
+GosChess::Vector2i GosChess::GetNodeFromScreen(const float &_y, const float &_x) {
     int real_y = static_cast<int>(static_cast<float>(GosChess::window_height) - _y - GosChess::board_offset_ver) /
                  static_cast<float>(GosChess::square_size);
     int real_x = static_cast<int>(_x - GosChess::board_position.x) / static_cast<int>(GosChess::square_size);
-    return GosChess::Square(real_y, real_x);
+    return GosChess::Vector2i(real_y, real_x);
 }
 
-int GosChess::GetNumFromNode(const GosChess::Square &_cell) {
-    return _cell.y * GosChess::Board::ROW_NUM + _cell.x;
+int GosChess::GetNumFromNode(const GosChess::Vector2i &cell) {
+    return cell.y * GosChess::Board::ROW_NUM + cell.x;
 }
 
 bool GosChess::CanMakeMove(GosChess::Move mv) {
     return GosChess::available_moves[mv.move_from].find(mv) != GosChess::available_moves[mv.move_from].end();
 }
+
 
 bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
     if (!CanMakeMove(mv)) return false;
@@ -290,6 +291,7 @@ bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
     }
     return true;
 }
+
 
 void GosChess::ChangeActiveColour(GosChess::Board &board) {
     GosChess::color_to_play = static_cast<GosChess::Color>(!static_cast<int>(GosChess::color_to_play));
@@ -319,9 +321,11 @@ void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
     board.SetPosition(mv.move_to, current);
 }
 
+
+
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
-    GosChess::Square move_from = GosChess::GetSquare(move.move_from);
-    GosChess::Square move_to = GosChess::GetSquare(move.move_to);
+    GosChess::Vector2i move_from = GosChess::GetSquare(move.move_from);
+    GosChess::Vector2i move_to = GosChess::GetSquare(move.move_to);
     move_from.y = GosChess::Board::ROW_NUM - move_from.y - 1;
     move_to.y = GosChess::Board::ROW_NUM - move_to.y - 1;
     return GosChess::Move(GosChess::GetNumFromNode(move_from), GosChess::GetNumFromNode(move_to));

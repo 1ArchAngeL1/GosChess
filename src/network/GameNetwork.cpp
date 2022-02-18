@@ -90,7 +90,7 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<std::any> &dt)
 std::optional<GosChess::DataTransfer<std::any>> GosChess::Receive() {
     sf::Packet packet;
     GosChess::DataTransfer<std::any> ret;
-    if(GosChess::connection.receive(packet) == sf::Socket::Disconnected) {
+    if (GosChess::connection.receive(packet) == sf::Socket::Disconnected) {
         GosChess::Disconnected();
     }
     if (packet >> ret)return ret;
@@ -194,8 +194,8 @@ void GosChess::SetConnected(bool value) {
 }
 
 void GosChess::KillNetwork() {
-    GosChess::connection.disconnect();
     GosChess::client_listener.close();
+    GosChess::connection.disconnect();
 }
 
 sf::IpAddress GosChess::remote_ip;

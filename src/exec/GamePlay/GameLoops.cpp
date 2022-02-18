@@ -55,11 +55,8 @@ void AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock...) {
     va_list args;
     va_start(args, delta_clock);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
-    GosChess::IChessAi *ai_player = va_arg(args, GosChess::IChessAi*);
     va_end(args);
-    if (GosChess::color_to_play == GosChess::enemy_color) {
-        GosChess::Move computer_move = ai_player->GetBestMove(*board);
-    }
+
 }
 
 void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
@@ -77,7 +74,7 @@ void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
 }
 
 static void ProcessData(GosChess::Board *board) {
-    if(GosChess::game_status_flag == GosChess::GameStatus::FINISHED)return;
+    if (GosChess::game_status_flag == GosChess::GameStatus::FINISHED)return;
     std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
     if (info.has_value()) {
         GosChess::DataTransfer<std::any> inside = info.value();

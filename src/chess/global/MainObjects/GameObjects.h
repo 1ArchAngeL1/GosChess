@@ -19,16 +19,17 @@ namespace GosChess {
         KING, QUEEN
     };
 
-    struct Square {
+
+    struct Vector2i {
         int x;
         int y;
 
-        Square() = default;
+        Vector2i() = default;
 
-        Square(int y, int x) : y(y), x(x) {}
+        Vector2i(int y, int x) : y(y), x(x) {}
 
-        Square operator+(const Square &cell) {
-            return Square(this->y + cell.y, this->x + cell.x);
+        Vector2i operator+(const Vector2i &cell) {
+            return Vector2i(this->y + cell.y, this->x + cell.x);
         }
     };
 

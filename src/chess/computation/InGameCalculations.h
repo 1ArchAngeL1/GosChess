@@ -10,11 +10,11 @@
 
 namespace GosChess {
 
-    GosChess::Square GetSquare(const int &);
+    GosChess::Vector2i GetSquare(const int &);
 
-    GosChess::Square GetNodeFromScreen(const float &, const float &);
+    GosChess::Vector2i GetNodeFromScreen(const float &, const float &);
 
-    int GetNumFromNode(const GosChess::Square &);
+    int GetNumFromNode(const GosChess::Vector2i &);
 
     bool MakeMove(GosChess::Move, GosChess::Board &);
 

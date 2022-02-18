@@ -70,6 +70,7 @@ static void UpdateColors() {
     GosChess::secondary_color.b = 255.f * sec_clr.w, GosChess::secondary_color.g = 255.f * sec_clr.z;
 }
 
+
 typedef float slider_colors;
 
 static slider_colors R, G, B;
@@ -106,6 +107,7 @@ void GosChess::RenderMainMenuBackground(sf::RenderWindow &window, ImGuiContext *
 
 void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *context) {
     ImGui::Dummy(ImVec2(0.0f, 20.0f));
+
     auto textWidth = ImGui::CalcTextSize(welcome_text).x;
     ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * 0.5f);
     ImGui::Text("%s", welcome_text);
@@ -119,25 +121,34 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
     ImGui::Indent(-200);
 
     ImGui::Dummy(ImVec2(0.0f, 80.0f));
+
     ImGui::Indent(200);
     if (ImGui::Button("Join Game", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::JOINING;
     }
     ImGui::Indent(-200);
+
     ImGui::Indent(200);
     if (ImGui::Button("Host Game", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::HOSTING;
     }
     ImGui::Indent(-200);
+
     ImGui::Indent(200);
     if (ImGui::Button("Options", ImVec2(500, 100))) {
         GosChess::render_menu_flag = GosChess::RenderMenuFLag::OPTION;
     }
     ImGui::Indent(-200);
+
+    ImGui::Indent(200);
+    if (ImGui::Button("Exit", ImVec2(500, 100))) {
+        GosChess::KillNetwork();
+        exit(1);
+    }
+    ImGui::Indent(-200);
 }
 
 void GosChess::RenderOptionsBackground(sf::RenderWindow &window, ImGuiContext *context) {
-
 }
 
 void GosChess::RenderOptionsWidgets(sf::RenderWindow &window, ImGuiContext *context) {

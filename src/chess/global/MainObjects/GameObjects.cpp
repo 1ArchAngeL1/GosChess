@@ -82,7 +82,7 @@ void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
     this->board[grid_num] = figure;
 }
 
-// ignore this block of code, it was little challenge for my self :))) i know i looks hoooriibbleee :))
+// ignore this block of code, it was little challenge for my self :))) i know it looks hoooriibbleee :))
 std::string GosChess::Board::BoardStateToFen() {
     unsigned char *target_board = this->board;
     std::string fen_str = "";
@@ -139,7 +139,7 @@ GosChess::Board::Board(const GosChess::Board &board) {
     this->game_rev = board.game_rev;
 }
 
-void GosChess::Board::SetState(const std::string & state) {
+void GosChess::Board::SetState(const std::string &state) {
     this->board = Board::DecodeFen(state);
 }
 

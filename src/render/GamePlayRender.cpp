@@ -50,8 +50,6 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
         case 1:
             figure_chars = new unsigned char[]{'k', 'q', 'b', 'n', 'r', 'p'};
             break;
-        default:
-            break;
     }
     sf::IntRect txt_crop;
     for (int i = 0; i < 6; i++) {
@@ -118,7 +116,7 @@ void GosChess::ColorizeAvailableMoves(const int &index) {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
     for (auto &move: GosChess::available_moves[index]) {
-        GosChess::Square move_to = GosChess::GetSquare(move.move_to);
+        GosChess::Vector2i move_to = GosChess::GetSquare(move.move_to);
         if (GosChess::CanMakeMove(move)) {
             board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
                                  GosChess::available_move_color);
