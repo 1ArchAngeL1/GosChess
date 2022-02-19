@@ -9,11 +9,11 @@
 
 typedef GosChess::FigureTypes FIG;
 
-static std::unordered_map<unsigned char, short> figure_values{{FIG::PAWN,   100},
-                                                              {FIG::KNIGHT, 300},
-                                                              {FIG::BISHOP, 300},
-                                                              {FIG::ROOK,   500},
-                                                              {FIG::QUEEN,  900}};
+static std::unordered_map<unsigned char, short> figure_values{{FIG::PAWN,   10},
+                                                              {FIG::KNIGHT, 30},
+                                                              {FIG::BISHOP, 30},
+                                                              {FIG::ROOK,   50},
+                                                              {FIG::QUEEN,  90}};
 
 
 static int CountScore(const unsigned char *board, GosChess::Color target_clr) {
@@ -74,7 +74,6 @@ static int Search(GosChess::Board &board, int depth, bool Maximize, int alpha, i
         return minimum;
     }
 
-
 }
 
 
@@ -85,8 +84,8 @@ GosChess::Move GosChess::GetBestMove(GosChess::Board board) {
     std::vector<GosChess::Move> moves = MergeColorMoves(GosChess::enemy_color);
     int calculated_value;
     for (auto &move: moves) {
-        if (GosChess::Play(board, move)) {
-            calculated_value = Search(board, 10, true, INT_MAX, INT_MIN);
+        if (GosChess::MakeMove(move, board)) {
+            calculated_value = Evaluate(board.GetRawBoard()) + Search(board, 4, false, INT_MAX, INT_MIN);
             if (calculated_value > best_move_value) {
                 best_move_value = calculated_value;
                 best_move = move;

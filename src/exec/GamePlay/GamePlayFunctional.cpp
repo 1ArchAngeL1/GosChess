@@ -27,7 +27,7 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
         if (src_cell.has_value() && trg_cell.has_value()) {
             auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
             auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-            if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
+            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board)) {
                 GosChess::ChangeActiveColour(board);
                 GosChess::SendMove(GosChess::Move(from, to));
                 src_cell = std::nullopt;
@@ -57,7 +57,7 @@ void GosChess::GamePlayAIListener::Action(GosChess::Board &board) {
         if (src_cell.has_value() && trg_cell.has_value()) {
             auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
             auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-            if (GosChess::Play(board, GosChess::Move(GosChess::Move(from, to)))) {
+            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board)) {
                 GosChess::ChangeActiveColour(board);
                 src_cell = std::nullopt;
                 trg_cell = std::nullopt;
@@ -95,12 +95,6 @@ static constexpr std::string_view BLACK_STARTS_FEN = "rnbqkbnr/pppppppp/8/8/8/8/
 std::string GosChess::GetInitialFenBoard() {
     return GosChess::player_color == GosChess::Color::WHITE ? std::string(WHITE_STARTS_FEN) :
            std::string(BLACK_STARTS_FEN);
-}
-
-bool GosChess::Play(GosChess::Board &brd, const GosChess::Move &move) {
-    if (GosChess::CanMakeMove(move)) {
-        return GosChess::MakeMove(move, brd);
-    }
 }
 
 std::optional<GosChess::Vector2i> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf::Window &window) {

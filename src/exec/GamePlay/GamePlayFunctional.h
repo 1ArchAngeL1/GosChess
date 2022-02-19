@@ -101,8 +101,6 @@ namespace GosChess {
 
     std::string GetInitialFenBoard();
 
-    bool Play(GosChess::Board &, const GosChess::Move &);
-
     std::optional<GosChess::Vector2i> ChooseTrgFigure(GosChess::Board &, sf::Window &);
 
     std::optional<GosChess::Vector2i> ChooseSrcFigure(GosChess::Board &, sf::Window &);

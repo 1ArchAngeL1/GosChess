@@ -3,9 +3,9 @@
 #include "InGameCalculations.h"
 
 
-static unsigned char sliding_pieces[]{GosChess::FigureTypes::BISHOP,
-                                      GosChess::FigureTypes::ROOK,
-                                      GosChess::FigureTypes::QUEEN};
+static constexpr unsigned char sliding_pieces[]{GosChess::FigureTypes::BISHOP,
+                                                GosChess::FigureTypes::ROOK,
+                                                GosChess::FigureTypes::QUEEN};
 
 
 static bool IsPawn(const GosChess::Figure &_fig) {
@@ -36,14 +36,14 @@ static int GetKingPosition(const unsigned char *board, GosChess::Color clr) {
     return -1;
 }
 
-static bool CheckForKingChecksSlidingPieces(const unsigned char *brd, GosChess::Figure kng, int king_index) {
+static bool CheckIndexForSlidingPieceAttacks(const unsigned char *brd, GosChess::Color color, int figure_index) {
     GosChess::Figure test_fig;
     for (int direction_index = 0; direction_index < 8; direction_index++) {
-        for (int offset = 0; offset < GosChess::precalculated_offsets[king_index][direction_index]; offset++) {
-            int target_index = king_index + (offset + 1) * GosChess::direction_offsets[direction_index];
+        for (int offset = 0; offset < GosChess::precalculated_offsets[figure_index][direction_index]; offset++) {
+            int target_index = figure_index + (offset + 1) * GosChess::direction_offsets[direction_index];
             test_fig.full_type = brd[target_index];;
             if (test_fig.full_type != 0) {
-                if (test_fig.color != kng.color) {
+                if (test_fig.color != color) {
                     if (direction_index < 4) {
                         if (test_fig.type == GosChess::FigureTypes::QUEEN ||
                             test_fig.type == GosChess::FigureTypes::ROOK)
@@ -61,15 +61,15 @@ static bool CheckForKingChecksSlidingPieces(const unsigned char *brd, GosChess::
     return false;
 }
 
-static bool CheckForKingChecksPawns(const unsigned char *brd, GosChess::Figure kng, int king_index) {
+static bool CheckIndexForPawnAttacks(const unsigned char *brd, GosChess::Color color, int figure_index) {
     GosChess::Figure test_fig;
-    int direction_start_index = kng.color == GosChess::player_color ? 4 : 5;
+    int direction_start_index = color == GosChess::player_color ? 4 : 5;
     for (int direction_index = direction_start_index; direction_index < 8; direction_index += 2) {
-        if (GosChess::precalculated_offsets[king_index][direction_index] >= 1) {
-            unsigned char target_fig = brd[king_index + GosChess::direction_offsets[direction_index]];
+        if (GosChess::precalculated_offsets[figure_index][direction_index] >= 1) {
+            unsigned char target_fig = brd[figure_index + GosChess::direction_offsets[direction_index]];
             if (target_fig != 0) {
                 test_fig.full_type = target_fig;
-                if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::PAWN)
+                if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::PAWN)
                     return true;
             }
 
@@ -78,39 +78,39 @@ static bool CheckForKingChecksPawns(const unsigned char *brd, GosChess::Figure k
     return false;
 }
 
-static bool CheckForKingChecksKing(const unsigned char *brd, GosChess::Figure kng, int king_index) {
+static bool CheckIndexForKingAttacks(const unsigned char *brd, GosChess::Color color, int figure_index) {
     GosChess::Figure test_fig;
     for (int direction_index = 0; direction_index < 8; direction_index++) {
-        if (GosChess::precalculated_offsets[king_index][direction_index] >= 1) {
-            unsigned char targ = brd[king_index + GosChess::direction_offsets[direction_index]];
+        if (GosChess::precalculated_offsets[figure_index][direction_index] >= 1) {
+            unsigned char targ = brd[figure_index + GosChess::direction_offsets[direction_index]];
             if (targ != 0) {
                 test_fig.full_type = targ;
-                if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::KING)return true;
+                if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::KING)return true;
             }
         }
     }
     return false;
 }
 
-static bool CheckForKingChecksKnight(const unsigned char *brd, GosChess::Figure kng, int king_index) {
+static bool CheckIndexForKnightAttacks(const unsigned char *brd, GosChess::Color color, int figure_index) {
     int additional_moves[] = {3, 3, 2, 2};
     GosChess::Figure test_fig;
     for (int direction_index = 4; direction_index < 8; direction_index++) {
-        if (GosChess::precalculated_offsets[king_index][direction_index] >= 1) {
-            int targ_index = king_index + GosChess::direction_offsets[direction_index];
+        if (GosChess::precalculated_offsets[figure_index][direction_index] >= 1) {
+            int targ_index = figure_index + GosChess::direction_offsets[direction_index];
             if (direction_index % 2 == 0) {
                 if (GosChess::precalculated_offsets[targ_index][0] >= 1) {
                     int curr_index = targ_index + GosChess::direction_offsets[0];
                     if (brd[curr_index] != 0) {
                         test_fig.full_type = brd[curr_index];
-                        if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
+                        if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
                     }
                 }
                 if (GosChess::precalculated_offsets[targ_index][additional_moves[direction_index - 4]] >= 1) {
                     int curr_index = targ_index + GosChess::direction_offsets[additional_moves[direction_index - 4]];
                     if (brd[curr_index] != 0) {
                         test_fig.full_type = brd[curr_index];
-                        if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
+                        if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
                     }
                 }
             } else {
@@ -118,14 +118,14 @@ static bool CheckForKingChecksKnight(const unsigned char *brd, GosChess::Figure 
                     int curr_index = targ_index + GosChess::direction_offsets[1];
                     if (brd[curr_index] != 0) {
                         test_fig.full_type = brd[curr_index];
-                        if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
+                        if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
                     }
                 }
                 if (GosChess::precalculated_offsets[targ_index][additional_moves[direction_index - 4]] >= 1) {
                     int curr_index = targ_index + GosChess::direction_offsets[additional_moves[direction_index - 4]];
                     if (brd[curr_index] != 0) {
                         test_fig.full_type = brd[curr_index];
-                        if (test_fig.color != kng.color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
+                        if (test_fig.color != color && test_fig.type == GosChess::FigureTypes::KNIGHT)return true;
                     }
                 }
             }
@@ -137,9 +137,11 @@ static bool CheckForKingChecksKnight(const unsigned char *brd, GosChess::Figure 
 static bool CheckForKingCheck(const unsigned char *brd, GosChess::Color clr) {
     int king_index = GetKingPosition(brd, clr);
     GosChess::Figure arg_kng(brd[king_index]);
-    return CheckForKingChecksPawns(brd, arg_kng, king_index) ||
-           CheckForKingChecksSlidingPieces(brd, arg_kng, king_index) ||
-           CheckForKingChecksKnight(brd, arg_kng, king_index) || CheckForKingChecksKing(brd, arg_kng, king_index);
+    GosChess::Color king_color = static_cast<GosChess::Color>(arg_kng.color);
+    return CheckIndexForPawnAttacks(brd, king_color, king_index) ||
+           CheckIndexForSlidingPieceAttacks(brd, king_color, king_index) ||
+           CheckIndexForKnightAttacks(brd, king_color, king_index) ||
+           CheckIndexForKingAttacks(brd, king_color, king_index);
 }
 
 
@@ -193,7 +195,7 @@ static void GeneratePawnMoves(const unsigned char *board, GosChess::Figure piece
             GosChess::available_moves[index].insert(GosChess::Move(index, index + 8 * multiplier));
         if ((piece.color == GosChess::player_color && index / GosChess::Board::ROW_NUM == 1) ||
             (piece.color == GosChess::enemy_color && index / GosChess::Board::ROW_NUM == 6)) {
-            if (board[index + 8 * 2 * multiplier] == 0)
+            if (board[index + 8 * multiplier] == 0 && board[index + 8 * 2 * multiplier] == 0)
                 GosChess::available_moves[index].insert(GosChess::Move(index, index + 8 * 2 * multiplier));
         }
     }
@@ -322,11 +324,20 @@ void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
 }
 
 
-
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
     GosChess::Vector2i move_from = GosChess::GetSquare(move.move_from);
     GosChess::Vector2i move_to = GosChess::GetSquare(move.move_to);
     move_from.y = GosChess::Board::ROW_NUM - move_from.y - 1;
     move_to.y = GosChess::Board::ROW_NUM - move_to.y - 1;
     return GosChess::Move(GosChess::GetNumFromNode(move_from), GosChess::GetNumFromNode(move_to));
+}
+
+bool GosChess::CheckIndexForAttackets(const unsigned char *board, const int &index) {
+    GosChess::Figure trg_fig(board[index]);
+    GosChess::Color king_color = static_cast<GosChess::Color>(trg_fig.color);
+    return CheckIndexForPawnAttacks(board, king_color, index) ||
+           CheckIndexForSlidingPieceAttacks(board, king_color, index) ||
+           CheckIndexForKnightAttacks(board, king_color, index) ||
+           CheckIndexForKingAttacks(board, king_color, index);
+
 }

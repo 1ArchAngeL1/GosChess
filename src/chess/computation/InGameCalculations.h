@@ -18,7 +18,7 @@ namespace GosChess {
 
     bool MakeMove(GosChess::Move, GosChess::Board &);
 
-    void MakeMoveForce(GosChess::Move, GosChess::Board&);
+    void MakeMoveForce(GosChess::Move, GosChess::Board &);
 
     bool CanMakeMove(GosChess::Move);
 
@@ -26,9 +26,11 @@ namespace GosChess {
 
     void GenerateOffsets();
 
-    void CalculateAvailableMoves(const unsigned char *,GosChess::Color);
+    void CalculateAvailableMoves(const unsigned char *, GosChess::Color);
 
-    void ChangeActiveColour(GosChess::Board&);
+    void ChangeActiveColour(GosChess::Board &);
+
+    bool CheckIndexForAttackets(const unsigned char *, const int &);
 
     GosChess::Move InvertMove(GosChess::Move);
 

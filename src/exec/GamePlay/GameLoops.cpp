@@ -67,7 +67,7 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
         }
         GosChess::Move move = GosChess::GetBestMove(*board);
         //std::cout << (int)move.move_from << " " << (int)move.move_to << std::endl;
-        if (GosChess::Play(*board, move)) {
+        if (GosChess::MakeMove(move, *board)) {
             GosChess::ChangeActiveColour(*board);
 
         }
