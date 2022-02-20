@@ -2,8 +2,8 @@
 #include <iostream>
 #include "../chess/global/MainObjects/GameObjects.h"
 #include "../render/GamePlayRender.h"
-#include "GamePlay/GamePlayFunctional.h"
-#include "GamePlay/GameLoops.h"
+#include "game_play/GamePlayFunctional.h"
+#include "game_play/GameLoops.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -60,7 +60,7 @@ int main() {
                                GosChess::CheckOnlineModeFinished,
                                &game_listener,
                                &board);
-        } else {
+        } else if (GosChess::game_mode == GosChess::GameMode::SINGLE_PLAYER) {
             GosChess::Board board;
             GosChess::GamePlayAIListener game_listener(window);
             GosChess::GameLoop(window, GosChess::AIGameInit, GosChess::AIGameUpdate,

@@ -19,7 +19,7 @@ namespace GosChess {
     enum GameResult {
         WON,
         LOST,
-        NOT_FINISHED
+        DRAW
     };
 
     enum GameMode {
@@ -58,6 +58,25 @@ namespace GosChess {
         void Action(GosChess::Board &) override;
     };
 
+
+    struct InitialTransferObject {
+
+        InitialTransferObject() = default;
+
+        InitialTransferObject(GosChess::Color color, int time_limit) : player_color(color), time_limit(time_limit) {}
+
+        GosChess::Color player_color;
+        int time_limit;
+    };
+
+
+    struct GameResultTransfer {
+        GameResultTransfer() = default;
+
+        GameResultTransfer(GosChess::GameResult result) : result(result) {}
+
+        GosChess::GameResult result;
+    };
 
     namespace Time {
 
@@ -114,6 +133,8 @@ namespace GosChess {
     void ResetGame(sf::RenderWindow &);
 
     void Disconnected();
+
+    void ProcessGameResult(GosChess::GameResultTransfer &);
 
     extern bool highlited;
 

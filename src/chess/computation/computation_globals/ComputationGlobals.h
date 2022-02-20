@@ -57,8 +57,8 @@ namespace GosChess {
 
     class MoveHash {
     public:
-        std::size_t operator()(GosChess::Move const &_mv) const {
-            return (std::size_t) _mv.move_to;
+        std::size_t operator()(GosChess::Move const &move) const {
+            return static_cast<size_t>(move.move_from * move.move_to + move.move_from);
         }
     };
 

@@ -25,13 +25,15 @@ namespace GosChess {
     enum TransferType {
         INITIAL,
         MOVE,
-        TIMER
+        TIMER,
+        RESULT
     };
 
 
     template<typename T>
     struct DataTransfer {
         DataTransfer() = default;
+
         DataTransfer(TransferType protocol, T body) : protocol(protocol), body(body) {};
 
         TransferType protocol;
@@ -42,11 +44,13 @@ namespace GosChess {
 
     void SendMove(GosChess::Move);
 
-    std::optional<GosChess::Move> ReceiveMove();
+//    std::optional<GosChess::Move> ReceiveMove();
 
     void SendTime(GosChess::Time::TimerTransferObject);
 
-    std::optional<GosChess::Time::TimerTransferObject> ReceiveTime();
+//    std::optional<GosChess::Time::TimerTransferObject> ReceiveTime();
+
+    void SendResult(GosChess::GameResultTransfer);
 
     void SetConnectionType(ConnectionType);
 

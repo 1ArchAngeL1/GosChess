@@ -35,6 +35,18 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::Move &mv) {
     return packet >> mv.move_from >> mv.move_to;
 }
 
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::GameResultTransfer &result) {
+    return packet << static_cast<int>(result.result);
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GosChess::GameResultTransfer &result) {
+    int tmp;
+    packet >> tmp;
+    GosChess::GameResult game_res = static_cast<GosChess::GameResult>(tmp);
+    result.result = game_res;
+    return packet;
+}
+
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::Move> &dt) {
     return packet << dt.protocol << dt.body;
 }
@@ -59,6 +71,14 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::Time::TimerTransferObject &
     return packet >> dto.player_timer_amount >> dto.enemy_timer_amount;
 }
 
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::InitialTransferObject &dto) {
+    return packet << dto.player_color << dto.time_limit;
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GosChess::InitialTransferObject &dto) {
+    return packet >> dto.player_color >> dto.time_limit;
+}
+
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::Time::TimerTransferObject> &dt) {
     return packet << dt.protocol << dt.body;
 }
@@ -67,10 +87,23 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Time
     return packet >> dt.protocol >> dt.body;
 }
 
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::GameResultTransfer> &result) {
+    return packet << result.protocol << result.body;
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::InitialTransferObject> &dt) {
+    return packet >> dt.protocol >> dt.body;
+}
+
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::InitialTransferObject> &result) {
+    return packet << result.protocol << result.body;
+}
+
 sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<std::any> &dt) {
     packet >> dt.protocol;
     GosChess::Time::TimerTransferObject time;
     GosChess::Move move;
+    GosChess::GameResultTransfer result_transfer;
     switch (dt.protocol) {
         case GosChess::TransferType::TIMER:
             packet >> time;
@@ -78,8 +111,11 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<std::any> &dt)
             break;
         case GosChess::TransferType::MOVE:
             packet >> move;
-            dt.body = static_cast<std::any>(move);;
+            dt.body = static_cast<std::any>(move);
             break;
+        case GosChess::TransferType::RESULT:
+            packet >> result_transfer;
+            dt.body = static_cast<std::any>(result_transfer);
         default:
             break;
     }
@@ -97,15 +133,6 @@ std::optional<GosChess::DataTransfer<std::any>> GosChess::Receive() {
     return std::nullopt;
 }
 
-//template<typename T>
-//static std::optional<T> ReceiveGeneric(GosChess::TransferType type) {
-//    sf::Packet packet;
-//    GosChess::DataTransfer<T> ret;
-//    GosChess::connection.receive(packet);
-//    if (packet >> ret)
-//        if (ret.protocol == type) return ret.body;
-//    return std::nullopt;
-//}
 
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
@@ -113,9 +140,6 @@ void GosChess::SendMove(GosChess::Move move) {
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-//std::optional<GosChess::Move> GosChess::ReceiveMove() {
-//    return ReceiveGeneric<GosChess::Move>(GosChess::TransferType::MOVE);
-//}
 
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
@@ -123,9 +147,12 @@ void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-//std::optional<GosChess::Time::TimerTransferObject> GosChess::ReceiveTime() {
-//    return ReceiveGeneric<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER);
-//}
+void GosChess::SendResult(GosChess::GameResultTransfer result) {
+    sf::Packet packet;
+    packet << GosChess::DataTransfer<GosChess::GameResultTransfer>(GosChess::TransferType::RESULT, result);
+    while (GosChess::connection.send(packet) == sf::Socket::Partial);
+}
+
 
 void GosChess::SetConnectionType(GosChess::ConnectionType type) {
     GosChess::connection_role = type;
@@ -178,17 +205,19 @@ void GosChess::InitialSend() {
     GosChess::player_color = static_cast<GosChess::Color>(n);
     GosChess::enemy_color = static_cast<GosChess::Color>(!n);
     sf::Packet init_info;
-    init_info << GosChess::DataTransfer(GosChess::TransferType::INITIAL, enemy_color);
+    init_info << GosChess::DataTransfer(GosChess::TransferType::INITIAL,
+                                        InitialTransferObject(enemy_color, GosChess::time_limit_minutes));
     while (GosChess::connection.send(init_info) == sf::Socket::Partial);
 }
 
 void GosChess::InitialReceive() {
     sf::Packet init_info;
-    GosChess::DataTransfer<GosChess::Color> req;
+    GosChess::DataTransfer<GosChess::InitialTransferObject> req;
     while (GosChess::connection.receive(init_info) == sf::Socket::Partial);
     init_info >> req;
-    GosChess::player_color = static_cast<GosChess::Color>(req.body);
-    GosChess::enemy_color = static_cast<GosChess::Color>(!req.body);
+    GosChess::player_color = static_cast<GosChess::Color>(req.body.player_color);
+    GosChess::enemy_color = static_cast<GosChess::Color>(!req.body.player_color);
+    GosChess::time_limit_minutes = req.body.time_limit;
 }
 
 void GosChess::SetConnected(bool value) {

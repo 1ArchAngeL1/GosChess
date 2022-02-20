@@ -50,8 +50,6 @@ void GosChess::AIGameInit(sf::RenderWindow &window, ...) {
     GosChess::BoardRenderConfig();
     GosChess::LoadChessFigureSprites();
     GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
-
-
 }
 
 void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...) {
@@ -60,16 +58,15 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     if (GosChess::color_to_play == GosChess::enemy_color) {
+        //GosChess::CalculateAvailableMoves(board->GetRawBoard(), GosChess::enemy_color);
         if (GosChess::CheckMate(*board, GosChess::enemy_color)) {
             GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
             GosChess::game_result = GosChess::GameResult::WON;
             return;
         }
         GosChess::Move move = GosChess::GetBestMove(*board);
-        //std::cout << (int)move.move_from << " " << (int)move.move_to << std::endl;
         if (GosChess::MakeMove(move, *board)) {
             GosChess::ChangeActiveColour(*board);
-
         }
     }
     window.clear();
@@ -99,13 +96,17 @@ static void ProcessData(GosChess::Board *board) {
         if (inside.protocol == GosChess::TransferType::MOVE) {
             GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
         } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT &&
-                   inside.protocol == GosChess::TransferType::TIMER) {
+                   inside.protocol == GosChess::TransferType::TIMER && GosChess::time_limit_minutes != 0) {
             GosChess::CheckReceivedTime(player_timer, enemy_timer,
                                         std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
-            if (player_timer.GetAmount() <= 0) {
+            if (player_timer.GetAmount() <= 0.f) {
                 GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
                 GosChess::game_result = GosChess::GameResult::LOST;
             }
+        } else if (inside.protocol == GosChess::TransferType::RESULT) {
+            GosChess::GameResultTransfer transfer = std::any_cast<GosChess::GameResultTransfer>(inside.body);
+            GosChess::game_result = transfer.result;
+            GosChess::SetGameFlagFinished();
         }
     }
 }
@@ -116,7 +117,7 @@ void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock
     va_start(args, delta_clock);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
+    if (GosChess::connection_role == GosChess::ConnectionType::HOST && GosChess::time_limit_minutes != 0) {
         float dt = delta_clock->restart().asSeconds();
         chrono += dt;
         if (GosChess::color_to_play == GosChess::player_color) {

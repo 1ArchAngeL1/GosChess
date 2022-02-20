@@ -5,8 +5,8 @@
 #ifndef GOSCHESS_MENURENDER_H
 #define GOSCHESS_MENURENDER_H
 
-#include "../../exec/GamePlay/GamePlayFunctional.h"
-#include "../../exec/GamePlay/GameLoops.h"
+#include "../../exec/game_play/GamePlayFunctional.h"
+#include "../../exec/game_play/GameLoops.h"
 #include "../globals/RenderGlobals.h"
 #include <imgui.h>
 #include <imgui-SFML.h>

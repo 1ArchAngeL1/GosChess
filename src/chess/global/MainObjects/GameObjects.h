@@ -7,6 +7,7 @@
 #include <array>
 #include <stack>
 
+
 namespace GosChess {
 
     enum Color {
@@ -71,8 +72,6 @@ namespace GosChess {
 
         void SaveState();
 
-        void Undo();
-
         ~Board();
 
         // static members from here
@@ -88,6 +87,8 @@ namespace GosChess {
         static constexpr int ROW_NUM = 8;
 
         static constexpr int BOARD_SIZE = ROW_LENGTH * ROW_NUM;
+
+        friend bool UndoMove(GosChess::Board &);
     private:
 
         //board representation

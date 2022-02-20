@@ -123,11 +123,6 @@ void GosChess::Board::SaveState() {
     this->game_rev.push(arr);
 }
 
-void GosChess::Board::Undo() {
-    std::copy(this->game_rev.top().begin(), this->game_rev.top().end(), Board::board);
-    this->game_rev.pop();
-}
-
 GosChess::Board::~Board() {
     delete[] this->board;
 }

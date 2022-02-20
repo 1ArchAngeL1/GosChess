@@ -26,7 +26,7 @@ namespace GosChess {
 
     void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &, ...),
                   void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *, ...), bool (*ModeTeminator)(),
-                  GameModeListener *, GosChess::Board *);
+                  GosChess::GameModeListener *, GosChess::Board *);
 
 
     void AIGameInit(sf::RenderWindow &, ...);

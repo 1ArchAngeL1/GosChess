@@ -14,11 +14,11 @@ namespace GosChess {
         FINISHED
     };
 
-    extern Color color_to_play;
+    extern GosChess::Color color_to_play;
 
-    extern Color enemy_color;
+    extern GosChess::Color enemy_color;
 
-    extern Color player_color;
+    extern GosChess::Color player_color;
 
 }
 

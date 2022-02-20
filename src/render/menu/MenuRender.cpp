@@ -18,7 +18,7 @@ static const char *game_options = "Game Options";
 static const char *game_won = "Game Won";
 static const char *game_lost = "Game Lost";
 
-static const char *time_choose[] = {"1", "3", "10", "30"};
+static const char *time_choose[] = {" ", "1", "3", "10", "30"};
 static bool play_on_time = false;
 static const char *current_choice = time_choose[0];
 
@@ -123,7 +123,7 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
     ImGui::Dummy(ImVec2(0.0f, 80.0f));
 
     ImGui::Indent(200);
-    if (ImGui::Button("Singleplayer", ImVec2(500, 100))) {
+    if (ImGui::Button("Computer", ImVec2(500, 100))) {
         GosChess::SetConnected(true);
         GosChess::game_mode = GosChess::GameMode::SINGLE_PLAYER;
     }
@@ -253,7 +253,7 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     ImGui::Indent(-200);
     ImGui::Indent(200);
     if (ImGui::Button("Host", ImVec2(500, 100))) {
-        GosChess::time_limit_minutes = std::stoi(current_choice);
+        GosChess::time_limit_minutes = current_choice != " " ? std::stoi(current_choice) : 0;
         GosChess::HostInit();
     }
     ImGui::Indent(-200);

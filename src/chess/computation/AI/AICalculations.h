@@ -11,8 +11,6 @@
 
 namespace GosChess {
 
-
-
     Move GetBestMove(GosChess::Board board);
 }
 

@@ -7,13 +7,32 @@
 #include "../../network/GameNetwork.h"
 
 
+static bool CheckForGameFinish(GosChess::Board &board, GosChess::Color color) {
+    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
+        if (GosChess::CheckMate(board, color)) return true;
+    }
+    return false;
+}
+
+static bool CheckForGameDraw(GosChess::Board &board, GosChess::Color color) {
+    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
+        if (!GosChess::CheckMate(board, color) && GosChess::CheckForDraw(board, color))return true;
+    }
+    return false;
+}
+
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
     static std::optional<GosChess::Vector2i> src_cell = std::nullopt;
     static std::optional<GosChess::Vector2i> trg_cell = std::nullopt;
-    if (GosChess::CheckMate(board, GosChess::color_to_play)) {
+    if (CheckForGameFinish(board, color_to_play)) {
         GosChess::SetGameFlagFinished();
         GosChess::game_result = GosChess::GameResult::LOST;
+        GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::WON));
         return;
+    } else if (CheckForGameDraw(board, color_to_play)) {
+        GosChess::SetGameFlagFinished();
+        GosChess::game_result = GosChess::GameResult::LOST;
+        GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
     }
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
@@ -32,11 +51,15 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
                 GosChess::SendMove(GosChess::Move(from, to));
                 src_cell = std::nullopt;
                 trg_cell = std::nullopt;
-            }
-            if (GosChess::CheckMate(board, GosChess::color_to_play)) {
-                GosChess::SetGameFlagFinished();
-                GosChess::game_result = GosChess::GameResult::WON;
-                return;
+                if (CheckForGameFinish(board, color_to_play)) {
+                    GosChess::SetGameFlagFinished();
+                    GosChess::game_result = GosChess::GameResult::WON;
+                    GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::LOST));
+                } else if (CheckForGameDraw(board, color_to_play)) {
+                    GosChess::SetGameFlagFinished();
+                    GosChess::game_result = GosChess::GameResult::LOST;
+                    GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
+                }
             }
         }
     }
@@ -155,6 +178,11 @@ void GosChess::Disconnected() {
     GosChess::game_result = GosChess::GameResult::WON;
 }
 
+
+void GosChess::ProcessGameResult(GosChess::GameResultTransfer &result) {
+    GosChess::game_result = result.result;
+}
+
 namespace GosChess::Time {
 
     Timer::Timer(const float &time) {
@@ -200,6 +228,6 @@ bool GosChess::highlited = false;
 
 GosChess::GameStatus GosChess::game_status_flag = GosChess::GameStatus::INGAME;
 
-GosChess::GameResult GosChess::game_result = GosChess::GameResult::NOT_FINISHED;
+GosChess::GameResult GosChess::game_result = GosChess::GameResult::DRAW;
 
 GosChess::GameMode GosChess::game_mode = GosChess::GameMode::SINGLE_PLAYER;

@@ -280,18 +280,22 @@ bool GosChess::CanMakeMove(GosChess::Move mv) {
     return GosChess::available_moves[mv.move_from].find(mv) != GosChess::available_moves[mv.move_from].end();
 }
 
-
-bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &brd) {
+bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &board) {
     if (!CanMakeMove(mv)) return false;
-    brd.SaveState();
-    unsigned char current = brd.At(mv.move_from).full_type;
-    brd.SetPosition(mv.move_from, 0);
-    brd.SetPosition(mv.move_to, current);
-    if (CheckForKingCheck(brd.GetRawBoard(), GosChess::color_to_play)) {
-        brd.Undo();
+    board.SaveState();
+    unsigned char current = board.At(mv.move_from).full_type;
+    board.SetPosition(mv.move_from, 0);
+    board.SetPosition(mv.move_to, current);
+    if (CheckForKingCheck(board.GetRawBoard(), GosChess::color_to_play)) {
+        GosChess::UndoMove(board);
         return false;
     }
     return true;
+}
+
+bool GosChess::UndoMove(GosChess::Board &board) {
+    std::copy(board.game_rev.top().begin(), board.game_rev.top().end(), board.board);
+    board.game_rev.pop();
 }
 
 
@@ -301,14 +305,21 @@ void GosChess::ChangeActiveColour(GosChess::Board &board) {
 }
 
 
-bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
+bool GosChess::CheckMate(GosChess::Board &board, GosChess::Color color) {
+    if (!GosChess::CheckForDraw(board, color)) return false;
+    if (CheckForKingCheck(board.GetRawBoard(), color)) {
+        return true;
+    }
+}
+
+bool GosChess::CheckForDraw(GosChess::Board &board, GosChess::Color color) {
     GosChess::Figure test_fig;
     for (auto it = GosChess::available_moves.begin(); it != GosChess::available_moves.end(); it++) {
-        test_fig.full_type = brd.GetRawBoard()[it->first];
-        if (test_fig.color == clr) {
+        test_fig.full_type = board.GetRawBoard()[it->first];
+        if (test_fig.color == color) {
             for (auto &move: GosChess::available_moves[it->first]) {
-                if (GosChess::MakeMove(move, brd)) {
-                    brd.Undo();
+                if (GosChess::MakeMove(move, board)) {
+                    GosChess::UndoMove(board);
                     return false;
                 }
             }
@@ -317,12 +328,12 @@ bool GosChess::CheckMate(GosChess::Board &brd, GosChess::Color clr) {
     return true;
 }
 
+
 void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
     unsigned char current = board.At(mv.move_from).full_type;
     board.SetPosition(mv.move_from, 0);
     board.SetPosition(mv.move_to, current);
 }
-
 
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
     GosChess::Vector2i move_from = GosChess::GetSquare(move.move_from);
@@ -332,12 +343,12 @@ GosChess::Move GosChess::InvertMove(GosChess::Move move) {
     return GosChess::Move(GosChess::GetNumFromNode(move_from), GosChess::GetNumFromNode(move_to));
 }
 
-bool GosChess::CheckIndexForAttackets(const unsigned char *board, const int &index) {
+bool GosChess::CheckIndexForAttackers(const unsigned char *board, const int &index) {
     GosChess::Figure trg_fig(board[index]);
-    GosChess::Color king_color = static_cast<GosChess::Color>(trg_fig.color);
-    return CheckIndexForPawnAttacks(board, king_color, index) ||
-           CheckIndexForSlidingPieceAttacks(board, king_color, index) ||
-           CheckIndexForKnightAttacks(board, king_color, index) ||
-           CheckIndexForKingAttacks(board, king_color, index);
+    GosChess::Color figure_color = static_cast<GosChess::Color>(trg_fig.color);
+    return CheckIndexForPawnAttacks(board, figure_color, index) ||
+           CheckIndexForSlidingPieceAttacks(board, figure_color, index) ||
+           CheckIndexForKnightAttacks(board, figure_color, index) ||
+           CheckIndexForKingAttacks(board, figure_color, index);
 
 }

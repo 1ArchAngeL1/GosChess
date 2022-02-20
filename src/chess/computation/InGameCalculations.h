@@ -14,15 +14,21 @@ namespace GosChess {
 
     GosChess::Vector2i GetNodeFromScreen(const float &, const float &);
 
+    GosChess::Move InvertMove(GosChess::Move);
+
     int GetNumFromNode(const GosChess::Vector2i &);
 
     bool MakeMove(GosChess::Move, GosChess::Board &);
 
-    void MakeMoveForce(GosChess::Move, GosChess::Board &);
+    bool UndoMove(GosChess::Board &);
 
     bool CanMakeMove(GosChess::Move);
 
     bool CheckMate(GosChess::Board &, GosChess::Color);
+
+    bool CheckForDraw(GosChess::Board &, GosChess::Color);
+
+    bool CheckIndexForAttackers(const unsigned char *, const int &);
 
     void GenerateOffsets();
 
@@ -30,9 +36,7 @@ namespace GosChess {
 
     void ChangeActiveColour(GosChess::Board &);
 
-    bool CheckIndexForAttackets(const unsigned char *, const int &);
-
-    GosChess::Move InvertMove(GosChess::Move);
+    void MakeMoveForce(GosChess::Move, GosChess::Board &);
 
 }
 
