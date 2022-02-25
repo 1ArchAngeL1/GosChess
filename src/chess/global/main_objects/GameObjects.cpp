@@ -83,7 +83,7 @@ void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
 }
 
 // ignore this block of code, it was little challenge for my self :))) i know it looks hoooriibbleee :))
-std::string GosChess::Board::BoardStateToFen() {
+std::string GosChess::Board::BoardStateToFen() const {
     unsigned char *target_board = this->board;
     std::string fen_str = "";
     int empty = 0;

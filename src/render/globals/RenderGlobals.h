@@ -5,7 +5,7 @@
 #ifndef GOSCHESS_RENDERGLOBALS_H
 #define GOSCHESS_RENDERGLOBALS_H
 
-#include "../../chess/global/MainObjects/GameObjects.h"
+#include "../../chess/global/main_objects/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include <unordered_map>
 

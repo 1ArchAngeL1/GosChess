@@ -88,6 +88,14 @@ namespace GosChess {
 
     extern bool listen_flag;
 
+    typedef DataTransfer<GosChess::Move> MoveTransfer;
+
+    typedef DataTransfer<GosChess::Time::TimerTransferObject> TimeTransfer;
+
+    typedef DataTransfer<GosChess::GameResultTransfer> ResultTransfer;
+
+    typedef DataTransfer<GosChess::InitialTransferObject> InitialTransfer;
+
 }
 
 

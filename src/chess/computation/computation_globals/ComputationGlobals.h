@@ -6,7 +6,7 @@
 #define GOSCHESS_COMPUTATIONGLOBALS_H
 
 
-#include "../../global/MainObjects/GameObjects.h"
+#include "../../global/main_objects/GameObjects.h"
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
 #include "../../../render/globals/RenderGlobals.h"
@@ -66,7 +66,12 @@ namespace GosChess {
 
     extern GosChess::Offset precalculated_offsets[];
 
-    extern std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> available_moves;
+    typedef std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> MoveLocker;
+
+    extern MoveLocker game_available_moves;
+
+    extern MoveLocker ai_available_moves;
+
 
 }
 

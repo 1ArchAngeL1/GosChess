@@ -22,8 +22,8 @@ static bool CheckForGameDraw(GosChess::Board &board, GosChess::Color color) {
 }
 
 void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
-    static std::optional<GosChess::Vector2i> src_cell = std::nullopt;
-    static std::optional<GosChess::Vector2i> trg_cell = std::nullopt;
+    static std::optional<GosChess::board_square> src_cell = std::nullopt;
+    static std::optional<GosChess::board_square> trg_cell = std::nullopt;
     if (CheckForGameFinish(board, color_to_play)) {
         GosChess::SetGameFlagFinished();
         GosChess::game_result = GosChess::GameResult::LOST;
@@ -31,33 +31,27 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
         return;
     } else if (CheckForGameDraw(board, color_to_play)) {
         GosChess::SetGameFlagFinished();
-        GosChess::game_result = GosChess::GameResult::LOST;
+        GosChess::game_result = GosChess::GameResult::DRAW;
         GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
     }
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-
-        if (!GosChess::highlited) {
-            src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
-        } else {
-            trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
-        }
-
+        if (!GosChess::highlited) src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
+        else trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
         if (src_cell.has_value() && trg_cell.has_value()) {
             auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
             auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board)) {
+            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board, GosChess::color_to_play)) {
                 GosChess::ChangeActiveColour(board);
                 GosChess::SendMove(GosChess::Move(from, to));
-                src_cell = std::nullopt;
-                trg_cell = std::nullopt;
+                src_cell = std::nullopt, trg_cell = std::nullopt;
                 if (CheckForGameFinish(board, color_to_play)) {
                     GosChess::SetGameFlagFinished();
                     GosChess::game_result = GosChess::GameResult::WON;
                     GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::LOST));
                 } else if (CheckForGameDraw(board, color_to_play)) {
                     GosChess::SetGameFlagFinished();
-                    GosChess::game_result = GosChess::GameResult::LOST;
+                    GosChess::game_result = GosChess::GameResult::DRAW;
                     GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
                 }
             }
@@ -67,32 +61,33 @@ void GosChess::MultiPlayerListener::Action(GosChess::Board &board) {
 
 //coming soon
 void GosChess::GamePlayAIListener::Action(GosChess::Board &board) {
-    static std::optional<GosChess::Vector2i> src_cell = std::nullopt;
-    static std::optional<GosChess::Vector2i> trg_cell = std::nullopt;
-
+    static std::optional<GosChess::board_square> src_cell = std::nullopt;
+    static std::optional<GosChess::board_square> trg_cell = std::nullopt;
+    if (GosChess::CheckMate(board, GosChess::color_to_play)) {
+        GosChess::SetGameFlagFinished();
+        GosChess::game_result = GosChess::GameResult::LOST;
+        return;
+    } else if (CheckForGameDraw(board, color_to_play)) {
+        GosChess::SetGameFlagFinished();
+        GosChess::game_result = GosChess::GameResult::DRAW;
+        return;
+    }
     if (GosChess::player_color == GosChess::color_to_play &&
         GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-        if (!GosChess::highlited) {
-            src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
-        } else {
-            trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
-        }
+        if (!GosChess::highlited) src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
+        else trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
         if (src_cell.has_value() && trg_cell.has_value()) {
             auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
             auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board)) {
+            if (GosChess::MakeMove(GosChess::Move(GosChess::Move(from, to)), board, GosChess::color_to_play)) {
                 GosChess::ChangeActiveColour(board);
-                src_cell = std::nullopt;
-                trg_cell = std::nullopt;
-
+                src_cell = std::nullopt, trg_cell = std::nullopt;
                 if (GosChess::CheckMate(board, GosChess::enemy_color)) {
                     GosChess::SetGameFlagFinished();
                     GosChess::game_result = GosChess::GameResult::WON;
                     return;
                 }
-
             }
-
         }
     }
 }
@@ -120,23 +115,23 @@ std::string GosChess::GetInitialFenBoard() {
            std::string(BLACK_STARTS_FEN);
 }
 
-std::optional<GosChess::Vector2i> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf::Window &window) {
+std::optional<GosChess::board_square> GosChess::ChooseTrgFigure(GosChess::Board &brd, sf::Window &window) {
     if (!GosChess::highlited) {
         return std::nullopt;
     }
-    GosChess::Vector2i trg_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                              sf::Mouse::getPosition(window).x);
+    GosChess::board_square trg_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                                  sf::Mouse::getPosition(window).x);
     GosChess::ResetBoardColours();
     highlited = false;
     return {trg_node};
 }
 
-std::optional<GosChess::Vector2i> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
+std::optional<GosChess::board_square> GosChess::ChooseSrcFigure(GosChess::Board &brd, sf::Window &window) {
     if (GosChess::highlited) {
         GosChess::ResetBoardColours();
     }
-    GosChess::Vector2i src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                              sf::Mouse::getPosition(window).x);
+    GosChess::board_square src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
+                                                                  sf::Mouse::getPosition(window).x);
     GosChess::ColorizeAvailableMoves(GosChess::GetNumFromNode(src_node));
     highlited = true;
     return {src_node};
@@ -163,7 +158,7 @@ void GosChess::SetGameFlagFinished() {
 
 void GosChess::ResetGame(sf::RenderWindow &window) {
     window.clear();
-    GosChess::available_moves.clear();
+    GosChess::game_available_moves.clear();
     GosChess::game_status_flag = GosChess::INGAME;
     GosChess::menu_active_flag = true;
     GosChess::render_menu_flag = GosChess::RenderMenuFLag::GAME_RESULT;

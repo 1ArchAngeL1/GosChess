@@ -79,23 +79,23 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::InitialTransferObject &dto)
     return packet >> dto.player_color >> dto.time_limit;
 }
 
-sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::Time::TimerTransferObject> &dt) {
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::TimeTransfer &dt) {
     return packet << dt.protocol << dt.body;
 }
 
-sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::Time::TimerTransferObject> &dt) {
+sf::Packet &operator>>(sf::Packet &packet, GosChess::TimeTransfer &dt) {
     return packet >> dt.protocol >> dt.body;
 }
 
-sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::GameResultTransfer> &result) {
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::ResultTransfer &result) {
     return packet << result.protocol << result.body;
 }
 
-sf::Packet &operator>>(sf::Packet &packet, GosChess::DataTransfer<GosChess::InitialTransferObject> &dt) {
+sf::Packet &operator>>(sf::Packet &packet, GosChess::InitialTransfer &dt) {
     return packet >> dt.protocol >> dt.body;
 }
 
-sf::Packet &operator<<(sf::Packet &packet, const GosChess::DataTransfer<GosChess::InitialTransferObject> &result) {
+sf::Packet &operator<<(sf::Packet &packet, const GosChess::InitialTransfer &result) {
     return packet << result.protocol << result.body;
 }
 
@@ -136,20 +136,20 @@ std::optional<GosChess::DataTransfer<std::any>> GosChess::Receive() {
 
 void GosChess::SendMove(GosChess::Move move) {
     sf::Packet packet;
-    packet << GosChess::DataTransfer<GosChess::Move>(GosChess::TransferType::MOVE, move);
+    packet << MoveTransfer(GosChess::TransferType::MOVE, move);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
 
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
-    packet << GosChess::DataTransfer<GosChess::Time::TimerTransferObject>(GosChess::TransferType::TIMER, obj);
+    packet << GosChess::TimeTransfer(GosChess::TransferType::TIMER, obj);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
 void GosChess::SendResult(GosChess::GameResultTransfer result) {
     sf::Packet packet;
-    packet << GosChess::DataTransfer<GosChess::GameResultTransfer>(GosChess::TransferType::RESULT, result);
+    packet << ResultTransfer(GosChess::TransferType::RESULT, result);
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 

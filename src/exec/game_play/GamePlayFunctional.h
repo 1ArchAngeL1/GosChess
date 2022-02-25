@@ -6,7 +6,7 @@
 #define GOSCHESS_GAMEPLAYFUNCTIONAL_H
 
 
-#include "../../chess/global/MainObjects/GameObjects.h"
+#include "../../chess/global/main_objects/GameObjects.h"
 #include "../../chess/global/GameGlobals.h"
 #include "../../render/GamePlayRender.h"
 #include "../../chess/computation/InGameCalculations.h"
@@ -120,9 +120,9 @@ namespace GosChess {
 
     std::string GetInitialFenBoard();
 
-    std::optional<GosChess::Vector2i> ChooseTrgFigure(GosChess::Board &, sf::Window &);
+    std::optional<GosChess::board_square> ChooseTrgFigure(GosChess::Board &, sf::Window &);
 
-    std::optional<GosChess::Vector2i> ChooseSrcFigure(GosChess::Board &, sf::Window &);
+    std::optional<GosChess::board_square> ChooseSrcFigure(GosChess::Board &, sf::Window &);
 
     void CheckReceivedMove(std::optional<GosChess::Move>, GosChess::Board &);
 

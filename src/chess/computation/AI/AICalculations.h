@@ -5,7 +5,7 @@
 #ifndef GOSCHESS_AICALCULATIONS_H
 #define GOSCHESS_AICALCULATIONS_H
 
-#include "../../global/MainObjects/GameObjects.h"
+#include "../../global/main_objects/GameObjects.h"
 #include "../computation_globals/ComputationGlobals.h"
 #include <unordered_map>
 

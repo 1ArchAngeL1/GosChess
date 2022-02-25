@@ -21,16 +21,16 @@ namespace GosChess {
     };
 
 
-    struct Vector2i {
+    struct board_square {
         int x;
         int y;
 
-        Vector2i() = default;
+        board_square() = default;
 
-        Vector2i(int y, int x) : y(y), x(x) {}
+        board_square(int y, int x) : y(y), x(x) {}
 
-        Vector2i operator+(const Vector2i &cell) {
-            return Vector2i(this->y + cell.y, this->x + cell.x);
+        board_square operator+(const board_square &cell) {
+            return board_square(this->y + cell.y, this->x + cell.x);
         }
     };
 
@@ -60,19 +60,19 @@ namespace GosChess {
 
         Board(const Board &board);
 
+        ~Board();
+
         void SetState(const std::string &);
+
+        void SaveState();
+
+        void SetPosition(const int &, unsigned char);
 
         const unsigned char *GetRawBoard() const;
 
         Figure At(const int &) const;
 
-        void SetPosition(const int &, unsigned char);
-
-        std::string BoardStateToFen();
-
-        void SaveState();
-
-        ~Board();
+        std::string BoardStateToFen() const;
 
         // static members from here
 
@@ -89,6 +89,7 @@ namespace GosChess {
         static constexpr int BOARD_SIZE = ROW_LENGTH * ROW_NUM;
 
         friend bool UndoMove(GosChess::Board &);
+
     private:
 
         //board representation

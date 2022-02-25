@@ -2,7 +2,7 @@
 #ifndef GOSCHESS_GAMEPLAYRENDER_H
 #define GOSCHESS_GAMEPLAYRENDER_H
 
-#include "../chess/global/MainObjects/GameObjects.h"
+#include "../chess/global/main_objects/GameObjects.h"
 #include "SFML/Graphics.hpp"
 #include "../chess/global/GameGlobals.h"
 #include "../chess/computation/InGameCalculations.h"

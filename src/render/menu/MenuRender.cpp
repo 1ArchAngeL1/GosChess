@@ -5,20 +5,20 @@
 #include <imgui_internal.h>
 #include "MenuRender.h"
 
-static constexpr int buffer_size = 100;
+static constexpr int BUFFER_SIZE = 100;
 
-static char user_name[buffer_size];
+static char user_name[BUFFER_SIZE];
 
-static const char *welcome_text = "Welcome To Chess!";
-static const char *entered_ip = "Enter opponents public ip";
-static const char *waiting_to_join = "Waiting someone to join ...";
-static const char *choose_color = "Choose Board Colors";
-static const char *choose_time = "Choose Time limit";
-static const char *game_options = "Game Options";
-static const char *game_won = "Game Won";
-static const char *game_lost = "Game Lost";
+static constexpr char *welcome_text = "Welcome To Chess!";
+static constexpr char *entered_ip = "Enter opponents public ip";
+static constexpr char *waiting_to_join = "Waiting someone to join ...";
+static constexpr char *choose_color = "Choose Board Colors";
+static constexpr char *choose_time = "Choose Time limit";
+static constexpr char *game_options = "Game Options";
+static constexpr char *game_won = "Game Won";
+static constexpr char *game_lost = "Game Lost";
 
-static const char *time_choose[] = {" ", "1", "3", "10", "30"};
+static constexpr char *time_choose[] = {" ", "1", "3", "10", "30"};
 static bool play_on_time = false;
 static const char *current_choice = time_choose[0];
 
@@ -116,7 +116,7 @@ void GosChess::RenderMainMenuWidgets(sf::RenderWindow &window, ImGuiContext *con
 
     ImGui::Indent(200);
     ImGui::PushItemWidth(500);
-    ImGui::InputTextWithHint("Name", "enter username", user_name, buffer_size);
+    ImGui::InputTextWithHint("Name", "enter username", user_name, BUFFER_SIZE);
     ImGui::PopItemWidth();
     ImGui::Indent(-200);
 
@@ -311,7 +311,7 @@ void GosChess::RenderJoinGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
 
     ImGui::Indent(200);
     ImGui::PushItemWidth(500);
-    ImGui::InputTextWithHint("ip", "enter ip adress", GosChess::opponent_ip, buffer_size);
+    ImGui::InputTextWithHint("ip", "enter ip adress", GosChess::opponent_ip, BUFFER_SIZE);
     ImGui::PopItemWidth();
     ImGui::Indent(-200);
 

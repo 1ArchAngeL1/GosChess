@@ -8,7 +8,7 @@
 
 typedef void (*OnUserInit)(sf::RenderWindow &, ...);
 
-typedef void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *...);
+typedef void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *, ...);
 
 typedef bool (*ModeTerminator)();
 
@@ -58,14 +58,13 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     if (GosChess::color_to_play == GosChess::enemy_color) {
-        //GosChess::CalculateAvailableMoves(board->GetRawBoard(), GosChess::enemy_color);
         if (GosChess::CheckMate(*board, GosChess::enemy_color)) {
             GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
             GosChess::game_result = GosChess::GameResult::WON;
             return;
         }
         GosChess::Move move = GosChess::GetBestMove(*board);
-        if (GosChess::MakeMove(move, *board)) {
+        if (GosChess::MakeMove(move, *board, GosChess::color_to_play)) {
             GosChess::ChangeActiveColour(*board);
         }
     }

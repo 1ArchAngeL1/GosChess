@@ -35,7 +35,7 @@ namespace GosChess {
 
     void OnlineGameInit(sf::RenderWindow &, ...);
 
-    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *...);
+    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *, ...);
 
     void MenuInit(sf::RenderWindow &, ...);
 

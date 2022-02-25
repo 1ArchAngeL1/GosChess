@@ -115,8 +115,8 @@ void GosChess::ChessDrawingConfig() {
 void GosChess::ColorizeAvailableMoves(const int &index) {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
-    for (auto &move: GosChess::available_moves[index]) {
-        GosChess::Vector2i move_to = GosChess::GetSquare(move.move_to);
+    for (auto &move: GosChess::game_available_moves[index]) {
+        GosChess::board_square move_to = GosChess::GetSquare(move.move_to);
         if (GosChess::CanMakeMove(move)) {
             board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
                                  GosChess::available_move_color);
