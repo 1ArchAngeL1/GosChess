@@ -12,6 +12,8 @@
 namespace GosChess {
 
     Move GetBestMove(GosChess::Board board);
+
+    extern int ai_level;
 }
 
 

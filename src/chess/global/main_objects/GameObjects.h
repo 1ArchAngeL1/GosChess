@@ -56,8 +56,6 @@ namespace GosChess {
 
         Board() = default;
 
-//        explicit Board(unsigned char *);
-
         Board(const Board &board);
 
         ~Board();

@@ -15,27 +15,32 @@ namespace GosChess {
 
     void RenderMainMenuBackground(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderBackgroundWallpaper(sf::RenderWindow&);
+    void RenderBackgroundWallpaper(sf::RenderWindow &);
 
     void RenderMainMenuWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderOptionsBackground(sf::RenderWindow&,ImGuiContext*);
+    void RenderOptionsBackground(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderOptionsWidgets(sf::RenderWindow&,ImGuiContext*);
+    void RenderOptionsWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderHostGameBackground(sf::RenderWindow&,ImGuiContext*);
+    void RenderHostGameBackground(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderHostGameWidgets(sf::RenderWindow&,ImGuiContext*);
+    void RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderGameResultBackground(sf::RenderWindow&,ImGuiContext*);
+    void RenderGameResultBackground(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderGameResultWidgets(sf::RenderWindow&,ImGuiContext*);
+    void RenderGameResultWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderJoinGameBackground(sf::RenderWindow&,ImGuiContext*);
+    void RenderJoinGameBackground(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderJoinGameWidgets(sf::RenderWindow&, ImGuiContext*);
+    void RenderJoinGameWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderMenu(void (*)(sf::RenderWindow &,ImGuiContext *), void (*)(sf::RenderWindow &,ImGuiContext *), sf::RenderWindow &);
+    void RenderAiGameBackground(sf::RenderWindow &, ImGuiContext *);
+
+    void RenderAiGameWidgets(sf::RenderWindow &, ImGuiContext *);
+
+    void RenderMenu(void (*)(sf::RenderWindow &, ImGuiContext *), void (*)(sf::RenderWindow &, ImGuiContext *),
+                    sf::RenderWindow &);
 
     void MenuRenderConfig();
 

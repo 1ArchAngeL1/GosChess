@@ -43,8 +43,8 @@ void GosChess::AIGameInit(sf::RenderWindow &window, ...) {
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     int tmp = std::rand() % 2;
-    GosChess::player_color = static_cast<GosChess::Color>(0);
-    GosChess::enemy_color = static_cast<GosChess::Color>(1);
+    GosChess::player_color = static_cast<GosChess::Color>(tmp);
+    GosChess::enemy_color = static_cast<GosChess::Color>(!tmp);
     board->SetState(GosChess::GetInitialFenBoard());
     GosChess::GenerateOffsets();
     GosChess::BoardRenderConfig();
@@ -64,7 +64,7 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
             return;
         }
         GosChess::Move move = GosChess::GetBestMove(*board);
-        if (GosChess::MakeMove(move, *board, GosChess::color_to_play)) {
+        if (GosChess::MakeMove(move, *board, GosChess::color_to_play, GosChess::game_available_moves[move.move_from])) {
             GosChess::ChangeActiveColour(*board);
         }
     }
@@ -92,20 +92,25 @@ static void ProcessData(GosChess::Board *board) {
     std::optional<GosChess::DataTransfer<std::any>> info = GosChess::Receive();
     if (info.has_value()) {
         GosChess::DataTransfer<std::any> inside = info.value();
-        if (inside.protocol == GosChess::TransferType::MOVE) {
-            GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
-        } else if (GosChess::connection_role == GosChess::ConnectionType::CLIENT &&
-                   inside.protocol == GosChess::TransferType::TIMER && GosChess::time_limit_minutes != 0) {
-            GosChess::CheckReceivedTime(player_timer, enemy_timer,
-                                        std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
-            if (player_timer.GetAmount() <= 0.f) {
-                GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
-                GosChess::game_result = GosChess::GameResult::LOST;
-            }
-        } else if (inside.protocol == GosChess::TransferType::RESULT) {
-            GosChess::GameResultTransfer transfer = std::any_cast<GosChess::GameResultTransfer>(inside.body);
-            GosChess::game_result = transfer.result;
-            GosChess::SetGameFlagFinished();
+        switch (inside.protocol) {
+            case GosChess::TransferType::MOVE:
+                GosChess::CheckReceivedMove(std::any_cast<GosChess::Move>(inside.body), *board);
+                break;
+            case GosChess::TransferType::TIMER:
+                if (GosChess::connection_role == GosChess::ConnectionType::CLIENT &&
+                    GosChess::time_limit_minutes != 0) {
+                    GosChess::CheckReceivedTime(player_timer, enemy_timer,
+                                                std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
+                    if (player_timer.GetAmount() <= 0.f) {
+                        GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
+                        GosChess::game_result = GosChess::GameResult::LOST;
+                    }
+                }
+                break;
+            case GosChess::TransferType::RESULT:
+                GosChess::game_result = std::any_cast<GosChess::GameResultTransfer>(inside.body).result;
+                GosChess::SetGameFlagFinished();
+                break;
         }
     }
 }
@@ -131,7 +136,9 @@ void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock
     }
     ProcessData(board);
     window.clear();
-    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, player_timer.ToString(), enemy_timer.ToString());
+    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window,
+                                    time_limit_minutes ? player_timer.ToString() : "99:99",
+                                    time_limit_minutes ? enemy_timer.ToString() : "99:99");
     window.display();
 }
 
@@ -162,6 +169,9 @@ void GosChess::MenuUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...)
             break;
         case GosChess::RenderMenuFLag::GAME_RESULT:
             GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderGameResultWidgets, window);
+            break;
+        case GosChess::RenderMenuFLag::COMPUTER:
+            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderAiGameWidgets, window);
             break;
         default:
             break;

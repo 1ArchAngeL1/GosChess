@@ -13,9 +13,9 @@ static sf::Sprite board_sprite;
 
 static sf::Texture root_texture;
 
-static constexpr int timer_stand_offset = 18;
+static constexpr int TIMER_STAND_OFFSET = 18;
 
-static constexpr int timer_stand_height = 10;
+static constexpr int TIMER_STAND_HEIGHT = 10;
 
 static sf::RectangleShape timer_stand;
 
@@ -27,7 +27,7 @@ static sf::Text player_timer_display;
 
 static sf::Text enemy_timer_display;
 
-static constexpr char *display_format = "00:00";
+static constexpr char *DISPLAY_FORMAT = "99:99";
 
 static void ColorizeBoardSeed(sf::Color first_color, sf::Color second_color) {
     for (int i = 0; i < GosChess::Board::ROW_LENGTH; i++)
@@ -85,9 +85,9 @@ void GosChess::ChessDrawingConfig() {
     game_theme.setFillColor(sf::Color(64, 64, 64));
     game_theme.setSize(sf::Vector2f(GosChess::window_width, GosChess::window_height));
     timer_stand.setFillColor(sf::Color::White);
-    timer_stand.setSize(sf::Vector2f(GosChess::board_offset_hor - 2 * timer_stand_offset, timer_stand_height));
+    timer_stand.setSize(sf::Vector2f(GosChess::board_offset_hor - 2 * TIMER_STAND_OFFSET, TIMER_STAND_HEIGHT));
     timer_stand.setPosition(
-            sf::Vector2f(GosChess::board_offset_hor + GosChess::board_width + timer_stand_offset,
+            sf::Vector2f(GosChess::board_offset_hor + GosChess::board_width + TIMER_STAND_OFFSET,
                          GosChess::window_height * 0.5f));
     timer_font.loadFromFile("../resources/Lato2OFL/Lato-Black.ttf");
     player_timer_display.setFont(timer_font);
@@ -96,15 +96,15 @@ void GosChess::ChessDrawingConfig() {
     enemy_timer_display.setStyle(sf::Text::Bold);
     player_timer_display.setFillColor(sf::Color::White);
     enemy_timer_display.setFillColor(sf::Color::White);
-    player_timer_display.setString(display_format);
-    player_timer_display.setString(display_format);
+    player_timer_display.setString(DISPLAY_FORMAT);
+    enemy_timer_display.setString(DISPLAY_FORMAT);
     player_timer_display.scale(sf::Vector2f(1.5f, 1.5f));
     enemy_timer_display.scale(sf::Vector2f(1.5f, 1.5f));
     float display_width = player_timer_display.getGlobalBounds().width;
     float display_height = player_timer_display.getGlobalBounds().height * 1.5f;
     player_timer_display.setPosition(
             sf::Vector2f(1.5f * GosChess::board_offset_hor + GosChess::board_width - display_width / 2,
-                         GosChess::window_height * 0.5f + timer_stand_height));
+                         GosChess::window_height * 0.5f + TIMER_STAND_HEIGHT));
     enemy_timer_display.setPosition(
             sf::Vector2f(1.5f * GosChess::board_offset_hor + GosChess::board_width - display_width / 2,
                          GosChess::window_height * 0.5f - display_height));
@@ -117,7 +117,7 @@ void GosChess::ColorizeAvailableMoves(const int &index) {
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
     for (auto &move: GosChess::game_available_moves[index]) {
         GosChess::board_square move_to = GosChess::GetSquare(move.move_to);
-        if (GosChess::CanMakeMove(move)) {
+        if (GosChess::CanMakeMove(move, GosChess::game_available_moves[move.move_from])) {
             board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
                                  GosChess::available_move_color);
         }

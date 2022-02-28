@@ -18,18 +18,11 @@ namespace GosChess {
 
     int GetNumFromNode(const GosChess::board_square &);
 
-    bool MakeMove(GosChess::Move, GosChess::Board &, GosChess::Color);
+    bool MakeMove(GosChess::Move, GosChess::Board &, GosChess::Color, GosChess::MoveBucket &);
 
     bool UndoMove(GosChess::Board &);
 
-//    template<class It>
-//    typename std::iterator_traits<It>::value_type CanMakeMove(GosChess::Move move, It begin, It end) {
-//        while (begin != end) {
-//            if (*begin == move)return true;
-//        }
-//        return false;
-//    }
-    bool CanMakeMove(GosChess::Move);
+    bool CanMakeMove(GosChess::Move, std::unordered_set<GosChess::Move, GosChess::MoveHash> &);
 
     bool CheckMate(GosChess::Board &, GosChess::Color);
 

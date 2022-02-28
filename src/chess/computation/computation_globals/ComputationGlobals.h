@@ -66,12 +66,11 @@ namespace GosChess {
 
     extern GosChess::Offset precalculated_offsets[];
 
-    typedef std::unordered_map<std::int8_t, std::unordered_set<GosChess::Move, GosChess::MoveHash>> MoveLocker;
+    typedef std::unordered_set<GosChess::Move, GosChess::MoveHash> MoveBucket;
+
+    typedef std::unordered_map<std::int8_t, MoveBucket> MoveLocker;
 
     extern MoveLocker game_available_moves;
-
-    extern MoveLocker ai_available_moves;
-
 
 }
 

@@ -14,6 +14,7 @@ namespace GosChess {
 
     enum RenderMenuFLag {
         MAIN_MENU,
+        COMPUTER,
         HOSTING,
         JOINING,
         OPTION,

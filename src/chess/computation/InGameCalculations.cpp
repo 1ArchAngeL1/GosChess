@@ -7,7 +7,6 @@ static constexpr unsigned char sliding_pieces[]{GosChess::FigureTypes::BISHOP,
                                                 GosChess::FigureTypes::ROOK,
                                                 GosChess::FigureTypes::QUEEN};
 
-
 static bool IsPawn(const GosChess::Figure &_fig) {
     return _fig.type == GosChess::FigureTypes::PAWN;
 }
@@ -144,7 +143,6 @@ static bool CheckForKingCheck(const unsigned char *brd, GosChess::Color clr) {
            CheckIndexForKingAttacks(brd, king_color, king_index);
 }
 
-
 static void GenerateSlidingMoves(const unsigned char *board, GosChess::Figure piece, int index, GosChess::Color color) {
     int direction_start_index = (piece.type == GosChess::FigureTypes::BISHOP) ? 4 : 0;
     int direction_end_index = (piece.type == GosChess::FigureTypes::ROOK) ? 4 : 8;
@@ -277,12 +275,13 @@ int GosChess::GetNumFromNode(const GosChess::board_square &cell) {
     return cell.y * GosChess::Board::ROW_NUM + cell.x;
 }
 
-bool GosChess::CanMakeMove(GosChess::Move mv) {
-    return GosChess::game_available_moves[mv.move_from].find(mv) != GosChess::game_available_moves[mv.move_from].end();
+bool GosChess::CanMakeMove(GosChess::Move mv, GosChess::MoveBucket &available_moves) {
+    return available_moves.find(mv) != available_moves.end();
 }
 
-bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &board, GosChess::Color color) {
-    if (!CanMakeMove(mv)) return false;
+bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &board, GosChess::Color color,
+                        GosChess::MoveBucket &available_moves) {
+    if (!CanMakeMove(mv, available_moves)) return false;
     board.SaveState();
     unsigned char current = board.At(mv.move_from).full_type;
     board.SetPosition(mv.move_from, 0);
@@ -305,7 +304,6 @@ void GosChess::ChangeActiveColour(GosChess::Board &board) {
     GosChess::CalculateAvailableMoves(board.GetRawBoard(), color_to_play);
 }
 
-
 bool GosChess::CheckMate(GosChess::Board &board, GosChess::Color color) {
     if (!GosChess::CheckForDraw(board, color)) return false;
     if (CheckForKingCheck(board.GetRawBoard(), color)) {
@@ -319,7 +317,7 @@ bool GosChess::CheckForDraw(GosChess::Board &board, GosChess::Color color) {
         test_fig.full_type = board.GetRawBoard()[it->first];
         if (test_fig.color == color) {
             for (auto &move: GosChess::game_available_moves[it->first]) {
-                if (GosChess::MakeMove(move, board, color)) {
+                if (GosChess::MakeMove(move, board, color, GosChess::game_available_moves[it->first])) {
                     GosChess::UndoMove(board);
                     return false;
                 }
@@ -328,7 +326,6 @@ bool GosChess::CheckForDraw(GosChess::Board &board, GosChess::Color color) {
     }
     return true;
 }
-
 
 void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
     unsigned char current = board.At(mv.move_from).full_type;
