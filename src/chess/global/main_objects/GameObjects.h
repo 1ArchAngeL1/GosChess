@@ -60,21 +60,21 @@ namespace GosChess {
 
         ~Board();
 
-        void SetState(const std::string &);
+        void setState(const std::string &state);
 
-        void SaveState();
+        void saveState();
 
-        void SetPosition(const int &, unsigned char);
+        void setPosition(const int &, unsigned char);
 
-        const unsigned char *GetRawBoard() const;
+        const unsigned char *getRawBoard() const;
 
-        Figure At(const int &) const;
+        Figure at(const int &) const;
 
-        std::string BoardStateToFen() const;
+        std::string boardStateToFen() const;
 
         // static members from here
 
-        static unsigned char *DecodeFen(std::string);
+        static unsigned char *decodeFen(std::string fen_str);
 
         static const std::map<char, unsigned char> FEN_TO_FIG;
 
@@ -89,11 +89,8 @@ namespace GosChess {
         friend bool UndoMove(GosChess::Board &);
 
     private:
-
-        //board representation
         unsigned char *board;
 
-        //game history
         std::stack<std::array<unsigned char, BOARD_SIZE>> game_rev;
 
     };

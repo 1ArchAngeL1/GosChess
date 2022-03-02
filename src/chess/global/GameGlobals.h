@@ -3,7 +3,7 @@
 #define GOSCHESS_GAMEGLOBALS_H
 
 
-#include "main_objects//GameObjects.h"
+#include "main_objects/GameObjects.h"
 
 
 namespace GosChess {

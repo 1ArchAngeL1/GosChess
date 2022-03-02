@@ -16,9 +16,24 @@ static GosChess::Time::Timer player_timer;
 
 static GosChess::Time::Timer enemy_timer;
 
+
+static void UpdateCaller(OnUserUpdate update) {
+
+}
+
 void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTerminator stop,
                         GosChess::GameModeListener *listener, GosChess::Board *game_board) {
-    init(window, game_board);
+    switch (GosChess::game_mode) {
+        case GosChess::GameMode::None:
+            init(window);
+            break;
+        case GosChess::GameMode::SINGLE_PLAYER:
+            init(window, game_board);
+            break;
+        case GosChess::GameMode::MULTI_PLAYER:
+            init(window, game_board);
+            break;
+    }
     sf::Clock delta_clock;
     delta_clock.restart();
     while (window.isOpen()) {
@@ -32,8 +47,20 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
             }
         }
         GosChess::InputHandle::Listen();
-        listener->Action(*game_board);
-        update(window, &delta_clock, game_board);
+
+        listener->action(*game_board);
+
+        switch (GosChess::game_mode) {
+            case GosChess::GameMode::None:
+                update(window, &delta_clock);
+                break;
+            case GosChess::GameMode::SINGLE_PLAYER:
+                update(window, &delta_clock, game_board);
+                break;
+            case GosChess::GameMode::MULTI_PLAYER:
+                update(window, &delta_clock, game_board);
+                break;
+        }
     }
 }
 
@@ -45,11 +72,11 @@ void GosChess::AIGameInit(sf::RenderWindow &window, ...) {
     int tmp = std::rand() % 2;
     GosChess::player_color = static_cast<GosChess::Color>(tmp);
     GosChess::enemy_color = static_cast<GosChess::Color>(!tmp);
-    board->SetState(GosChess::GetInitialFenBoard());
+    board->setState(GosChess::GetInitialFenBoard());
     GosChess::GenerateOffsets();
     GosChess::BoardRenderConfig();
     GosChess::LoadChessFigureSprites();
-    GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
+    GosChess::CalculateAvailableMoves(board->getRawBoard(), color_to_play);
 }
 
 void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ...) {
@@ -58,33 +85,29 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     if (GosChess::color_to_play == GosChess::enemy_color) {
-        if (GosChess::CheckMate(*board, GosChess::enemy_color)) {
-            GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
-            GosChess::game_result = GosChess::GameResult::WON;
-            return;
-        }
         GosChess::Move move = GosChess::GetBestMove(*board);
-        if (GosChess::MakeMove(move, *board, GosChess::color_to_play, GosChess::game_available_moves[move.move_from])) {
+
+        if (GosChess::MakeMove(move, *board, GosChess::enemy_color, GosChess::game_available_moves[move.move_from])) {
             GosChess::ChangeActiveColour(*board);
         }
     }
     window.clear();
-    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window, "00:00 ", "00:00");
+    GosChess::DrawCurrentBoardState(board->getRawBoard(), window, "00:00 ", "00:00");
     window.display();
 }
 
 void GosChess::OnlineGameInit(sf::RenderWindow &window, ...) {
-    player_timer.Set(60 * time_limit_minutes);
-    enemy_timer.Set(60 * time_limit_minutes);
+    player_timer.set(60 * time_limit_minutes);
+    enemy_timer.set(60 * time_limit_minutes);
     va_list args;
     va_start(args, window);
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
-    board->SetState(GosChess::GetInitialFenBoard());
-    GosChess::BoardRenderConfig();
-    GosChess::CalculateAvailableMoves(board->GetRawBoard(), color_to_play);
-    GosChess::LoadChessFigureSprites();
+    board->setState(GosChess::GetInitialFenBoard());
     GosChess::GenerateOffsets();
+    GosChess::CalculateAvailableMoves(board->getRawBoard(), color_to_play);
+    GosChess::BoardRenderConfig();
+    GosChess::LoadChessFigureSprites();
 }
 
 static void ProcessData(GosChess::Board *board) {
@@ -101,7 +124,7 @@ static void ProcessData(GosChess::Board *board) {
                     GosChess::time_limit_minutes != 0) {
                     GosChess::CheckReceivedTime(player_timer, enemy_timer,
                                                 std::any_cast<GosChess::Time::TimerTransferObject>(inside.body));
-                    if (player_timer.GetAmount() <= 0.f) {
+                    if (player_timer.getAmount() <= 0.f) {
                         GosChess::game_status_flag = GosChess::GameStatus::FINISHED;
                         GosChess::game_result = GosChess::GameResult::LOST;
                     }
@@ -125,20 +148,20 @@ void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock
         float dt = delta_clock->restart().asSeconds();
         chrono += dt;
         if (GosChess::color_to_play == GosChess::player_color) {
-            player_timer.Subtract(dt);
+            player_timer.subtract(dt);
         } else {
-            enemy_timer.Subtract(dt);
+            enemy_timer.subtract(dt);
         }
         if (chrono >= 0.3) {
-            GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.GetAmount(), player_timer.GetAmount()));
+            GosChess::SendTime(GosChess::Time::TimerTransferObject(enemy_timer.getAmount(), player_timer.getAmount()));
             chrono = 0;
         }
     }
     ProcessData(board);
     window.clear();
-    GosChess::DrawCurrentBoardState(board->GetRawBoard(), window,
-                                    time_limit_minutes ? player_timer.ToString() : "99:99",
-                                    time_limit_minutes ? enemy_timer.ToString() : "99:99");
+    GosChess::DrawCurrentBoardState(board->getRawBoard(), window,
+                                    time_limit_minutes ? player_timer.toString() : "99:99",
+                                    time_limit_minutes ? enemy_timer.toString() : "99:99");
     window.display();
 }
 

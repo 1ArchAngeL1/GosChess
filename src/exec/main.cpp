@@ -8,10 +8,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 
-
-
-
 int main() {
+
 
     sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height, 24), "window");
     GosChess::MenuRenderConfig();

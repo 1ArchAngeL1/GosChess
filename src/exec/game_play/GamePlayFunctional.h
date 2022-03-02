@@ -24,7 +24,8 @@ namespace GosChess {
 
     enum GameMode {
         SINGLE_PLAYER,
-        MULTI_PLAYER
+        MULTI_PLAYER,
+        None
     };
 
     class GameModeListener {
@@ -33,7 +34,7 @@ namespace GosChess {
     public:
         explicit GameModeListener(sf::RenderWindow &game_window) : game_window(game_window) {}
 
-        virtual void Action(GosChess::Board &) = 0;
+        virtual void action(GosChess::Board &) = 0;
 
     };
 
@@ -41,21 +42,23 @@ namespace GosChess {
     public:
         explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &) override;
+        void action(GosChess::Board &) override;
     };
+
 
     class GamePlayAIListener : public GameModeListener {
     public:
         explicit GamePlayAIListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &) override;
+        void action(GosChess::Board &) override;
     };
+
 
     class MainMenuListener : public GameModeListener {
     public:
         explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void Action(GosChess::Board &) override;
+        void action(GosChess::Board &) override;
     };
 
 
@@ -86,7 +89,7 @@ namespace GosChess {
 
         class Timer {
         private :
-            void Convert(const float &);
+            void convert(const float &);
 
             short minutes;
 
@@ -96,13 +99,13 @@ namespace GosChess {
 
             Timer() = default;
 
-            bool Subtract(const float &);
+            bool subtract(const float &);
 
-            void Set(const float &);
+            void set(const float &);
 
-            std::string ToString() const;
+            std::string toString() const;
 
-            float GetAmount() const;
+            float getAmount() const;
 
         };
 

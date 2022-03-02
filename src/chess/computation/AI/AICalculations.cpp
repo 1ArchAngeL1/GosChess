@@ -45,17 +45,24 @@ static std::vector<GosChess::Move> OrderMoves(const unsigned char *board, GosChe
     for (GosChess::Move move: moves) {
         GosChess::Figure move_from(board[move.move_from]);
         GosChess::Figure move_to(board[move.move_to]);
+        move_scores[move] = INT_MIN;
         if (move_to.full_type == 0) {
-            if (GosChess::CheckIndexForAttackers(board, move.move_to)) {
+            if (GosChess::CheckIndexForAttackers(board, move.move_to))
                 move_scores[move] = -figure_values[move_from.type];
-                continue;
-            }
+            else move_scores[move] = 0;
         } else {
             int evaluate = figure_values[move_from.type] - figure_values[move_to.type];
             move_scores[move] = evaluate;
-            continue;
         }
-        move_scores[move] = INT_MIN;
+        if (move.move_to / GosChess::Board::ROW_LENGTH == GosChess::Board::ROW_NUM - 1) {
+            if (move_from.type == GosChess::FigureTypes::PAWN && move_from.color == GosChess::player_color) {
+                move_scores[move] += figure_values[FIG::QUEEN];
+            }
+        } else if (move.move_to < GosChess::Board::ROW_LENGTH) {
+            if (move_from.type == GosChess::FigureTypes::PAWN && move_from.color == GosChess::enemy_color) {
+                move_scores[move] += figure_values[FIG::QUEEN];
+            }
+        }
     }
     std::sort(result_moves.begin(), result_moves.end(),
               [&](const GosChess::Move &l, const GosChess::Move &r) { return move_scores[l] > move_scores[r]; });
@@ -70,14 +77,19 @@ static int Evaluate(const unsigned char *board, const GosChess::Color &color) {
 static int
 Search(GosChess::Board &board, int depth, bool maximize, int alpha, int beta, bool initial, GosChess::Move &best_move) {
     GosChess::Color color_to_calculate = maximize ? GosChess::enemy_color : GosChess::player_color;
-    if (depth == 0)return Evaluate(board.GetRawBoard(), color_to_calculate);
-    GosChess::CalculateAvailableMoves(board.GetRawBoard(), color_to_calculate);
-    if (maximize && GosChess::CheckMate(board, GosChess::enemy_color))return INT_MIN;
-    GosChess::MoveBucket moves = MergeColorMoves(board.GetRawBoard(), color_to_calculate);
+    if (depth == 0)return Evaluate(board.getRawBoard(), color_to_calculate);
+    GosChess::CalculateAvailableMoves(board.getRawBoard(), color_to_calculate);
+    if (maximize &&
+        (GosChess::CheckForDraw(board, GosChess::enemy_color) || GosChess::CheckMate(board, GosChess::enemy_color))) {
+        return INT_MIN + 1;
+    }
+    GosChess::MoveBucket moves = MergeColorMoves(board.getRawBoard(), color_to_calculate);
     int evaluated_best = maximize ? INT_MIN : INT_MAX;
     GosChess::Move curr_best_move;
-    for (auto &move: OrderMoves(board.GetRawBoard(), moves)) {
+    int count = 0;
+    for (auto &move: OrderMoves(board.getRawBoard(), moves)) {
         if (MakeMove(move, board, color_to_calculate, moves)) {
+            count++;
             int evaluate = Search(board, depth - 1, !maximize, alpha, beta, false, best_move);
             GosChess::UndoMove(board);
             if (maximize) {
@@ -95,6 +107,7 @@ Search(GosChess::Board &board, int depth, bool maximize, int alpha, int beta, bo
             }
         }
     }
+
     if (initial) {
         best_move = curr_best_move;
     }
@@ -103,10 +116,8 @@ Search(GosChess::Board &board, int depth, bool maximize, int alpha, int beta, bo
 
 GosChess::Move GosChess::GetBestMove(GosChess::Board board) {
     GosChess::Move best_move;
-    sf::Clock clock;
     Search(board, ai_level, true, INT_MIN, INT_MAX, true, best_move);
-    std::cout << clock.restart().asSeconds() << std::endl;
-    GosChess::CalculateAvailableMoves(board.GetRawBoard(), GosChess::enemy_color);
+    GosChess::CalculateAvailableMoves(board.getRawBoard(), GosChess::enemy_color);
     return best_move;
 }
 

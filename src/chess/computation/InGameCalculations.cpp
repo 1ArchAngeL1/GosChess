@@ -282,14 +282,15 @@ bool GosChess::CanMakeMove(GosChess::Move mv, GosChess::MoveBucket &available_mo
 bool GosChess::MakeMove(GosChess::Move mv, GosChess::Board &board, GosChess::Color color,
                         GosChess::MoveBucket &available_moves) {
     if (!CanMakeMove(mv, available_moves)) return false;
-    board.SaveState();
-    unsigned char current = board.At(mv.move_from).full_type;
-    board.SetPosition(mv.move_from, 0);
-    board.SetPosition(mv.move_to, current);
-    if (CheckForKingCheck(board.GetRawBoard(), color)) {
+    board.saveState();
+    unsigned char current = board.at(mv.move_from).full_type;
+    board.setPosition(mv.move_from, 0);
+    board.setPosition(mv.move_to, current);
+    if (CheckForKingCheck(board.getRawBoard(), color)) {
         GosChess::UndoMove(board);
         return false;
     }
+    PromotePawns(board);
     return true;
 }
 
@@ -301,12 +302,12 @@ bool GosChess::UndoMove(GosChess::Board &board) {
 
 void GosChess::ChangeActiveColour(GosChess::Board &board) {
     GosChess::color_to_play = static_cast<GosChess::Color>(!static_cast<int>(GosChess::color_to_play));
-    GosChess::CalculateAvailableMoves(board.GetRawBoard(), color_to_play);
+    GosChess::CalculateAvailableMoves(board.getRawBoard(), color_to_play);
 }
 
 bool GosChess::CheckMate(GosChess::Board &board, GosChess::Color color) {
     if (!GosChess::CheckForDraw(board, color)) return false;
-    if (CheckForKingCheck(board.GetRawBoard(), color)) {
+    if (CheckForKingCheck(board.getRawBoard(), color)) {
         return true;
     }
 }
@@ -314,7 +315,7 @@ bool GosChess::CheckMate(GosChess::Board &board, GosChess::Color color) {
 bool GosChess::CheckForDraw(GosChess::Board &board, GosChess::Color color) {
     GosChess::Figure test_fig;
     for (auto it = GosChess::game_available_moves.begin(); it != GosChess::game_available_moves.end(); it++) {
-        test_fig.full_type = board.GetRawBoard()[it->first];
+        test_fig.full_type = board.getRawBoard()[it->first];
         if (test_fig.color == color) {
             for (auto &move: GosChess::game_available_moves[it->first]) {
                 if (GosChess::MakeMove(move, board, color, GosChess::game_available_moves[it->first])) {
@@ -328,9 +329,10 @@ bool GosChess::CheckForDraw(GosChess::Board &board, GosChess::Color color) {
 }
 
 void GosChess::MakeMoveForce(GosChess::Move mv, GosChess::Board &board) {
-    unsigned char current = board.At(mv.move_from).full_type;
-    board.SetPosition(mv.move_from, 0);
-    board.SetPosition(mv.move_to, current);
+    unsigned char current = board.at(mv.move_from).full_type;
+    board.setPosition(mv.move_from, 0);
+    board.setPosition(mv.move_to, current);
+    PromotePawns(board);
 }
 
 GosChess::Move GosChess::InvertMove(GosChess::Move move) {
@@ -351,5 +353,21 @@ bool GosChess::CheckIndexForAttackers(const unsigned char *board, const int &ind
 }
 
 void GosChess::PromotePawns(GosChess::Board &board) {
-
+    const unsigned char *raw_board = board.getRawBoard();
+    Figure test_fig;
+    for (int i = 0; i < Board::ROW_LENGTH; i++) {
+        test_fig.full_type = raw_board[i];
+        if (test_fig.type == GosChess::FigureTypes::PAWN && test_fig.color == enemy_color) {
+            test_fig.type = GosChess::FigureTypes::QUEEN;
+            board.setPosition(i, test_fig.full_type);
+        }
+    }
+    for (int i = 0; i < Board::ROW_LENGTH; i++) {
+        int index = (Board::ROW_NUM - 1) * Board::ROW_LENGTH + i;
+        test_fig.full_type = raw_board[index];
+        if (test_fig.type == GosChess::FigureTypes::PAWN && test_fig.color == player_color) {
+            test_fig.type = GosChess::FigureTypes::QUEEN;
+            board.setPosition(index, test_fig.full_type);
+        }
+    }
 }

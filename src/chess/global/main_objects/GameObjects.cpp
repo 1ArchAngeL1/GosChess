@@ -57,7 +57,7 @@ const std::map<unsigned char, char> GosChess::Board::FIG_TO_FEN = {{Figure(Color
                                                                    {Figure(Color::BLACK,
                                                                            FIGTYPE::QUEEN).full_type,              'q'}};
 
-unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
+unsigned char *GosChess::Board::decodeFen(std::string fen_str) {
     unsigned char *board_demo = new unsigned char[Board::BOARD_SIZE]{0};
     short curr_pos = 0;
     for (int i = 0; i < fen_str.length(); i++) {
@@ -75,15 +75,15 @@ unsigned char *GosChess::Board::DecodeFen(std::string fen_str) {
 }
 
 GosChess::Board::Board(std::string initial_state) {
-    this->board = Board::DecodeFen(initial_state);
+    this->board = Board::decodeFen(initial_state);
 }
 
-void GosChess::Board::SetPosition(const int &grid_num, unsigned char figure) {
+void GosChess::Board::setPosition(const int &grid_num, unsigned char figure) {
     this->board[grid_num] = figure;
 }
 
 // ignore this block of code, it was little challenge for my self :))) i know it looks hoooriibbleee :))
-std::string GosChess::Board::BoardStateToFen() const {
+std::string GosChess::Board::boardStateToFen() const {
     unsigned char *target_board = this->board;
     std::string fen_str = "";
     int empty = 0;
@@ -102,11 +102,11 @@ std::string GosChess::Board::BoardStateToFen() const {
     return fen_str;
 }
 
-const unsigned char *GosChess::Board::GetRawBoard() const {
+const unsigned char *GosChess::Board::getRawBoard() const {
     return this->board;
 }
 
-GosChess::Figure GosChess::Board::At(const int &index) const {
+GosChess::Figure GosChess::Board::at(const int &index) const {
     unsigned char fig_char = this->board[index];
     return GosChess::Figure(fig_char);
 }
@@ -117,7 +117,7 @@ GosChess::Figure::Figure(const unsigned char &color, const unsigned char &type) 
     this->type = type;
 }
 
-void GosChess::Board::SaveState() {
+void GosChess::Board::saveState() {
     std::array<unsigned char, Board::BOARD_SIZE> arr{};
     std::copy(Board::board, Board::board + BOARD_SIZE, arr.begin());
     this->game_rev.push(arr);
@@ -134,7 +134,7 @@ GosChess::Board::Board(const GosChess::Board &board) {
     this->game_rev = board.game_rev;
 }
 
-void GosChess::Board::SetState(const std::string &state) {
-    this->board = Board::DecodeFen(state);
+void GosChess::Board::setState(const std::string &state) {
+    this->board = Board::decodeFen(state);
 }
 

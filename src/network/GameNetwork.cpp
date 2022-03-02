@@ -140,7 +140,6 @@ void GosChess::SendMove(GosChess::Move move) {
     while (GosChess::connection.send(packet) == sf::Socket::Partial);
 }
 
-
 void GosChess::SendTime(GosChess::Time::TimerTransferObject obj) {
     sf::Packet packet;
     packet << GosChess::TimeTransfer(GosChess::TransferType::TIMER, obj);

@@ -17,6 +17,7 @@ static constexpr char *CHOOSE_TIME = "Choose Time limit";
 static constexpr char *GAME_OPTIONS = "Game Options";
 static constexpr char *GAME_WON = "Game Won";
 static constexpr char *GAME_LOST = "Game Lost";
+static constexpr char *GAME_DRAW = "Game Draw";
 static constexpr char *CHOOSE_LEVEL = "Choose Difficulty";
 
 static constexpr char *TIME_CHOOSE[] = {" ", "1", "3", "10", "30"};
@@ -70,11 +71,6 @@ static void UpdateColors() {
     GosChess::secondary_color.r = 255.f * sec_clr.x, GosChess::secondary_color.g = 255.f * sec_clr.y,
     GosChess::secondary_color.b = 255.f * sec_clr.w, GosChess::secondary_color.g = 255.f * sec_clr.z;
 }
-
-
-typedef float slider_colors;
-
-static slider_colors R, G, B;
 
 
 void GosChess::RenderBackgroundWallpaper(sf::RenderWindow &window) {
@@ -291,6 +287,7 @@ void GosChess::RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *context) 
     if (ImGui::Button("Host", ImVec2(500, 100))) {
         GosChess::time_limit_minutes = current_choice != " " ? std::stoi(current_choice) : 0;
         GosChess::HostInit();
+        current_choice = TIME_CHOOSE[0];
     }
     ImGui::Indent(-200);
     ImGui::Indent(200);
@@ -316,10 +313,16 @@ void GosChess::RenderGameResultWidgets(sf::RenderWindow &, ImGuiContext *) {
         ImGui::Text("%s", GAME_WON);
         ImGui::Dummy(ImVec2(0.0f, 40.0f));
         ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * -0.5f);
-    } else {
+    } else if (GosChess::game_result == GosChess::GameResult::LOST) {
         auto textWidth = ImGui::CalcTextSize(GAME_LOST).x;
         ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * 0.5f);
         ImGui::Text("%s", GAME_LOST);
+        ImGui::Dummy(ImVec2(0.0f, 40.0f));
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * -0.5f);
+    } else if (GosChess::game_result == GosChess::GameResult::DRAW) {
+        auto textWidth = ImGui::CalcTextSize(GAME_DRAW).x;
+        ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * 0.5f);
+        ImGui::Text("%s", GAME_DRAW);
         ImGui::Dummy(ImVec2(0.0f, 40.0f));
         ImGui::Indent((static_cast<float>(GosChess::main_menu_width) - textWidth) * -0.5f);
     }
