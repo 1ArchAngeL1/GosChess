@@ -29,7 +29,6 @@ namespace GosChess {
         RESULT
     };
 
-
     template<typename T>
     struct DataTransfer {
         DataTransfer() = default;

@@ -112,14 +112,16 @@ void GosChess::ChessDrawingConfig() {
 }
 
 
-void GosChess::ColorizeAvailableMoves(const int &index) {
+void GosChess::ColorizeAvailableMoves(const int &index, Board &board) {
     board_image.create(GosChess::Board::ROW_LENGTH, GosChess::Board::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
     for (auto &move: GosChess::game_available_moves[index]) {
-        GosChess::board_square move_to = GosChess::GetSquare(move.move_to);
-        if (GosChess::CanMakeMove(move, GosChess::game_available_moves[move.move_from])) {
+        board_square move_to = GosChess::GetSquare(move.move_to);
+        Color color = board.at(move.move_from).color == 0 ? Color::WHITE : Color::BLACK;
+        if (GosChess::MakeMove(move, board, color, GosChess::game_available_moves[move.move_from])) {
             board_image.setPixel(move_to.x, GosChess::Board::ROW_NUM - move_to.y - 1,
                                  GosChess::available_move_color);
+            GosChess::UndoMove(board);
         }
 
     }

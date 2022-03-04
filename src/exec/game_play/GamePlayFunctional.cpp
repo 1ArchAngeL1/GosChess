@@ -144,7 +144,7 @@ std::optional<GosChess::board_square> GosChess::ChooseSrcFigure(GosChess::Board 
     }
     GosChess::board_square src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
                                                                   sf::Mouse::getPosition(window).x);
-    GosChess::ColorizeAvailableMoves(GosChess::GetNumFromNode(src_node));
+    GosChess::ColorizeAvailableMoves(GosChess::GetNumFromNode(src_node),brd);
     highlited = true;
     return {src_node};
 }

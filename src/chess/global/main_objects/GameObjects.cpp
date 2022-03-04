@@ -20,7 +20,6 @@ static GosChess::Figure FigureFromChar(const char &figure_rep) {
         return figure;
     }
     return GosChess::Figure(0);
-
 }
 
 typedef enum GosChess::FigureTypes FIGTYPE;
@@ -74,7 +73,7 @@ unsigned char *GosChess::Board::decodeFen(std::string fen_str) {
     return board_demo;
 }
 
-GosChess::Board::Board(std::string initial_state) {
+GosChess::Board::Board(const std::string &initial_state) {
     this->board = Board::decodeFen(initial_state);
 }
 

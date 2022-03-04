@@ -17,10 +17,6 @@ static GosChess::Time::Timer player_timer;
 static GosChess::Time::Timer enemy_timer;
 
 
-static void UpdateCaller(OnUserUpdate update) {
-
-}
-
 void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTerminator stop,
                         GosChess::GameModeListener *listener, GosChess::Board *game_board) {
     switch (GosChess::game_mode) {
@@ -37,7 +33,7 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
     sf::Clock delta_clock;
     delta_clock.restart();
     while (window.isOpen()) {
-        if (stop()) return;
+        if (stop()) break;
         sf::Event event;
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
@@ -70,8 +66,8 @@ void GosChess::AIGameInit(sf::RenderWindow &window, ...) {
     GosChess::Board *board = va_arg(args, GosChess::Board*);
     va_end(args);
     int tmp = std::rand() % 2;
-    GosChess::player_color = static_cast<GosChess::Color>(tmp);
-    GosChess::enemy_color = static_cast<GosChess::Color>(!tmp);
+    GosChess::player_color = static_cast<GosChess::Color>(0);
+    GosChess::enemy_color = static_cast<GosChess::Color>(1);
     board->setState(GosChess::GetInitialFenBoard());
     GosChess::GenerateOffsets();
     GosChess::BoardRenderConfig();
@@ -92,7 +88,7 @@ void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock, ..
         }
     }
     window.clear();
-    GosChess::DrawCurrentBoardState(board->getRawBoard(), window, "00:00 ", "00:00");
+    GosChess::DrawCurrentBoardState(board->getRawBoard(), window, "99:99 ", "99:99");
     window.display();
 }
 

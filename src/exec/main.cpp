@@ -10,8 +10,7 @@
 
 int main() {
 
-
-    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height, 24), "window");
+    sf::RenderWindow window(sf::VideoMode(GosChess::window_width, GosChess::window_height, 24), "GosChess");
     GosChess::MenuRenderConfig();
     GosChess::ChessDrawingConfig();
     while (true) {

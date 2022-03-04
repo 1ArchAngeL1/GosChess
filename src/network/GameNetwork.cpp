@@ -225,8 +225,8 @@ void GosChess::SetConnected(bool value) {
 }
 
 void GosChess::KillNetwork() {
-    GosChess::client_listener.close();
     GosChess::connection.disconnect();
+    GosChess::client_listener.close();
 }
 
 sf::IpAddress GosChess::remote_ip;

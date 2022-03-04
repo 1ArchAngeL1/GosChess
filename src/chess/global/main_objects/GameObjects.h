@@ -52,7 +52,7 @@ namespace GosChess {
 
     class Board {
     public:
-        explicit Board(std::string);
+        explicit Board(const std::string&);
 
         Board() = default;
 

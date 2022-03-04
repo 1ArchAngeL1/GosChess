@@ -66,10 +66,10 @@ static void ToggleButton(const char *str_id, bool *v) {
 
 static void UpdateColors() {
     GosChess::main_color.r = 255.f * main_clr.x, GosChess::main_color.g = 255.f * main_clr.y,
-    GosChess::main_color.b = 255.f * main_clr.w, GosChess::main_color.g = 255.f * main_clr.z;
+    GosChess::main_color.b = 255.f * main_clr.w, GosChess::main_color.a = 255.f * main_clr.z;
 
     GosChess::secondary_color.r = 255.f * sec_clr.x, GosChess::secondary_color.g = 255.f * sec_clr.y,
-    GosChess::secondary_color.b = 255.f * sec_clr.w, GosChess::secondary_color.g = 255.f * sec_clr.z;
+    GosChess::secondary_color.b = 255.f * sec_clr.w, GosChess::secondary_color.a = 255.f * sec_clr.z;
 }
 
 
