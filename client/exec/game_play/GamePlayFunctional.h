@@ -13,6 +13,7 @@
 #include "../../util/GameInput.h"
 #include <SFML/Graphics.hpp>
 #include <imgui-SFML.h>
+#include <optional>
 
 namespace GosChess {
 
