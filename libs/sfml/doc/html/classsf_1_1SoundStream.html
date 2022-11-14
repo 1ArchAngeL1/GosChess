@@ -126,10 +126,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a2f192f2b49fb8e2b82f3498d3663fcc2">setVolume</a> (float volume)</td></tr>
 <tr class="memdesc:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the volume of the sound.  <a href="#a2f192f2b49fb8e2b82f3498d3663fcc2">More...</a><br /></td></tr>
 <tr class="separator:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setPosition</a> (float x, float y, float z)</td></tr>
+<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setFigure</a> (float x, float y, float z)</td></tr>
 <tr class="memdesc:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">More...</a><br /></td></tr>
 <tr class="separator:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setPosition</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
+<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setFigure</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
 <tr class="memdesc:a17ba9ed01925395652181a7b2a7d3aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a17ba9ed01925395652181a7b2a7d3aef">More...</a><br /></td></tr>
 <tr class="separator:a17ba9ed01925395652181a7b2a7d3aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac478a8b813faf7dd575635b102081d0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#ac478a8b813faf7dd575635b102081d0d">setRelativeToListener</a> (bool relative)</td></tr>
@@ -203,7 +203,7 @@ Protected Attributes</h2></td></tr>
 <p>It is important to note that each <a class="el" href="classsf_1_1SoundStream.html" title="Abstract base class for streamed audio sources. ">SoundStream</a> is played in its own separate thread, so that the streaming loop doesn't block the rest of the program. In particular, the OnGetData and OnSeek virtual functions may sometimes be called from this separate thread. It is important to keep this in mind, because you may have to take care of synchronization issues if you share data between threads.</p>
 <p>Usage example: </p><div class="fragment"><div class="line"><span class="keyword">class </span>CustomStream : <span class="keyword">public</span> <a class="code" href="classsf_1_1SoundStream.html">sf::SoundStream</a></div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line"></div><div class="line">    <span class="keywordtype">bool</span> open(<span class="keyword">const</span> std::string&amp; location)</div><div class="line">    {</div><div class="line">        <span class="comment">// Open the source and get audio settings</span></div><div class="line">        ...</div><div class="line">        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> channelCount = ...;</div><div class="line">        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sampleRate = ...;</div><div class="line"></div><div class="line">        <span class="comment">// Initialize the stream -- important!</span></div><div class="line">        <a class="code" href="classsf_1_1SoundStream.html#a9c351711198ee1aa77c2fefd3ced4d2c">initialize</a>(channelCount, sampleRate);</div><div class="line">    }</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line"></div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classsf_1_1SoundStream.html#a968ec024a6e45490962c8a1121cb7c5f">onGetData</a>(Chunk&amp; data)</div><div class="line">    {</div><div class="line">        <span class="comment">// Fill the chunk with audio data from the stream source</span></div><div class="line">        <span class="comment">// (note: must not be empty if you want to continue playing)</span></div><div class="line">        data.samples = ...;</div><div class="line">        data.sampleCount = ...;</div><div class="line"></div><div class="line">        <span class="comment">// Return true to continue playing</span></div><div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classsf_1_1SoundStream.html#a907036dd2ca7d3af5ead316e54b75997">onSeek</a>(Uint32 timeOffset)</div><div class="line">    {</div><div class="line">        <span class="comment">// Change the current position in the stream source</span></div><div class="line">        ...</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Usage</span></div><div class="line">CustomStream stream;</div><div class="line">stream.open(<span class="stringliteral">&quot;path/to/stream&quot;</span>);</div><div class="line">stream.play();</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="SoundStream_8hpp_source.html#l00045">45</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundStream_8hpp_source.html#l00045">45</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a7707214e7cd4ffcf1c123e7bcab4092a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7707214e7cd4ffcf1c123e7bcab4092a">&#9670;&nbsp;</a></span>anonymous enum</h2>
@@ -229,7 +229,7 @@ Protected Attributes</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="SoundStream_8hpp_source.html#l00183">183</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundStream_8hpp_source.html#l00183">183</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
 
 </div>
 </div>
@@ -263,7 +263,7 @@ Protected Attributes</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>
@@ -499,7 +499,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Get the 3D position of the sound in the audio scene. </p>
 <dl class="section return"><dt>Returns</dt><dd>Position of the sound</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setPosition</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setFigure</a> </dd></dl>
 
 </div>
 </div>
@@ -683,7 +683,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Request a new chunk of audio samples from the stream source. </p>
-<p>This function must be overridden by derived classes to provide the audio samples to play. It is called continuously by the streaming loop, in a separate thread. The source can choose to stop the streaming loop at any time, by returning false to the caller. If you return true (i.e. continue streaming) it is important that the returned array of samples is not empty; this would stop the stream due to an internal limitation.</p>
+<p>This function must be overridden by derived classes to provide the audio samples to play. It is called continuously by the streaming loop, in a separate thread. The source can choose to stop the streaming loop getFigure any time, by returning false to the caller. If you return true (i.e. continue streaming) it is important that the returned array of samples is not empty; this would stop the stream due to an internal limitation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td><a class="el" href="structsf_1_1SoundStream_1_1Chunk.html" title="Structure defining a chunk of audio data to stream. ">Chunk</a> of data to fill</td></tr>
@@ -915,7 +915,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the minimum distance of the sound. </p>
-<p>The "minimum distance" of a sound is the maximum distance at which it is heard at its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
+<p>The "minimum distance" of a sound is the maximum distance getFigure which it is heard getFigure its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
 of the listener") is an invalid value and is forbidden. The default value of the minimum distance is 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -992,7 +992,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a0480257ea25d986eba6cc3c1a6f8d7c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1001,7 +1001,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -1046,7 +1046,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a17ba9ed01925395652181a7b2a7d3aef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1055,7 +1055,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em></td><td>)</td>
@@ -1207,7 +1207,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 
 <p>OpenAL source identifier. </p>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>

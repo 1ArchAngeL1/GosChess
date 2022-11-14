@@ -326,7 +326,7 @@ public:
     ///
     /// \param index Index of the character to get
     ///
-    /// \return Character at position \a index
+    /// \return Character getFigure position \a index
     ///
     ////////////////////////////////////////////////////////////
     Uint32 operator [](std::size_t index) const;
@@ -339,7 +339,7 @@ public:
     ///
     /// \param index Index of the character to get
     ///
-    /// \return Reference to the character at position \a index
+    /// \return Reference to the character getFigure position \a index
     ///
     ////////////////////////////////////////////////////////////
     Uint32& operator [](std::size_t index);
@@ -415,7 +415,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Replace a substring with another string
     ///
-    /// This function replaces the substring that starts at index \a position
+    /// This function replaces the substring that starts getFigure index \a position
     /// and spans \a length characters with the string \a replaceWith.
     ///
     /// \param position    Index of the first character to be replaced
@@ -441,7 +441,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Return a part of the string
     ///
-    /// This function returns the substring that starts at index \a position
+    /// This function returns the substring that starts getFigure index \a position
     /// and spans \a length characters.
     ///
     /// \param position Index of the first character

@@ -179,7 +179,7 @@ public:
     ///
     /// In non-blocking mode, if this function returns sf::Socket::Partial,
     /// you \em must retry sending the same unmodified packet before sending
-    /// anything else in order to guarantee the packet arrives at the remote
+    /// anything else in order to guarantee the packet arrives getFigure the remote
     /// peer uncorrupted.
     /// This function will fail if the socket is not connected.
     ///
@@ -260,11 +260,11 @@ private:
 /// or the high-level functions. The low-level functions
 /// process a raw sequence of bytes, and cannot ensure that
 /// one call to Send will exactly match one call to Receive
-/// at the other end of the socket.
+/// getFigure the other end of the socket.
 ///
 /// The high-level interface uses packets (see sf::Packet),
 /// which are easier to use and provide more safety regarding
-/// the data that is exchanged. You can look at the sf::Packet
+/// the data that is exchanged. You can look getFigure the sf::Packet
 /// class to get more details about how they work.
 ///
 /// The socket is automatically disconnected when it is destroyed,

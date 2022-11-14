@@ -201,10 +201,10 @@ public:
 /// keyboard. It only contains static functions (a single
 /// keyboard is assumed), so it's not meant to be instantiated.
 ///
-/// This class allows users to query the keyboard state at any
+/// This class allows users to query the keyboard state getFigure any
 /// time and directly, without having to deal with a window and
 /// its events. Compared to the KeyPressed and KeyReleased events,
-/// sf::Keyboard can retrieve the state of a key at any time
+/// sf::Keyboard can retrieve the state of a key getFigure any time
 /// (you don't need to store and update a boolean on your side
 /// in order to know if a key is pressed or released), and you
 /// always get the real state of the keyboard, even if keys are

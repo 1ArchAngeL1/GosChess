@@ -184,7 +184,7 @@ union {</td></tr>
 <p>Events are retrieved using the <a class="el" href="classsf_1_1Window.html#a338e996585faf82e93069858e3b531b7" title="Pop the event on top of the event queue, if any, and return it. ">sf::Window::pollEvent</a> and <a class="el" href="classsf_1_1Window.html#aaf02ab64fbc1d374eef3696df54137bc" title="Wait for an event and return it. ">sf::Window::waitEvent</a> functions.</p>
 <p>A <a class="el" href="classsf_1_1Event.html" title="Defines a system event and its parameters. ">sf::Event</a> instance contains the type of the event (mouse moved, key pressed, window closed, ...) as well as the details about this particular event. Please note that the event parameters are defined in a union, which means that only the member matching the type of the event will be properly filled; all other members will have undefined values and must not be read if the type of the event doesn't match. For example, if you received a KeyPressed event, then you must read the event.key member, all other members such as event.mouseMove or event.text will have undefined values.</p>
 <p>Usage example: </p><div class="fragment"><div class="line"><a class="code" href="classsf_1_1Event.html">sf::Event</a> event;</div><div class="line"><span class="keywordflow">while</span> (window.<a class="code" href="classsf_1_1Window.html#a338e996585faf82e93069858e3b531b7">pollEvent</a>(event))</div><div class="line">{</div><div class="line">    <span class="comment">// Request for closing the window</span></div><div class="line">    <span class="keywordflow">if</span> (event.<a class="code" href="classsf_1_1Event.html#adf2f8044f713fd9d6019077b0d1ffe0a">type</a> == <a class="code" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa316e4212e083f1dce79efd8d9e9c0a95">sf::Event::Closed</a>)</div><div class="line">        window.<a class="code" href="classsf_1_1Window.html#a99d1e030387b0c26f5995670504fe7b5">close</a>();</div><div class="line"></div><div class="line">    <span class="comment">// The escape key was pressed</span></div><div class="line">    <span class="keywordflow">if</span> ((event.<a class="code" href="classsf_1_1Event.html#adf2f8044f713fd9d6019077b0d1ffe0a">type</a> == <a class="code" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aac3c7abfaa98c73bfe6be0b57df09c71b">sf::Event::KeyPressed</a>) &amp;&amp; (event.<a class="code" href="classsf_1_1Event.html#a45b92fc6757ca7c193f06b302e424ab0">key</a>.<a class="code" href="structsf_1_1Event_1_1KeyEvent.html#a2879fdab8a68cb1c6ecc45730a2d0e61">code</a> == <a class="code" href="classsf_1_1Keyboard.html#acb4cacd7cc5802dec45724cf3314a142a64b7ecb543c5d03bec8383dde123c95d">sf::Keyboard::Escape</a>))</div><div class="line">        window.<a class="code" href="classsf_1_1Window.html#a99d1e030387b0c26f5995670504fe7b5">close</a>();</div><div class="line"></div><div class="line">    <span class="comment">// The window was resized</span></div><div class="line">    <span class="keywordflow">if</span> (event.<a class="code" href="classsf_1_1Event.html#adf2f8044f713fd9d6019077b0d1ffe0a">type</a> == <a class="code" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa67fd26d7e520bc6722db3ff47ef24941">sf::Event::Resized</a>)</div><div class="line">        doSomethingWithTheNewSize(event.<a class="code" href="classsf_1_1Event.html#a85dae56a377eeffd39183c3f6fc96cb9">size</a>.<a class="code" href="structsf_1_1Event_1_1SizeEvent.html#a20ea1b78c9bb1604432f8f0067bbfd94">width</a>, event.<a class="code" href="classsf_1_1Event.html#a85dae56a377eeffd39183c3f6fc96cb9">size</a>.<a class="code" href="structsf_1_1Event_1_1SizeEvent.html#af0f76a599d5f48189cb8d78d4e5facdb">height</a>);</div><div class="line"></div><div class="line">    <span class="comment">// etc ...</span></div><div class="line">}</div></div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00044">44</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00044">44</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="af41fa9ed45c02449030699f671331d4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af41fa9ed45c02449030699f671331d4a">&#9670;&nbsp;</a></span>EventType</h2>
@@ -250,7 +250,7 @@ union {</td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00187">187</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00187">187</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -269,7 +269,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Joystick.html" title="Give access to the real-time state of the joysticks. ">Joystick</a> button event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa6d46855f0253f065689b69cd09437222" title="A joystick button was pressed (data in event.joystickButton) ">Event::JoystickButtonPressed</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa2246ef5ee33f7fa4b2a53f042ceeac3d" title="A joystick button was released (data in event.joystickButton) ">Event::JoystickButtonReleased</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00231">231</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00231">231</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -287,7 +287,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Joystick.html" title="Give access to the real-time state of the joysticks. ">Joystick</a> (dis)connect event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aaabb8877ec2f0c92904170deded09321e" title="A joystick was connected (data in event.joystickConnect) ">Event::JoystickConnected</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aab6e161dab7abaf154cc1c7b554558cb6" title="A joystick was disconnected (data in event.joystickConnect) ">Event::JoystickDisconnected</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00232">232</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00232">232</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -305,7 +305,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Joystick.html" title="Give access to the real-time state of the joysticks. ">Joystick</a> move event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa4d6ad228485c135967831be16ec074dd" title="The joystick moved along an axis (data in event.joystickMove) ">Event::JoystickMoved</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00230">230</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00230">230</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -323,7 +323,7 @@ union {</td></tr>
 
 <p>Key event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aac3c7abfaa98c73bfe6be0b57df09c71b" title="A key was pressed (data in event.key) ">Event::KeyPressed</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aaa5bcc1e603d5a6f4c137af39558bd5d1" title="A key was released (data in event.key) ">Event::KeyReleased</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00224">224</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00224">224</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -341,7 +341,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Mouse.html" title="Give access to the real-time state of the mouse. ">Mouse</a> button event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa55a3dcc8bf6c40e37f9ff2cdf606481f" title="A mouse button was pressed (data in event.mouseButton) ">Event::MouseButtonPressed</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa9be69ecc07e484467ebbb133182fe5c1" title="A mouse button was released (data in event.mouseButton) ">Event::MouseButtonReleased</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00227">227</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00227">227</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -359,7 +359,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Mouse.html" title="Give access to the real-time state of the mouse. ">Mouse</a> move event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa4ff4fc3b3dc857e3617a63feb54be209" title="The mouse cursor moved (data in event.mouseMove) ">Event::MouseMoved</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00226">226</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00226">226</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -377,7 +377,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Mouse.html" title="Give access to the real-time state of the mouse. ">Mouse</a> wheel event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa5cc9d3941af2a36049f4f9922c934a80" title="The mouse wheel was scrolled (data in event.mouseWheel) (deprecated) ">Event::MouseWheelMoved</a>) (deprecated) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00228">228</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00228">228</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -395,7 +395,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Mouse.html" title="Give access to the real-time state of the mouse. ">Mouse</a> wheel event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa2fb6925eb3e7f3d468faf639dbd129ad" title="The mouse wheel was scrolled (data in event.mouseWheelScroll) ">Event::MouseWheelScrolled</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00229">229</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00229">229</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +413,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Sensor.html" title="Give access to the real-time state of the sensors. ">Sensor</a> event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aaadf9a44c788eb9467a83c074fbf12613" title="A sensor value changed (data in event.sensor) ">Event::SensorChanged</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00234">234</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00234">234</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -431,7 +431,7 @@ union {</td></tr>
 
 <p>Size event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa67fd26d7e520bc6722db3ff47ef24941" title="The window was resized (data in event.size) ">Event::Resized</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00223">223</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00223">223</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -449,7 +449,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Text.html" title="Graphical text that can be drawn to a render target. ">Text</a> event parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa7e09871dc984080ff528e4f7e073e874" title="A character was entered (data in event.text) ">Event::TextEntered</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00225">225</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00225">225</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ union {</td></tr>
 
 <p><a class="el" href="classsf_1_1Touch.html" title="Give access to the real-time state of the touches. ">Touch</a> events parameters (<a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aae6f8231ad6013d063929a09b6c28f515" title="A touch event began (data in event.touch) ">Event::TouchBegan</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa9524b7d7665212c6d56f623b5b8311a9" title="A touch moved (data in event.touch) ">Event::TouchMoved</a>, <a class="el" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aabc7123492dbca320da5c03fea1a141e5" title="A touch event ended (data in event.touch) ">Event::TouchEnded</a>) </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00233">233</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00233">233</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>
@@ -485,7 +485,7 @@ union {</td></tr>
 
 <p>Type of the event. </p>
 
-<p class="definition">Definition at line <a class="el" href="Event_8hpp_source.html#l00219">219</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Event_8hpp_source.html#l00219">219</a> of file <a class="el" href="Event_8hpp_source.html">Event.hpp</a>.</p>
 
 </div>
 </div>

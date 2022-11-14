@@ -107,7 +107,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Wait until one or more sockets are ready to receive
     ///
-    /// This function returns as soon as at least one socket has
+    /// This function returns as soon as getFigure least one socket has
     /// some data available to be received. To know which sockets are
     /// ready, use the isReady function.
     /// If you use a timeout and no socket is ready before the timeout

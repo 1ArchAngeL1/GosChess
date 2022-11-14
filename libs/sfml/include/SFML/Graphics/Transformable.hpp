@@ -166,7 +166,7 @@ public:
     ///
     /// \return Current position
     ///
-    /// \see setPosition
+    /// \see setFigure
     ///
     ////////////////////////////////////////////////////////////
     const Vector2f& getPosition() const;
@@ -207,17 +207,17 @@ public:
     /// \brief Move the object by a given offset
     ///
     /// This function adds to the current position of the object,
-    /// unlike setPosition which overwrites it.
+    /// unlike setFigure which overwrites it.
     /// Thus, it is equivalent to the following code:
     /// \code
     /// sf::Vector2f pos = object.getPosition();
-    /// object.setPosition(pos.x + offsetX, pos.y + offsetY);
+    /// object.setFigure(pos.x + offsetX, pos.y + offsetY);
     /// \endcode
     ///
     /// \param offsetX X offset
     /// \param offsetY Y offset
     ///
-    /// \see setPosition
+    /// \see setFigure
     ///
     ////////////////////////////////////////////////////////////
     void move(float offsetX, float offsetY);
@@ -226,15 +226,15 @@ public:
     /// \brief Move the object by a given offset
     ///
     /// This function adds to the current position of the object,
-    /// unlike setPosition which overwrites it.
+    /// unlike setFigure which overwrites it.
     /// Thus, it is equivalent to the following code:
     /// \code
-    /// object.setPosition(object.getPosition() + offset);
+    /// object.setFigure(object.getPosition() + offset);
     /// \endcode
     ///
     /// \param offset Offset
     ///
-    /// \see setPosition
+    /// \see setFigure
     ///
     ////////////////////////////////////////////////////////////
     void move(const Vector2f& offset);
@@ -385,7 +385,7 @@ private:
 /// };
 ///
 /// MyEntity entity;
-/// entity.setPosition(10, 20);
+/// entity.setFigure(10, 20);
 /// entity.setRotation(45);
 /// window.draw(entity);
 /// \endcode
@@ -399,7 +399,7 @@ private:
 /// public:
 ///     void SetPosition(const MyVector& v)
 ///     {
-///         myTransform.setPosition(v.x(), v.y());
+///         myTransform.setFigure(v.x(), v.y());
 ///     }
 ///
 ///     void Draw(sf::RenderTarget& target) const

@@ -138,7 +138,7 @@ Protected Member Functions</h2></td></tr>
 <p>A listener is automatically closed on destruction, like all other types of socket. However if you want to stop listening before the socket is destroyed, you can call its <a class="el" href="classsf_1_1TcpListener.html#a3a00a850506bd0f9f48867a0fe59556b" title="Stop listening and close the socket. ">close()</a> function.</p>
 <p>Usage example: </p><div class="fragment"><div class="line"><span class="comment">// Create a listener socket and make it wait for new</span></div><div class="line"><span class="comment">// connections on port 55001</span></div><div class="line"><a class="code" href="classsf_1_1TcpListener.html">sf::TcpListener</a> listener;</div><div class="line">listener.<a class="code" href="classsf_1_1TcpListener.html#a9504758ea3570e62cb20b209c11776a1">listen</a>(55001);</div><div class="line"></div><div class="line"><span class="comment">// Endless loop that waits for new connections</span></div><div class="line"><span class="keywordflow">while</span> (running)</div><div class="line">{</div><div class="line">    <a class="code" href="classsf_1_1TcpSocket.html">sf::TcpSocket</a> client;</div><div class="line">    <span class="keywordflow">if</span> (listener.<a class="code" href="classsf_1_1TcpListener.html#ae2c83ce5a64d50b68180c46bef0a7346">accept</a>(client) == <a class="code" href="classsf_1_1Socket.html#a51bf0fd51057b98a10fbb866246176dca1de3a85bc56d3ae85b3d0f3cfd04ae90">sf::Socket::Done</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">// A new client just connected!</span></div><div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;New connection received from &quot;</span> &lt;&lt; client.<a class="code" href="classsf_1_1TcpSocket.html#aa8579c203b1fd21beb74d7f76444a94c">getRemoteAddress</a>() &lt;&lt; std::endl;</div><div class="line">        doSomethingWith(client);</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1TcpSocket.html" title="Specialized socket using the TCP protocol. ">sf::TcpSocket</a>, <a class="el" href="classsf_1_1Socket.html" title="Base class for all the socket types. ">sf::Socket</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="TcpListener_8hpp_source.html#l00044">44</a> of file <a class="el" href="TcpListener_8hpp_source.html">TcpListener.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="TcpListener_8hpp_source.html#l00044">44</a> of file <a class="el" href="TcpListener_8hpp_source.html">TcpListener.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="aa3e6c984bcb81a35234dcc9cc8369d75"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3e6c984bcb81a35234dcc9cc8369d75">&#9670;&nbsp;</a></span>anonymous enum</h2>
@@ -166,7 +166,7 @@ Protected Member Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="Socket_8hpp_source.html#l00066">66</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Socket_8hpp_source.html#l00066">66</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
 
 </div>
 </div>
@@ -204,7 +204,7 @@ Protected Member Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="Socket_8hpp_source.html#l00053">53</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Socket_8hpp_source.html#l00053">53</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
 
 </div>
 </div>
@@ -236,7 +236,7 @@ Protected Member Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="Socket_8hpp_source.html#l00114">114</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Socket_8hpp_source.html#l00114">114</a> of file <a class="el" href="Socket_8hpp_source.html">Socket.hpp</a>.</p>
 
 </div>
 </div>

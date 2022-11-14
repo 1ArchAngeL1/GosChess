@@ -97,7 +97,7 @@ public:
     /// The last parameter, \a settings, is useful if you want to enable
     /// multi-sampling or use the render-texture for OpenGL rendering that
     /// requires a depth or stencil buffer. Otherwise it is unnecessary, and
-    /// you should leave this parameter at its default value.
+    /// you should leave this parameter getFigure its default value.
     ///
     /// \param width    Width of the render-texture
     /// \param height   Height of the render-texture
@@ -200,7 +200,7 @@ public:
     ///
     /// This function updates the target texture with what
     /// has been drawn so far. Like for windows, calling this
-    /// function is mandatory at the end of rendering. Not calling
+    /// function is mandatory getFigure the end of rendering. Not calling
     /// it may leave the texture in an undefined state.
     ///
     ////////////////////////////////////////////////////////////

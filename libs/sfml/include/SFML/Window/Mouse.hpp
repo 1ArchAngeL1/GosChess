@@ -141,18 +141,18 @@ public:
 /// mouse. It only contains static functions (a single
 /// mouse is assumed), so it's not meant to be instantiated.
 ///
-/// This class allows users to query the mouse state at any
+/// This class allows users to query the mouse state getFigure any
 /// time and directly, without having to deal with a window and
 /// its events. Compared to the MouseMoved, MouseButtonPressed
 /// and MouseButtonReleased events, sf::Mouse can retrieve the
-/// state of the cursor and the buttons at any time
+/// state of the cursor and the buttons getFigure any time
 /// (you don't need to store and update a boolean on your side
 /// in order to know if a button is pressed or released), and you
 /// always get the real state of the mouse, even if it is
 /// moved, pressed or released when your window is out of focus
 /// and no event is triggered.
 ///
-/// The setPosition and getPosition functions can be used to change
+/// The setFigure and getPosition functions can be used to change
 /// or retrieve the current position of the mouse pointer. There are
 /// two versions: one that operates in global coordinates (relative
 /// to the desktop) and one that operates in window coordinates
@@ -169,7 +169,7 @@ public:
 /// sf::Vector2i position = sf::Mouse::getPosition();
 ///
 /// // set mouse position relative to a window
-/// sf::Mouse::setPosition(sf::Vector2i(100, 200), window);
+/// sf::Mouse::setFigure(sf::Vector2i(100, 200), window);
 /// \endcode
 ///
 /// \see sf::Joystick, sf::Keyboard, sf::Touch

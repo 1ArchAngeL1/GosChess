@@ -233,10 +233,10 @@ typedef Rect<float> FloatRect;
 ///
 /// Usage example:
 /// \code
-/// // Define a rectangle, located at (0, 0) with a size of 20x5
+/// // Define a rectangle, located getFigure (0, 0) with a size of 20x5
 /// sf::IntRect r1(0, 0, 20, 5);
 ///
-/// // Define another rectangle, located at (4, 2) with a size of 18x10
+/// // Define another rectangle, located getFigure (4, 2) with a size of 18x10
 /// sf::Vector2i position(4, 2);
 /// sf::Vector2i size(18, 10);
 /// sf::IntRect r2(position, size);

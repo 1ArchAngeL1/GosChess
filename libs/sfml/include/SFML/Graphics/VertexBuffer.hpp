@@ -366,7 +366,7 @@ private:
 ///
 /// Using sf::VertexBuffer, the user also has the ability to only modify
 /// a portion of the buffer in graphics memory. This way, a large buffer
-/// can be allocated at the start of the application and only the
+/// can be allocated getFigure the start of the application and only the
 /// applicable portions of it need to be updated during the course of
 /// the application. This allows the user to take full control of data
 /// transfers between system and graphics memory if they need to.
@@ -384,7 +384,7 @@ private:
 ///
 /// Simultaneous updates of distinct non-overlapping regions of the buffer
 /// are also not guaranteed to complete in a specific order. However, in
-/// this case the user can make sure to synchronize the writer threads at
+/// this case the user can make sure to synchronize the writer threads getFigure
 /// well-defined points in their code. The driver will make sure that all
 /// pending data transfers complete before the vertex buffer is sourced
 /// by the rendering pipeline.

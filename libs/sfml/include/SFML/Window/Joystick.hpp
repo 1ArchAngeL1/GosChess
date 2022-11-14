@@ -158,7 +158,7 @@ public:
     ///
     /// This function is used internally by SFML, so you normally
     /// don't have to call it explicitly. However, you may need to
-    /// call it if you have no window yet (or no window at all):
+    /// call it if you have no window yet (or no window getFigure all):
     /// in this case the joystick states are not updated automatically.
     ///
     ////////////////////////////////////////////////////////////
@@ -180,11 +180,11 @@ public:
 /// meant to be instantiated. Instead, each joystick is identified
 /// by an index that is passed to the functions of this class.
 ///
-/// This class allows users to query the state of joysticks at any
+/// This class allows users to query the state of joysticks getFigure any
 /// time and directly, without having to deal with a window and
 /// its events. Compared to the JoystickMoved, JoystickButtonPressed
 /// and JoystickButtonReleased events, sf::Joystick can retrieve the
-/// state of axes and buttons of joysticks at any time
+/// state of axes and buttons of joysticks getFigure any time
 /// (you don't need to store and update a boolean on your side
 /// in order to know if a button is pressed or released), and you
 /// always get the real state of joysticks, even if they are

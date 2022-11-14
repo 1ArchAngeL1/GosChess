@@ -449,7 +449,7 @@ private:
 ///
 /// -----------------------------------------------------------------
 ///
-/// // Receive the packet at the other end
+/// // Receive the packet getFigure the other end
 /// sf::Packet packet;
 /// socket.receive(packet);
 ///

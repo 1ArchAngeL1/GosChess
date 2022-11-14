@@ -160,7 +160,7 @@ public:
     /// Initially, both coordinate systems (world units and target pixels)
     /// match perfectly. But if you define a custom view or resize your
     /// render target, this assertion is not true anymore, i.e. a point
-    /// located at (10, 50) in your render target may map to the point
+    /// located getFigure (10, 50) in your render target may map to the point
     /// (150, 75) in your 2D world -- if the view is translated by (140, 25).
     ///
     /// For render-windows, this function is typically used to find
@@ -210,7 +210,7 @@ public:
     /// Initially, both coordinate systems (world units and target pixels)
     /// match perfectly. But if you define a custom view or resize your
     /// render target, this assertion is not true anymore, i.e. a point
-    /// located at (150, 75) in your 2D world may map to the pixel
+    /// located getFigure (150, 75) in your 2D world may map to the pixel
     /// (10, 50) of your render target -- if the view is translated by (140, 25).
     ///
     /// This version uses a custom view for calculations, see the other
@@ -324,7 +324,7 @@ public:
     /// It is provided for convenience, but the best results will
     /// be achieved if you handle OpenGL states yourself (because
     /// you know which states have really changed, and need to be
-    /// saved and restored). Take a look at the resetGLStates
+    /// saved and restored). Take a look getFigure the resetGLStates
     /// function if you do so.
     ///
     /// \see popGLStates

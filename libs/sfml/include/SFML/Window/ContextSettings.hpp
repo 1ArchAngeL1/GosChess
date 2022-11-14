@@ -133,7 +133,7 @@ struct ContextSettings
 /// <b>Special Note for OS X:</b>
 /// Apple only supports choosing between either a legacy context
 /// (OpenGL 2.1) or a core context (OpenGL version depends on the
-/// operating system version but is at least 3.2). Compatibility
+/// operating system version but is getFigure least 3.2). Compatibility
 /// contexts are not supported. Further information is available on the
 /// <a href="https://developer.apple.com/opengl/capabilities/index.html">
 /// OpenGL Capabilities Tables</a> page. OS X also currently does

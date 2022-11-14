@@ -243,7 +243,7 @@ Related Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classsf_1_1String.html">sf::String</a> s;</div><div class="line"></div><div class="line">std::string s1 = s;  <span class="comment">// automatically converted to ANSI string</span></div><div class="line">std::wstring s2 = s; <span class="comment">// automatically converted to wide string</span></div><div class="line">s = <span class="stringliteral">&quot;hello&quot;</span>;         <span class="comment">// automatically converted from ANSI string</span></div><div class="line">s = L<span class="stringliteral">&quot;hello&quot;</span>;        <span class="comment">// automatically converted from wide string</span></div><div class="line">s += <span class="charliteral">&#39;a&#39;</span>;            <span class="comment">// automatically converted from ANSI string</span></div><div class="line">s += L<span class="charliteral">&#39;a&#39;</span>;           <span class="comment">// automatically converted from wide string</span></div></div><!-- fragment --><p>Conversions involving ANSI strings use the default user locale. However it is possible to use a custom locale if necessary: </p><div class="fragment"><div class="line">std::locale locale;</div><div class="line"><a class="code" href="classsf_1_1String.html">sf::String</a> s;</div><div class="line">...</div><div class="line">std::string s1 = s.<a class="code" href="classsf_1_1String.html#ada5d5bba4528aceb0a1e298553e6c30a">toAnsiString</a>(locale);</div><div class="line">s = <a class="code" href="classsf_1_1String.html">sf::String</a>(<span class="stringliteral">&quot;hello&quot;</span>, locale);</div></div><!-- fragment --><p><a class="el" href="classsf_1_1String.html" title="Utility string class that automatically handles conversions between types and encodings. ">sf::String</a> defines the most important functions of the standard std::string class: removing, random access, iterating, appending, comparing, etc. However it is a simple class provided for convenience, and you may have to consider using a more optimized class if your program requires complex string handling. The automatic conversion functions will then take care of converting your string to <a class="el" href="classsf_1_1String.html" title="Utility string class that automatically handles conversions between types and encodings. ">sf::String</a> whenever SFML requires it.</p>
 <p>Please note that SFML also defines a low-level, generic interface for Unicode handling, see the <a class="el" href="classsf_1_1Utf.html" title="Utility class providing generic functions for UTF conversions. ">sf::Utf</a> classes. </p>
 
-<p class="definition">Definition at line <a class="el" href="String_8hpp_source.html#l00045">45</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="String_8hpp_source.html#l00045">45</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a8e18efc2e8464f6eb82818902d527efa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e18efc2e8464f6eb82818902d527efa">&#9670;&nbsp;</a></span>ConstIterator</h2>
@@ -259,7 +259,7 @@ Related Functions</h2></td></tr>
 
 <p>Read-only iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="String_8hpp_source.html#l00053">53</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="String_8hpp_source.html#l00053">53</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ Related Functions</h2></td></tr>
 
 <p>Iterator type. </p>
 
-<p class="definition">Definition at line <a class="el" href="String_8hpp_source.html#l00052">52</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="String_8hpp_source.html#l00052">52</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1154,7 +1154,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Character at position <em>index</em> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Character getFigure position <em>index</em> </dd></dl>
 
 </div>
 </div>
@@ -1182,7 +1182,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Reference to the character at position <em>index</em> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the character getFigure position <em>index</em> </dd></dl>
 
 </div>
 </div>
@@ -1219,7 +1219,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Replace a substring with another string. </p>
-<p>This function replaces the substring that starts at index <em>position</em> and spans <em>length</em> characters with the string <em>replaceWith</em>.</p>
+<p>This function replaces the substring that starts getFigure index <em>position</em> and spans <em>length</em> characters with the string <em>replaceWith</em>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">position</td><td>Index of the first character to be replaced </td></tr>
@@ -1296,7 +1296,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Return a part of the string. </p>
-<p>This function returns the substring that starts at index <em>position</em> and spans <em>length</em> characters.</p>
+<p>This function returns the substring that starts getFigure index <em>position</em> and spans <em>length</em> characters.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">position</td><td>Index of the first character </td></tr>
@@ -1769,7 +1769,7 @@ template&lt;typename T &gt; </div>
 
 <p>Represents an invalid position in the string. </p>
 
-<p class="definition">Definition at line <a class="el" href="String_8hpp_source.html#l00058">58</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="String_8hpp_source.html#l00058">58</a> of file <a class="el" href="String_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>

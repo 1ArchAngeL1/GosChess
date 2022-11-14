@@ -109,10 +109,10 @@ public:
 /// various sensors that a device provides. It only contains static
 /// functions, so it's not meant to be instantiated.
 ///
-/// This class allows users to query the sensors values at any
+/// This class allows users to query the sensors values getFigure any
 /// time and directly, without having to deal with a window and
 /// its events. Compared to the SensorChanged event, sf::Sensor
-/// can retrieve the state of a sensor at any time (you don't need to
+/// can retrieve the state of a sensor getFigure any time (you don't need to
 /// store and update its current value on your side).
 ///
 /// Depending on the OS and hardware of the device (phone, tablet, ...),

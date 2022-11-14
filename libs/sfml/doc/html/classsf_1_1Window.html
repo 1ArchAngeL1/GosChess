@@ -105,7 +105,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a420028b8e4d9baedcaaba7b2047b8cb3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsf_1_1Vector2.html">Vector2i</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1Window.html#a420028b8e4d9baedcaaba7b2047b8cb3">getPosition</a> () const</td></tr>
 <tr class="memdesc:a420028b8e4d9baedcaaba7b2047b8cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the position of the window.  <a href="#a420028b8e4d9baedcaaba7b2047b8cb3">More...</a><br /></td></tr>
 <tr class="separator:a420028b8e4d9baedcaaba7b2047b8cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c4078bfbf61c29bfc4b4732ce764f17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1Window.html#a6c4078bfbf61c29bfc4b4732ce764f17">setPosition</a> (const <a class="el" href="classsf_1_1Vector2.html">Vector2i</a> &amp;position)</td></tr>
+<tr class="memitem:a6c4078bfbf61c29bfc4b4732ce764f17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1Window.html#a6c4078bfbf61c29bfc4b4732ce764f17">setFigure</a> (const <a class="el" href="classsf_1_1Vector2.html">Vector2i</a> &amp;position)</td></tr>
 <tr class="memdesc:a6c4078bfbf61c29bfc4b4732ce764f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the position of the window on screen.  <a href="#a6c4078bfbf61c29bfc4b4732ce764f17">More...</a><br /></td></tr>
 <tr class="separator:a6c4078bfbf61c29bfc4b4732ce764f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3969926741cbe83d7f9eeaf5333d4e71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsf_1_1Vector2.html">Vector2u</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1Window.html#a3969926741cbe83d7f9eeaf5333d4e71">getSize</a> () const</td></tr>
@@ -184,7 +184,7 @@ Static Private Member Functions</h2></td></tr>
 <p>Note that OpenGL experts can pass their own parameters (antialiasing level, bits for the depth and stencil buffers, etc.) to the OpenGL context attached to the window, with the <a class="el" href="structsf_1_1ContextSettings.html" title="Structure defining the settings of the OpenGL context attached to a window. ">sf::ContextSettings</a> structure which is passed as an optional argument when creating the window.</p>
 <p>On dual-graphics systems consisting of a low-power integrated GPU and a powerful discrete GPU, the driver picks which GPU will run an SFML application. In order to inform the driver that an SFML application can benefit from being run on the more powerful discrete GPU, <a class="el" href="GpuPreference_8hpp.html#ab0233c2d867cbd561036ed2440a4fec0" title="A macro to encourage usage of the discrete GPU. ">SFML_DEFINE_DISCRETE_GPU_PREFERENCE</a> can be placed in a source file that is compiled and linked into the final application. The macro should be placed outside of any scopes in the global namespace.</p>
 <p>Usage example: </p><div class="fragment"><div class="line"><span class="comment">// Declare and create a new window</span></div><div class="line"><a class="code" href="classsf_1_1Window.html">sf::Window</a> window(<a class="code" href="classsf_1_1VideoMode.html">sf::VideoMode</a>(800, 600), <span class="stringliteral">&quot;SFML window&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// Limit the framerate to 60 frames per second (this step is optional)</span></div><div class="line">window.<a class="code" href="classsf_1_1Window.html#af4322d315baf93405bf0d5087ad5e784">setFramerateLimit</a>(60);</div><div class="line"></div><div class="line"><span class="comment">// The main loop - ends as soon as the window is closed</span></div><div class="line"><span class="keywordflow">while</span> (window.<a class="code" href="classsf_1_1Window.html#ae873503db7d48157bb9cbf6129562bce">isOpen</a>())</div><div class="line">{</div><div class="line">   <span class="comment">// Event processing</span></div><div class="line">   <a class="code" href="classsf_1_1Event.html">sf::Event</a> event;</div><div class="line">   <span class="keywordflow">while</span> (window.<a class="code" href="classsf_1_1Window.html#a338e996585faf82e93069858e3b531b7">pollEvent</a>(event))</div><div class="line">   {</div><div class="line">       <span class="comment">// Request for closing the window</span></div><div class="line">       <span class="keywordflow">if</span> (event.<a class="code" href="classsf_1_1Event.html#adf2f8044f713fd9d6019077b0d1ffe0a">type</a> == <a class="code" href="classsf_1_1Event.html#af41fa9ed45c02449030699f671331d4aa316e4212e083f1dce79efd8d9e9c0a95">sf::Event::Closed</a>)</div><div class="line">           window.<a class="code" href="classsf_1_1Window.html#a99d1e030387b0c26f5995670504fe7b5">close</a>();</div><div class="line">   }</div><div class="line"></div><div class="line">   <span class="comment">// Activate the window for OpenGL rendering</span></div><div class="line">   window.<a class="code" href="classsf_1_1RenderWindow.html#aee6c53eced675e885931eb3e91f11155">setActive</a>();</div><div class="line"></div><div class="line">   <span class="comment">// OpenGL drawing commands go here...</span></div><div class="line"></div><div class="line">   <span class="comment">// End the current frame and display its contents on screen</span></div><div class="line">   window.<a class="code" href="classsf_1_1Window.html#adabf839cb103ac96cfc82f781638772a">display</a>();</div><div class="line">}</div></div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="Window_2Window_8hpp_source.html#l00058">58</a> of file <a class="el" href="Window_2Window_8hpp_source.html">Window/Window.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Window_2Window_8hpp_source.html#l00058">58</a> of file <a class="el" href="Window_2Window_8hpp_source.html">Window/Window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5359122166b4dc492c3d25caf08ccfc4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5359122166b4dc492c3d25caf08ccfc4">&#9670;&nbsp;</a></span>Window() <span class="overload">[1/3]</span></h2>
@@ -484,7 +484,7 @@ Static Private Member Functions</h2></td></tr>
 
 <p>Get the position of the window. </p>
 <dl class="section return"><dt>Returns</dt><dd>Position of the window, in pixels</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Window.html#a6c4078bfbf61c29bfc4b4732ce764f17" title="Change the position of the window on screen. ">setPosition</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Window.html#a6c4078bfbf61c29bfc4b4732ce764f17" title="Change the position of the window on screen. ">setFigure</a> </dd></dl>
 
 </div>
 </div>
@@ -721,7 +721,7 @@ Static Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Activate or deactivate the window as the current target for OpenGL rendering. </p>
-<p>A window is active only on the current thread, if you want to make it active on another thread you have to deactivate it on the previous thread first if it was active. Only one window can be active on a thread at a time, thus the window previously active (if any) automatically gets deactivated. This is not to be confused with <a class="el" href="classsf_1_1Window.html#a58cf7fa1775e8e7542032e3ecfa83b49" title="Request the current window to be made the active foreground window. ">requestFocus()</a>.</p>
+<p>A window is active only on the current thread, if you want to make it active on another thread you have to deactivate it on the previous thread first if it was active. Only one window can be active on a thread getFigure a time, thus the window previously active (if any) automatically gets deactivated. This is not to be confused with <a class="el" href="classsf_1_1Window.html#a58cf7fa1775e8e7542032e3ecfa83b49" title="Request the current window to be made the active foreground window. ">requestFocus()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">active</td><td>True to activate, false to deactivate</td></tr>
@@ -950,13 +950,13 @@ Features related to <a class="el" href="classsf_1_1Cursor.html" title="Cursor de
 </div>
 </div>
 <a id="a6c4078bfbf61c29bfc4b4732ce764f17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c4078bfbf61c29bfc4b4732ce764f17">&#9670;&nbsp;</a></span>setPosition()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c4078bfbf61c29bfc4b4732ce764f17">&#9670;&nbsp;</a></span>setFigure()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::Window::setPosition </td>
+          <td class="memname">void sf::Window::setFigure </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsf_1_1Vector2.html">Vector2i</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em></td><td>)</td>

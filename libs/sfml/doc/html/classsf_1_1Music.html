@@ -150,10 +150,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a2f192f2b49fb8e2b82f3498d3663fcc2">setVolume</a> (float volume)</td></tr>
 <tr class="memdesc:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the volume of the sound.  <a href="#a2f192f2b49fb8e2b82f3498d3663fcc2">More...</a><br /></td></tr>
 <tr class="separator:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setPosition</a> (float x, float y, float z)</td></tr>
+<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setFigure</a> (float x, float y, float z)</td></tr>
 <tr class="memdesc:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">More...</a><br /></td></tr>
 <tr class="separator:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setPosition</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
+<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setFigure</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
 <tr class="memdesc:a17ba9ed01925395652181a7b2a7d3aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a17ba9ed01925395652181a7b2a7d3aef">More...</a><br /></td></tr>
 <tr class="separator:a17ba9ed01925395652181a7b2a7d3aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac478a8b813faf7dd575635b102081d0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#ac478a8b813faf7dd575635b102081d0d">setRelativeToListener</a> (bool relative)</td></tr>
@@ -217,9 +217,9 @@ Protected Attributes</h2></td></tr>
 <p>This is especially useful for compressed musics that usually take hundreds of MB when they are uncompressed: by streaming it instead of loading it entirely, you avoid saturating the memory and have almost no loading delay. This implies that the underlying resource (file, stream or memory buffer) must remain valid for the lifetime of the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object.</p>
 <p>Apart from that, a <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> has almost the same features as the <a class="el" href="classsf_1_1SoundBuffer.html" title="Storage for audio samples defining a sound. ">sf::SoundBuffer</a> / <a class="el" href="classsf_1_1Sound.html" title="Regular sound that can be played in the audio environment. ">sf::Sound</a> pair: you can play/pause/stop it, request its parameters (channels, sample rate), change the way it is played (pitch, volume, 3D position, ...), etc.</p>
 <p>As a sound stream, a music is played in its own thread in order not to block the rest of the program. This means that you can leave the music alone after calling <a class="el" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144" title="Start or resume playing the audio stream. ">play()</a>, it will manage itself very well.</p>
-<p>Usage example: </p><div class="fragment"><div class="line"><span class="comment">// Declare a new music</span></div><div class="line"><a class="code" href="classsf_1_1Music.html">sf::Music</a> music;</div><div class="line"></div><div class="line"><span class="comment">// Open it from an audio file</span></div><div class="line"><span class="keywordflow">if</span> (!music.<a class="code" href="classsf_1_1Music.html#a3edc66e5f5b3f11e84b90eaec9c7d7c0">openFromFile</a>(<span class="stringliteral">&quot;music.ogg&quot;</span>))</div><div class="line">{</div><div class="line">    <span class="comment">// error...</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Change some parameters</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setPosition</a>(0, 1, 10); <span class="comment">// change its 3D position</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a72a13695ed48b7f7b55e7cd4431f4bb6">setPitch</a>(2);           <span class="comment">// increase the pitch</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a2f192f2b49fb8e2b82f3498d3663fcc2">setVolume</a>(50);         <span class="comment">// reduce the volume</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundStream.html#a43fade018ffba7e4f847a9f00b353f3d">setLoop</a>(<span class="keyword">true</span>);         <span class="comment">// make it loop</span></div><div class="line"></div><div class="line"><span class="comment">// Play it</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144">play</a>();</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Sound.html" title="Regular sound that can be played in the audio environment. ">sf::Sound</a>, <a class="el" href="classsf_1_1SoundStream.html" title="Abstract base class for streamed audio sources. ">sf::SoundStream</a> </dd></dl>
+<p>Usage example: </p><div class="fragment"><div class="line"><span class="comment">// Declare a new music</span></div><div class="line"><a class="code" href="classsf_1_1Music.html">sf::Music</a> music;</div><div class="line"></div><div class="line"><span class="comment">// Open it from an audio file</span></div><div class="line"><span class="keywordflow">if</span> (!music.<a class="code" href="classsf_1_1Music.html#a3edc66e5f5b3f11e84b90eaec9c7d7c0">openFromFile</a>(<span class="stringliteral">&quot;music.ogg&quot;</span>))</div><div class="line">{</div><div class="line">    <span class="comment">// error...</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// Change some parameters</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setFigure</a>(0, 1, 10); <span class="comment">// change its 3D position</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a72a13695ed48b7f7b55e7cd4431f4bb6">setPitch</a>(2);           <span class="comment">// increase the pitch</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundSource.html#a2f192f2b49fb8e2b82f3498d3663fcc2">setVolume</a>(50);         <span class="comment">// reduce the volume</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundStream.html#a43fade018ffba7e4f847a9f00b353f3d">setLoop</a>(<span class="keyword">true</span>);         <span class="comment">// make it loop</span></div><div class="line"></div><div class="line"><span class="comment">// Play it</span></div><div class="line">music.<a class="code" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144">play</a>();</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Sound.html" title="Regular sound that can be played in the audio environment. ">sf::Sound</a>, <a class="el" href="classsf_1_1SoundStream.html" title="Abstract base class for streamed audio sources. ">sf::SoundStream</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Music_8hpp_source.html#l00048">48</a> of file <a class="el" href="Music_8hpp_source.html">Music.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Music_8hpp_source.html#l00048">48</a> of file <a class="el" href="Music_8hpp_source.html">Music.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a7707214e7cd4ffcf1c123e7bcab4092a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7707214e7cd4ffcf1c123e7bcab4092a">&#9670;&nbsp;</a></span>anonymous enum</h2>
@@ -245,7 +245,7 @@ Protected Attributes</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="SoundStream_8hpp_source.html#l00183">183</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundStream_8hpp_source.html#l00183">183</a> of file <a class="el" href="SoundStream_8hpp_source.html">SoundStream.hpp</a>.</p>
 
 </div>
 </div>
@@ -279,7 +279,7 @@ Protected Attributes</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Get the 3D position of the sound in the audio scene. </p>
 <dl class="section return"><dt>Returns</dt><dd>Position of the sound</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setPosition</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setFigure</a> </dd></dl>
 
 </div>
 </div>
@@ -854,7 +854,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Open a music from an audio file. </p>
 <p>This function doesn't start playing the music (call <a class="el" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144" title="Start or resume playing the audio stream. ">play()</a> to do so). See the documentation of <a class="el" href="classsf_1_1InputSoundFile.html" title="Provide read access to sound files. ">sf::InputSoundFile</a> for the list of supported formats.</p>
-<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded at once but rather streamed continuously, the file must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded getFigure once but rather streamed continuously, the file must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>Path of the music file to open</td></tr>
@@ -894,7 +894,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Open a music from an audio file in memory. </p>
 <p>This function doesn't start playing the music (call <a class="el" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144" title="Start or resume playing the audio stream. ">play()</a> to do so). See the documentation of <a class="el" href="classsf_1_1InputSoundFile.html" title="Provide read access to sound files. ">sf::InputSoundFile</a> for the list of supported formats.</p>
-<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded at once but rather streamed continuously, the <em>data</em> buffer must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed. That is, you can't deallocate the buffer right after calling this function.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded getFigure once but rather streamed continuously, the <em>data</em> buffer must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed. That is, you can't deallocate the buffer right after calling this function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to the file data in memory </td></tr>
@@ -925,7 +925,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Open a music from an audio file in a custom stream. </p>
 <p>This function doesn't start playing the music (call <a class="el" href="classsf_1_1SoundStream.html#afdc08b69cab5f243d9324940a85a1144" title="Start or resume playing the audio stream. ">play()</a> to do so). See the documentation of <a class="el" href="classsf_1_1InputSoundFile.html" title="Provide read access to sound files. ">sf::InputSoundFile</a> for the list of supported formats.</p>
-<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded at once but rather streamed continuously, the <em>stream</em> must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Since the music is not loaded getFigure once but rather streamed continuously, the <em>stream</em> must remain accessible until the <a class="el" href="classsf_1_1Music.html" title="Streamed music played from an audio file. ">sf::Music</a> object loads a new music or is destroyed.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">stream</td><td>Source stream to read from</td></tr>
@@ -1088,7 +1088,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the beginning and end of the sound's looping sequence using <a class="el" href="classsf_1_1Time.html" title="Represents a time value. ">sf::Time</a>. </p>
-<p>Loop points allow one to specify a pair of positions such that, when the music is enabled for looping, it will seamlessly seek to the beginning whenever it encounters the end. Valid ranges for timePoints.offset and timePoints.length are [0, Dur) and (0, Dur-offset] respectively, where Dur is the value returned by <a class="el" href="classsf_1_1Music.html#a288ef6f552a136b0e56952dcada3d672" title="Get the total duration of the music. ">getDuration()</a>. Note that the EOF "loop point" from the end to the beginning of the stream is still honored, in case the caller seeks to a point after the end of the loop range. This function can be safely called at any point after a stream is opened, and will be applied to a playing sound without affecting the current playing offset.</p>
+<p>Loop points allow one to specify a pair of positions such that, when the music is enabled for looping, it will seamlessly seek to the beginning whenever it encounters the end. Valid ranges for timePoints.offset and timePoints.length are [0, Dur) and (0, Dur-offset] respectively, where Dur is the value returned by <a class="el" href="classsf_1_1Music.html#a288ef6f552a136b0e56952dcada3d672" title="Get the total duration of the music. ">getDuration()</a>. Note that the EOF "loop point" from the end to the beginning of the stream is still honored, in case the caller seeks to a point after the end of the loop range. This function can be safely called getFigure any point after a stream is opened, and will be applied to a playing sound without affecting the current playing offset.</p>
 <dl class="section warning"><dt>Warning</dt><dd>Setting the loop points while the stream's status is Paused will set its status to Stopped. The playing offset will be unaffected.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1125,7 +1125,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the minimum distance of the sound. </p>
-<p>The "minimum distance" of a sound is the maximum distance at which it is heard at its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
+<p>The "minimum distance" of a sound is the maximum distance getFigure which it is heard getFigure its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
 of the listener") is an invalid value and is forbidden. The default value of the minimum distance is 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1210,7 +1210,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a0480257ea25d986eba6cc3c1a6f8d7c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1219,7 +1219,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -1264,7 +1264,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a17ba9ed01925395652181a7b2a7d3aef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1273,7 +1273,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em></td><td>)</td>
@@ -1425,7 +1425,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 
 <p>OpenAL source identifier. </p>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>

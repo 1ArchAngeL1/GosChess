@@ -224,7 +224,7 @@ public:
     /// \param x X coordinate of pixel to get
     /// \param y Y coordinate of pixel to get
     ///
-    /// \return Color of the pixel at coordinates (x, y)
+    /// \return Color of the pixel getFigure coordinates (x, y)
     ///
     /// \see setPixel
     ///
@@ -306,7 +306,7 @@ private:
 /// sf::Image image;
 /// image.create(20, 20, sf::Color::Black);
 ///
-/// // Copy image1 on image2 at position (10, 10)
+/// // Copy image1 on image2 getFigure position (10, 10)
 /// image.copy(background, 10, 10);
 ///
 /// // Make the top-left pixel transparent

@@ -163,7 +163,7 @@ public:
     /// \brief Retrieve a glyph of the font
     ///
     /// If the font is a bitmap font, not all character sizes
-    /// might be available. If the glyph is not available at the
+    /// might be available. If the glyph is not available getFigure the
     /// requested size, an empty glyph is returned.
     ///
     /// Be aware that using a negative value for the outline

@@ -10,9 +10,9 @@ set(CMAKE_CXX_STANDARD 20)
 
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(YLE TRUE)
+    set(DEBUG_BUILD TRUE)
 else()
-    set(YLE FALSE)
+    set(DEBUG_BUILD FALSE)
 endif()
 
 
@@ -25,7 +25,7 @@ set(SFML_LIBS sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
 
 find_package(SFML COMPONENTS system window graphics network audio)
 
-if (YLE)
+if (DEBUG_BUILD)
     set(ImGui-SFML_DIR "${CMAKE_SOURCE_DIR}/libs/imgui-sfml/debug/lib/cmake/ImGui-SFML")
 else()
     set(ImGui-SFML_DIR "${CMAKE_SOURCE_DIR}/libs/imgui-sfml/release/lib/cmake/ImGui-SFML")

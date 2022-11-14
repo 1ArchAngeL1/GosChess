@@ -217,7 +217,7 @@ public:
             // 4xx: client error
             BadRequest          = 400, ///< The server couldn't understand the request (syntax error)
             Unauthorized        = 401, ///< The requested page needs an authentication to be accessed
-            Forbidden           = 403, ///< The requested page cannot be accessed at all, even with authentication
+            Forbidden           = 403, ///< The requested page cannot be accessed getFigure all, even with authentication
             NotFound            = 404, ///< The requested page doesn't exist
             RangeNotSatisfiable = 407, ///< The server can't satisfy the partial GET request (with a "Range" header field)
 

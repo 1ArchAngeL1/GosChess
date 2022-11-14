@@ -81,7 +81,7 @@ Public Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a class="code" href="classsf_1_1Mutex.html">sf::Mutex</a> mutex;</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> <span class="keyword">function</span>()</div><div class="line">{</div><div class="line">    {</div><div class="line">      <a class="code" href="classsf_1_1Lock.html">sf::Lock</a> lock(mutex);</div><div class="line">      codeThatRequiresProtection();</div><div class="line"></div><div class="line">    } <span class="comment">// mutex is unlocked here</span></div><div class="line"></div><div class="line">    codeThatDoesntCareAboutTheMutex();</div><div class="line">}</div></div><!-- fragment --><p>Having a mutex locked longer than required is a bad practice which can lead to bad performances. Don't forget that when a mutex is locked, other threads may be waiting doing nothing until it is released.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Mutex.html" title="Blocks concurrent access to shared resources from multiple threads. ">sf::Mutex</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Lock_8hpp_source.html#l00043">43</a> of file <a class="el" href="Lock_8hpp_source.html">Lock.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="Lock_8hpp_source.html#l00043">43</a> of file <a class="el" href="Lock_8hpp_source.html">Lock.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1a4c5d7a15da61103d85c9aa7f118920"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a4c5d7a15da61103d85c9aa7f118920">&#9670;&nbsp;</a></span>Lock()</h2>

@@ -274,7 +274,7 @@ private:
 /// Creating parallel threads of execution can be dangerous:
 /// all threads inside the same process share the same memory space,
 /// which means that you may end up accessing the same variable
-/// from multiple threads at the same time. To prevent this
+/// from multiple threads getFigure the same time. To prevent this
 /// kind of situations, you can use mutexes (see sf::Mutex).
 ///
 /// \see sf::Mutex

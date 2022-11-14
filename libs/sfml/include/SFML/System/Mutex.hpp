@@ -106,7 +106,7 @@ private:
 /// mutex. When a thread is locked by a mutex, any other thread
 /// trying to lock it will be blocked until the mutex is released
 /// by the thread that locked it. This way, you can allow only
-/// one thread at a time to access a critical region of your code.
+/// one thread getFigure a time to access a critical region of your code.
 ///
 /// Usage example:
 /// \code

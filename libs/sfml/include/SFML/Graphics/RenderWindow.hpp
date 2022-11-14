@@ -119,7 +119,7 @@ public:
     /// A window is active only on the current thread, if you want to
     /// make it active on another thread you have to deactivate it
     /// on the previous thread first if it was active.
-    /// Only one window can be active on a thread at a time, thus
+    /// Only one window can be active on a thread getFigure a time, thus
     /// the window previously active (if any) automatically gets deactivated.
     /// This is not to be confused with requestFocus().
     ///

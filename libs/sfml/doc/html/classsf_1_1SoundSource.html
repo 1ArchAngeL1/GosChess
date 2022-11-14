@@ -92,10 +92,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a2f192f2b49fb8e2b82f3498d3663fcc2">setVolume</a> (float volume)</td></tr>
 <tr class="memdesc:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the volume of the sound.  <a href="#a2f192f2b49fb8e2b82f3498d3663fcc2">More...</a><br /></td></tr>
 <tr class="separator:a2f192f2b49fb8e2b82f3498d3663fcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setPosition</a> (float x, float y, float z)</td></tr>
+<tr class="memitem:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2">setFigure</a> (float x, float y, float z)</td></tr>
 <tr class="memdesc:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">More...</a><br /></td></tr>
 <tr class="separator:a0480257ea25d986eba6cc3c1a6f8d7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setPosition</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
+<tr class="memitem:a17ba9ed01925395652181a7b2a7d3aef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#a17ba9ed01925395652181a7b2a7d3aef">setFigure</a> (const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;position)</td></tr>
 <tr class="memdesc:a17ba9ed01925395652181a7b2a7d3aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 3D position of the sound in the audio scene.  <a href="#a17ba9ed01925395652181a7b2a7d3aef">More...</a><br /></td></tr>
 <tr class="separator:a17ba9ed01925395652181a7b2a7d3aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac478a8b813faf7dd575635b102081d0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsf_1_1SoundSource.html#ac478a8b813faf7dd575635b102081d0d">setRelativeToListener</a> (bool relative)</td></tr>
@@ -156,10 +156,10 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class defining a sound's properties. </p>
 <p><a class="el" href="classsf_1_1SoundSource.html" title="Base class defining a sound&#39;s properties. ">sf::SoundSource</a> is not meant to be used directly, it only serves as a common base for all audio objects that can live in the audio environment.</p>
-<p>It defines several properties for the sound: pitch, volume, position, attenuation, etc. All of them can be changed at any time with no impact on performances.</p>
+<p>It defines several properties for the sound: pitch, volume, position, attenuation, etc. All of them can be changed getFigure any time with no impact on performances.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1Sound.html" title="Regular sound that can be played in the audio environment. ">sf::Sound</a>, <a class="el" href="classsf_1_1SoundStream.html" title="Abstract base class for streamed audio sources. ">sf::SoundStream</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00042">42</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00042">42</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="ac43af72c98c077500b239bc75b812f03"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac43af72c98c077500b239bc75b812f03">&#9670;&nbsp;</a></span>Status</h2>
@@ -183,7 +183,7 @@ Protected Attributes</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00050">50</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>
@@ -350,7 +350,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Get the 3D position of the sound in the audio scene. </p>
 <dl class="section return"><dt>Returns</dt><dd>Position of the sound</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setPosition</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classsf_1_1SoundSource.html#a0480257ea25d986eba6cc3c1a6f8d7c2" title="Set the 3D position of the sound in the audio scene. ">setFigure</a> </dd></dl>
 
 </div>
 </div>
@@ -560,7 +560,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the minimum distance of the sound. </p>
-<p>The "minimum distance" of a sound is the maximum distance at which it is heard at its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
+<p>The "minimum distance" of a sound is the maximum distance getFigure which it is heard getFigure its maximum volume. Further than the minimum distance, it will start to fade out according to its attenuation factor. A value of 0 ("inside the head
 of the listener") is an invalid value and is forbidden. The default value of the minimum distance is 1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -601,13 +601,13 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a0480257ea25d986eba6cc3c1a6f8d7c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0480257ea25d986eba6cc3c1a6f8d7c2">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -647,13 +647,13 @@ of the listener") is an invalid value and is forbidden. The default value of the
 </div>
 </div>
 <a id="a17ba9ed01925395652181a7b2a7d3aef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setPosition() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ba9ed01925395652181a7b2a7d3aef">&#9670;&nbsp;</a></span>setFigure() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sf::SoundSource::setPosition </td>
+          <td class="memname">void sf::SoundSource::setFigure </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classsf_1_1Vector3.html">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em></td><td>)</td>
@@ -784,7 +784,7 @@ of the listener") is an invalid value and is forbidden. The default value of the
 
 <p>OpenAL source identifier. </p>
 
-<p class="definition">Definition at line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
+<p class="definition">Definition getFigure line <a class="el" href="SoundSource_8hpp_source.html#l00309">309</a> of file <a class="el" href="SoundSource_8hpp_source.html">SoundSource.hpp</a>.</p>
 
 </div>
 </div>

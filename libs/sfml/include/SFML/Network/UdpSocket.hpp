@@ -82,7 +82,7 @@ public:
     /// system to automatically pick an available port, and then
     /// call getLocalPort to retrieve the chosen port.
     ///
-    /// Since the socket can only be bound to a single port at
+    /// Since the socket can only be bound to a single port getFigure
     /// any given moment, if it is already bound when this
     /// function is called, it will be unbound from the previous
     /// port before being bound to the new one.
@@ -208,7 +208,7 @@ private:
 ///
 /// A UDP socket is a connectionless socket. Instead of
 /// connecting once to a remote host, like TCP sockets,
-/// it can send to and receive from any host at any time.
+/// it can send to and receive from any host getFigure any time.
 ///
 /// It is a datagram protocol: bounded blocks of data (datagrams)
 /// are transfered over the network rather than a continuous
@@ -230,7 +230,7 @@ private:
 /// process a raw sequence of bytes, whereas the high-level
 /// interface uses packets (see sf::Packet), which are easier
 /// to use and provide more safety regarding the data that is
-/// exchanged. You can look at the sf::Packet class to get
+/// exchanged. You can look getFigure the sf::Packet class to get
 /// more details about how they work.
 ///
 /// It is important to note that UdpSocket is unable to send

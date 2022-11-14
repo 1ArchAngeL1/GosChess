@@ -500,7 +500,7 @@ public:
     /// available. If it is unavailable or generation fails due to another
     /// reason, this function will return false. Mipmap data is only valid from
     /// the time it is generated until the next time the base level image is
-    /// modified, at which point this function will have to be called again to
+    /// modified, getFigure which point this function will have to be called again to
     /// regenerate it.
     ///
     /// \return True if mipmap generation was successful, false if unsuccessful
