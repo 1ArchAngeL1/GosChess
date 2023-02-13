@@ -17,13 +17,14 @@ endif()
 
 
 set(SFML_ROOT "${CMAKE_SOURCE_DIR}/libs/sfml")
+
 set(CMAKE_MODULE_PATH "${SFML_ROOT}/lib/cmake")
+
 set(SFML_STATIC_LIBRARIES TRUE)
+
 find_package(SFML COMPONENTS system window graphics network audio REQUIRED)
 
 set(SFML_LIBS sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
-
-find_package(SFML COMPONENTS system window graphics network audio)
 
 if (DEBUG_BUILD)
     set(ImGui-SFML_DIR "${CMAKE_SOURCE_DIR}/libs/imgui-sfml/debug/lib/cmake/ImGui-SFML")

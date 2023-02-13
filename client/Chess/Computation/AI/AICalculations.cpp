@@ -20,8 +20,8 @@ static int CountScore(const unsigned char *board, GosChess::color_t target_clr) 
     for (int i = 0; i < GosChess::board_t::BOARD_SIZE; i++) {
         if (board[i] == 0)continue;
         fig.full_type = board[i];
-        if (fig.color == target_clr) {
-            score += figure_values[fig.type];
+        if (fig.color_ == target_clr) {
+            score += figure_values[fig.type_];
         }
     }
     return score;
@@ -32,7 +32,7 @@ static GosChess::actions_set_t MergeColorMoves(const unsigned char *board, GosCh
     GosChess::actions_set_t moves;
     for (auto &figure_moves: GosChess::game_available_moves) {
         fig.full_type = board[figure_moves.first];
-        if (fig.color == color) {
+        if (fig.color_ == color) {
             moves.insert(figure_moves.second.begin(), figure_moves.second.end());
         }
     }
@@ -48,18 +48,18 @@ static std::vector<GosChess::action_t> OrderMoves(const unsigned char *board, Go
         move_scores[move] = INT_MIN;
         if (move_to.full_type == 0) {
             if (GosChess::CheckIndexForAttackers(board, move.move_to))
-                move_scores[move] = -figure_values[move_from.type];
+                move_scores[move] = -figure_values[move_from.type_];
             else move_scores[move] = 0;
         } else {
-            int evaluate = figure_values[move_from.type] - figure_values[move_to.type];
+            int evaluate = figure_values[move_from.type_] - figure_values[move_to.type_];
             move_scores[move] = evaluate;
         }
         if (move.move_to / GosChess::board_t::ROW_LENGTH == GosChess::board_t::ROW_NUM - 1) {
-            if (move_from.type == GosChess::figure_types_t::PAWN && move_from.color == GosChess::player_color) {
+            if (move_from.type_ == GosChess::figure_types_t::PAWN && move_from.color_ == GosChess::player_color) {
                 move_scores[move] += figure_values[FIG::QUEEN];
             }
         } else if (move.move_to < GosChess::board_t::ROW_LENGTH) {
-            if (move_from.type == GosChess::figure_types_t::PAWN && move_from.color == GosChess::enemy_color) {
+            if (move_from.type_ == GosChess::figure_types_t::PAWN && move_from.color_ == GosChess::enemy_color) {
                 move_scores[move] += figure_values[FIG::QUEEN];
             }
         }

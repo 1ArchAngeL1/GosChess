@@ -117,9 +117,9 @@ void GosChess::ColorizeAvailableMoves(const int &index, board_t &board) {
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
     for (auto &move: GosChess::game_available_moves[index]) {
         board_node_t move_to = GosChess::GetSquare(move.move_to);
-        color_t color = board.getFigure(move.move_from).color == 0 ? color_t::WHITE : color_t::BLACK;
+        color_t color = board.getFigure(move.move_from).color_ == 0 ? color_t::WHITE : color_t::BLACK;
         if (GosChess::MakeMove(move, board, color, GosChess::game_available_moves[move.move_from])) {
-            board_image.setPixel(move_to.x, GosChess::board_t::ROW_NUM - move_to.y - 1,
+            board_image.setPixel(move_to.x_, GosChess::board_t::ROW_NUM - move_to.y_ - 1,
                                  GosChess::available_move_color);
             GosChess::UndoMove(board);
         }

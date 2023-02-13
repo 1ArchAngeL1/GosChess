@@ -5,9 +5,9 @@
 #ifndef GOSCHESS_COMPUTATIONGLOBALS_HH
 #define GOSCHESS_COMPUTATIONGLOBALS_HH
 
-#include "../../global/MainOjbects/GameObjects.hh"
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
+#include "../../global/MainOjbects/GameObjects.hh"
 #include "../../../Render/Globals/RenderGlobals.hh"
 
 
@@ -15,11 +15,11 @@ namespace GosChess {
 
     struct offset_t {
         offset_t(int8_t north, int8_t south, int8_t west, int8_t east) :
-                north(north), south(south), west(west), east(east),
-                north_east(std::min(north, east)),
-                north_west(std::min(north, west)),
-                south_east(std::min(south, east)),
-                south_west(std::min(south, west)) {}
+                n(north), s(south), w(west), e(east),
+                ne(std::min(north, east)),
+                nw(std::min(north, west)),
+                se(std::min(south, east)),
+                sw(std::min(south, west)) {}
 
         offset_t() = default;
 
@@ -30,14 +30,14 @@ namespace GosChess {
             return ((std::int8_t *) this)[index];
         }
 
-        int8_t north{};
-        int8_t south{};
-        int8_t west{};
-        int8_t east{};
-        int8_t north_east{};
-        int8_t south_east{};
-        int8_t north_west{};
-        int8_t south_west{};
+        int8_t n{};
+        int8_t s{};
+        int8_t w{};
+        int8_t e{};
+        int8_t ne{};
+        int8_t se{};
+        int8_t nw{};
+        int8_t sw{};
     };
 
 

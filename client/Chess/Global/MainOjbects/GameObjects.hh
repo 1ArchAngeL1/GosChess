@@ -22,15 +22,15 @@ namespace GosChess {
 
 
     struct board_node_t {
-        int x;
-        int y;
+        int x_;
+        int y_;
 
         board_node_t() = default;
 
-        board_node_t(int y, int x) : y(y), x(x) {}
+        board_node_t(const int &y, const int &x) : y_(y), x_(x) {}
 
         board_node_t operator+(const board_node_t &node) const {
-            return {this->y + node.y, this->x + node.x};
+            return {this->y_ + node.y_, this->x_ + node.x_};
         }
     };
 
@@ -43,8 +43,8 @@ namespace GosChess {
         explicit figure_t() : full_type(0) {}
 
         struct {
-            unsigned char color: 1;
-            unsigned char type: 3;
+            unsigned char color_: 1;
+            unsigned char type_: 3;
         };
         unsigned char full_type;
     };
@@ -58,8 +58,8 @@ namespace GosChess {
         board_t();
 
         board_t(const board_t &board);
-        
-        board_t(board_t && board) noexcept;
+
+        board_t(board_t &&board) noexcept;
 
         ~board_t();
 
@@ -68,13 +68,16 @@ namespace GosChess {
 
         void saveState();
 
-        void setFigure(const int &, unsigned char);
+        void setFigure(const int &, const unsigned char &);
 
-        [[nodiscard]] const unsigned char *getRawBoard() const;
+        //[[nodiscard]]
+        const unsigned char *getRawBoard() const;
 
-        [[nodiscard]] figure_t getFigure(const int &) const;
+        //[[nodiscard]]
+        figure_t getFigure(const int &) const;
 
-        [[nodiscard]] std::string boardStateToFen() const;
+        //[[nodiscard]]
+        std::string boardStateToFen() const;
 
         /* static members */
     public:

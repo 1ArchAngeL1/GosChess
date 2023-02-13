@@ -12,3 +12,5 @@ add_subdirectory(client)
 add_subdirectory(chess)
 
 add_subdirectory(server)
+
+add_subdirectory(fake_client)
