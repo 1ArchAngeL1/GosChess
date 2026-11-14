@@ -1,0 +1,2 @@
+/usr/bin/ar qc libserver_core.a CMakeFiles/server_core.dir/src/Match.cpp.o CMakeFiles/server_core.dir/src/Server.cpp.o
+/usr/bin/ranlib libserver_core.a

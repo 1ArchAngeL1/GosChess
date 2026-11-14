@@ -4,164 +4,110 @@
 
 
 #include "GamePlayFunctional.hh"
-#include "../../Network/GameNetwork.hh"
+#include "../../Network/ServerConnection.hh"
+#include "GameLoops.hh"
+
+#include <iostream>
 
 
-static bool CheckForGameFinish(GosChess::board_t &board, GosChess::color_t color) {
-    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
-        if (GosChess::CheckMate(board, color)) return true;
-    }
-    return false;
+// Click handling is the same in both game modes: the first press picks a
+// piece and highlights where it may go, the second press tries to move it
+// there. Keeping the two presses in one place is what stops a failed move
+// from leaving a stale target behind.
+static std::optional<int> selected_square = std::nullopt;
+
+static void ClearSelection() {
+    if (GosChess::highlited) GosChess::ResetBoardColours();
+    GosChess::highlited = false;
+    selected_square = std::nullopt;
 }
 
-static bool CheckForGameDraw(GosChess::board_t &board, GosChess::color_t color) {
-    if (GosChess::connection_role == GosChess::ConnectionType::HOST) {
-        if (!GosChess::CheckMate(board, color) && GosChess::CheckForDraw(board, color))return true;
-    }
-    return false;
+// The board square under the mouse, or nothing when the click landed outside
+// the board. The index is absolute, so it already accounts for the board
+// being drawn rotated for the player on the black side.
+static std::optional<int> ClickedSquare(sf::Window &window) {
+    const sf::Vector2i mouse = sf::Mouse::getPosition(window);
+    const GosChess::view_cell_t cell = GosChess::ViewCellFromScreen(static_cast<float>(mouse.y),
+                                                                    static_cast<float>(mouse.x));
+    if (!GosChess::ViewCellOnBoard(cell)) return std::nullopt;
+    return GosChess::ViewCellToBoardIndex(cell);
 }
 
+// Returns a move only on the click that completes one.
+static std::optional<GosChess::action_t> PollPlayerMove(sf::Window &window) {
+    if (!GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) return std::nullopt;
+    const std::optional<int> clicked = ClickedSquare(window);
+    if (!clicked.has_value()) return std::nullopt;
 
-void GosChess::MultiPlayerListener::action(GosChess::board_t &board) {
-    static std::optional<GosChess::board_node_t> src_cell = std::nullopt;
-    static std::optional<GosChess::board_node_t> trg_cell = std::nullopt;
-    if (CheckForGameFinish(board, color_to_play)) {
-        GosChess::SetGameFlagFinished();
-        GosChess::game_result = GosChess::GameResult::LOST;
-        GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::WON));
-        return;
-    } else if (CheckForGameDraw(board, color_to_play)) {
-        GosChess::SetGameFlagFinished();
-        GosChess::game_result = GosChess::GameResult::DRAW;
-        GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
-    }
-    if (GosChess::player_color == GosChess::color_to_play &&
-        GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-        if (!GosChess::highlited) src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
-        else trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
-        if (src_cell.has_value() && trg_cell.has_value()) {
-            auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
-            auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-            if (GosChess::MakeMove(GosChess::action_t(GosChess::action_t(from, to)), board, GosChess::color_to_play,
-                                   GosChess::game_available_moves[from])) {
-                GosChess::ChangeActiveColour(board);
-                GosChess::SendMove(GosChess::action_t(from, to));
-                src_cell = std::nullopt, trg_cell = std::nullopt;
-                if (CheckForGameFinish(board, color_to_play)) {
-                    GosChess::SetGameFlagFinished();
-                    GosChess::game_result = GosChess::GameResult::WON;
-                    GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::LOST));
-                } else if (CheckForGameDraw(board, color_to_play)) {
-                    GosChess::SetGameFlagFinished();
-                    GosChess::game_result = GosChess::GameResult::DRAW;
-                    GosChess::SendResult(GosChess::GameResultTransfer(GosChess::GameResult::DRAW));
-                }
-            }
-        }
-    }
-}
-
-//coming soon
-void GosChess::GamePlayAIListener::action(GosChess::board_t &board) {
-    static std::optional<GosChess::board_node_t> src_cell = std::nullopt;
-    static std::optional<GosChess::board_node_t> trg_cell = std::nullopt;
-    if (GosChess::player_color == GosChess::color_to_play) {
-        if (GosChess::CheckMate(board, GosChess::player_color)) {
-            GosChess::SetGameFlagFinished();
-            GosChess::game_result = GosChess::GameResult::LOST;
-            return;
-        } else if (CheckForDraw(board, player_color)) {
-            GosChess::SetGameFlagFinished();
-            GosChess::game_result = GosChess::GameResult::DRAW;
-            return;
-        }
-        if (GosChess::InputHandle::KeyPressed(sf::Keyboard::Enter)) {
-            if (!GosChess::highlited) src_cell = GosChess::ChooseSrcFigure(board, this->game_window);
-            else trg_cell = GosChess::ChooseTrgFigure(board, this->game_window);
-            if (src_cell.has_value() && trg_cell.has_value()) {
-                auto from = static_cast<int8_t>(GosChess::GetNumFromNode(src_cell.value()));
-                auto to = static_cast<int8_t>(GosChess::GetNumFromNode(trg_cell.value()));
-                if (GosChess::MakeMove(GosChess::action_t(GosChess::action_t(from, to)), board, GosChess::color_to_play,
-                                       GosChess::game_available_moves[from])) {
-                    GosChess::ChangeActiveColour(board);
-                    src_cell = std::nullopt, trg_cell = std::nullopt;
-                    if (GosChess::CheckMate(board, GosChess::enemy_color)) {
-                        GosChess::SetGameFlagFinished();
-                        GosChess::game_result = GosChess::GameResult::WON;
-                        return;
-                    } else if (CheckForDraw(board, enemy_color)) {
-                        GosChess::SetGameFlagFinished();
-                        GosChess::game_result = GosChess::GameResult::DRAW;
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-
-}
-
-void GosChess::MainMenuListener::action(GosChess::board_t &board) {
-    if (connected) {
-        GosChess::menu_active_flag = false;
-        if (GosChess::connection_role == GosChess::HOST) {
-            GosChess::InitialSend();
-        } else if (GosChess::connection_role == GosChess::CLIENT) {
-            GosChess::InitialReceive();
-        }
-    }
-
-}
-
-static constexpr std::string_view WHITE_STARTS_FEN = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr/";
-
-static constexpr std::string_view BLACK_STARTS_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/";
-
-static constexpr std::string_view WHITE_STARTS_FEN_TEST = "KQQ5/8/8/8/8/8/8/3k4/";
-
-static constexpr std::string_view BLACK_STARTS_FEN_TEST = "3k4/8/8/8/8/8/8/KQQ5/";
-
-std::string GosChess::GetInitialFenBoard() {
-    return GosChess::player_color == GosChess::color_t::WHITE ? std::string(WHITE_STARTS_FEN) :
-           std::string(BLACK_STARTS_FEN);
-}
-
-std::optional<GosChess::board_node_t> GosChess::ChooseTrgFigure(GosChess::board_t &brd, sf::Window &window) {
-    if (!GosChess::highlited) {
+    if (!selected_square.has_value()) {
+        // Only a square this player can actually move from is worth selecting.
+        if (GosChess::game.movesFrom(clicked.value()).empty()) return std::nullopt;
+        selected_square = clicked;
+        GosChess::highlited = true;
+        GosChess::ColorizeAvailableMoves(clicked.value());
         return std::nullopt;
     }
-    GosChess::board_node_t trg_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                                  sf::Mouse::getPosition(window).x);
-    GosChess::ResetBoardColours();
-    highlited = false;
-    return {trg_node};
+
+    const GosChess::action_t move(static_cast<std::int8_t>(selected_square.value()),
+                                  static_cast<std::int8_t>(clicked.value()));
+    ClearSelection();
+    return move;
 }
 
-std::optional<GosChess::board_node_t> GosChess::ChooseSrcFigure(GosChess::board_t &brd, sf::Window &window) {
-    if (GosChess::highlited) {
-        GosChess::ResetBoardColours();
+bool GosChess::SettleLocalGame() {
+    switch (GosChess::game.status()) {
+        case GosChess::GameStatus::CHECKMATE:
+            // Whoever is left to move is the side that has been mated.
+            GosChess::game_result = GosChess::game.colorToPlay() == GosChess::player_color
+                                    ? GosChess::GameResult::LOST
+                                    : GosChess::GameResult::WON;
+            GosChess::SetGameFlagFinished();
+            return true;
+        case GosChess::GameStatus::STALEMATE:
+            GosChess::game_result = GosChess::GameResult::DRAW;
+            GosChess::SetGameFlagFinished();
+            return true;
+        case GosChess::GameStatus::IN_PROGRESS:
+            return false;
     }
-    GosChess::board_node_t src_node = GosChess::GetNodeFromScreen(sf::Mouse::getPosition(window).y,
-                                                                  sf::Mouse::getPosition(window).x);
-    GosChess::ColorizeAvailableMoves(GosChess::GetNumFromNode(src_node),brd);
-    highlited = true;
-    return {src_node};
+    return false;
 }
 
+void GosChess::MultiPlayerListener::action() {
+    // Nothing in here decides anything about the game. It reads the player's
+    // intention, shows it immediately, and tells the server - which is the only
+    // thing that can make it true.
+    if (GosChess::game_status_flag == GosChess::game_status_t::FINISHED) return;
+    if (!GosChess::PlayerToMove()) return;
+    // One move may be in flight at a time. In chess that is automatic, since
+    // the turn passes, but relying on that silently would be a trap for later.
+    if (GosChess::awaiting_confirmation) return;
 
-void GosChess::CheckReceivedMove(std::optional<GosChess::action_t> move, GosChess::board_t &board) {
-    if (move.has_value()) {
-        GosChess::MakeMoveForce(GosChess::InvertMove(move.value()), board);
-        GosChess::ChangeActiveColour(board);
-    }
+    const std::optional<GosChess::action_t> move = PollPlayerMove(this->game_window);
+    if (!move.has_value()) return;
+
+    // Played locally first so the board answers the click at once. If the
+    // server disagrees it sends back the real position and this is undone;
+    // because both ends run the same rules over the same board, it does not.
+    if (!GosChess::PredictMove(move.value())) return;
+    GosChess::SendMove(move.value());
 }
 
-void GosChess::CheckReceivedTime(GosChess::Time::Timer &player_timer, GosChess::Time::Timer &enemy_timer,
-                                 GosChess::Time::TimerTransferObject dto) {
-    player_timer.set(dto.player_timer_amount);
-    enemy_timer.set(dto.enemy_timer_amount);
+void GosChess::GamePlayAIListener::action() {
+    // The game against the computer is played entirely here, so this is the
+    // one mode where the client really is the authority.
+    if (GosChess::SettleLocalGame()) return;
+    if (!GosChess::PlayerToMove()) return;
+    const std::optional<GosChess::action_t> move = PollPlayerMove(this->game_window);
+    if (!move.has_value()) return;
+    if (!GosChess::game.applyMove(move.value())) return;
+    GosChess::SettleLocalGame();
+}
 
+void GosChess::MainMenuListener::action() {
+    // The server can answer while the menu is still up - that is how being
+    // paired ends the menu - so its messages are read here too.
+    GosChess::ProcessServerMessages();
 }
 
 void GosChess::SetGameFlagFinished() {
@@ -170,68 +116,14 @@ void GosChess::SetGameFlagFinished() {
 
 void GosChess::ResetGame(sf::RenderWindow &window) {
     window.clear();
-    GosChess::game_available_moves.clear();
+    GosChess::LeaveServer();
+    GosChess::ResetClientGame();
     GosChess::game_status_flag = GosChess::INGAME;
     GosChess::render_menu_flag = GosChess::RenderMenuFLag::GAME_RESULT;
-    GosChess::color_to_play = GosChess::color_t::WHITE;
     GosChess::game_mode = GosChess::GameMode::None;
-    GosChess::highlited = false;
+    ClearSelection();
     GosChess::menu_active_flag = true;
-    GosChess::connected = false;
-    GosChess::listen_flag = false;
-    GosChess::time_limit_minutes = 0;
 }
-
-void GosChess::Disconnected() {
-    GosChess::game_status_flag = GosChess::game_status_t::FINISHED;
-    GosChess::game_result = GosChess::GameResult::WON;
-}
-
-
-void GosChess::ProcessGameResult(GosChess::GameResultTransfer &result) {
-    GosChess::game_result = result.result;
-}
-
-namespace GosChess::Time {
-
-    Timer::Timer(const float &time) {
-        this->convert(time);
-    }
-
-    bool Timer::subtract(const float &amount) {
-        this->seconds -= amount;
-        if (this->seconds < 0) {
-            this->seconds += 60;
-            this->minutes--;
-        }
-        return minutes >= 0;
-    }
-
-    std::string Timer::toString() const {
-        std::string minute_str = std::to_string(this->minutes);
-        std::string seconds_str = std::to_string(this->seconds).substr(0, 2);
-        if (seconds_str[1] == '.')seconds_str.erase(seconds_str.begin() + 1);
-        if (seconds_str.length() == 1)seconds_str = "0" + seconds_str;
-        if (minute_str.length() == 1)minute_str = "0" + minute_str;
-        return minute_str + " : " + seconds_str;
-    }
-
-    void Timer::convert(const float &time) {
-        this->minutes = static_cast<short>(time) / 60;
-        this->seconds = time - this->minutes * 60;
-    }
-
-    void Timer::set(const float &time) {
-        this->convert(time);
-    }
-
-    float Timer::getAmount() const {
-        return static_cast<float>(this->minutes * 60) + this->seconds;
-    }
-
-}
-
-char GosChess::opponent_ip[50];
 
 bool GosChess::highlited = false;
 
@@ -240,3 +132,5 @@ GosChess::game_status_t GosChess::game_status_flag = GosChess::game_status_t::IN
 GosChess::GameResult GosChess::game_result = GosChess::GameResult::DRAW;
 
 GosChess::GameMode GosChess::game_mode = GosChess::GameMode::None;
+
+bool GosChess::menu_active_flag = true;

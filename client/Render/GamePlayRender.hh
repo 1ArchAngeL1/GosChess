@@ -2,10 +2,10 @@
 #ifndef GOSCHESS_GAMEPLAYRENDER_HH
 #define GOSCHESS_GAMEPLAYRENDER_HH
 
-#include "../chess/global/MainOjbects/GameObjects.hh"
+#include "GosChess/Board.hh"
+#include "GosChess/Rules.hh"
 #include "SFML/Graphics.hpp"
-#include "../Chess/Global/GameGlobals.hh"
-#include "../Chess/Computation/InGameCalculations.hh"
+#include "Globals/RenderGlobals.hh"
 
 
 namespace GosChess {
@@ -14,7 +14,10 @@ namespace GosChess {
 
     void BoardRenderConfig();
 
-    void ColorizeAvailableMoves(const int &, board_t &);
+    // Highlights every legal destination of the piece standing on the given
+    // square. Reads the current game; the square is a board index, not a cell
+    // on screen.
+    void ColorizeAvailableMoves(int board_index);
 
     void DrawBoard(sf::RenderWindow &);
 

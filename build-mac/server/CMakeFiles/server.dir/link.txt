@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/server.dir/src/main.cpp.o -o server  libserver_core.a ../protocol/libprotocol.a ../chess/libchess.a ../_deps/sfml-build/lib/libsfml-network-s-d.a ../_deps/sfml-build/lib/libsfml-system-s-d.a -lpthread

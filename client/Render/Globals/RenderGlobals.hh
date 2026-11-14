@@ -5,17 +5,21 @@
 #ifndef GOSCHESS_RENDERGLOBALS_HH
 #define GOSCHESS_RENDERGLOBALS_HH
 
-#include "../../chess/global/MainOjbects/GameObjects.hh"
+#include "GosChess/Board.hh"
+#include "../BoardView.hh"
 #include "SFML/Graphics.hpp"
 #include <unordered_map>
 
 namespace GosChess {
 
-    extern sf::Texture menu_wallpaper_txt;
+    // Returned by reference from a function-local static rather than declared
+    // as a global: an sf::Texture constructed before main() touches SFML's
+    // OpenGL context mutex while that mutex is still uninitialised.
+    sf::Texture &MenuWallpaperTexture();
 
     extern sf::Sprite menu_wallpaper_sprite;
 
-    extern sf::Texture chess_logo_txt;
+    sf::Texture &ChessLogoTexture();
 
     extern sf::Sprite chess_logo_sprite;
 
@@ -46,6 +50,11 @@ namespace GosChess {
     extern sf::Vector2f board_position;
 
     extern std::unordered_map<unsigned char, sf::Sprite> figure_sprites;
+
+    // Screen pixels to a cell of the drawn board. The rest of the board
+    // orientation lives in BoardView.hh; only this step needs to know where
+    // the board was actually placed in the window.
+    view_cell_t ViewCellFromScreen(float screen_y, float screen_x);
 
 }
 

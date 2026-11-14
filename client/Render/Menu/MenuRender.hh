@@ -5,9 +5,9 @@
 #ifndef GOSCHESS_MENURENDER_HH
 #define GOSCHESS_MENURENDER_HH
 
-#include "../../exec/GamePlay/GamePlayFunctional.hh"
-#include "../../exec/GamePlay/GameLoops.hh"
-#include "../globals/RenderGlobals.hh"
+#include "../../Exec/GamePlay/GamePlayFunctional.hh"
+#include "../../Exec/GamePlay/GameLoops.hh"
+#include "../Globals/RenderGlobals.hh"
 #include <imgui.h>
 #include <imgui-SFML.h>
 
@@ -23,17 +23,13 @@ namespace GosChess {
 
     void RenderOptionsWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderHostGameBackground(sf::RenderWindow &, ImGuiContext *);
-
-    void RenderHostGameWidgets(sf::RenderWindow &, ImGuiContext *);
-
     void RenderGameResultBackground(sf::RenderWindow &, ImGuiContext *);
 
     void RenderGameResultWidgets(sf::RenderWindow &, ImGuiContext *);
 
-    void RenderJoinGameBackground(sf::RenderWindow &, ImGuiContext *);
-
-    void RenderJoinGameWidgets(sf::RenderWindow &, ImGuiContext *);
+    // One page replaces the old Host and Join pair: there is no host any more,
+    // only a server, and both players do the same thing to reach it.
+    void RenderOnlineWidgets(sf::RenderWindow &, ImGuiContext *);
 
     void RenderAiGameBackground(sf::RenderWindow &, ImGuiContext *);
 
@@ -47,8 +43,6 @@ namespace GosChess {
     extern int main_menu_width;
 
     extern int main_menu_height;
-
-    extern bool menu_active_flag;
 
 }
 

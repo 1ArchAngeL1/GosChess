@@ -1,0 +1,8 @@
+# CMake generated Testfile for 
+# Source directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client
+# Build directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+add_test([=[client_view_selftest]=] "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/client_view_selftest")
+set_tests_properties([=[client_view_selftest]=] PROPERTIES  _BACKTRACE_TRIPLES "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/CMakeLists.txt;120;add_test;/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/CMakeLists.txt;0;")

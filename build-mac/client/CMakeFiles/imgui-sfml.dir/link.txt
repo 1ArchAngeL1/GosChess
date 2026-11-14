@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimgui-sfml.a "CMakeFiles/imgui-sfml.dir/__/_deps/imgui-src/imgui.cpp.o" "CMakeFiles/imgui-sfml.dir/__/_deps/imgui-src/imgui_draw.cpp.o" "CMakeFiles/imgui-sfml.dir/__/_deps/imgui-src/imgui_tables.cpp.o" "CMakeFiles/imgui-sfml.dir/__/_deps/imgui-src/imgui_widgets.cpp.o" "CMakeFiles/imgui-sfml.dir/__/_deps/imgui_sfml-src/imgui-SFML.cpp.o"
+/usr/bin/ranlib libimgui-sfml.a

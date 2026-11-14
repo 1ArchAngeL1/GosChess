@@ -4,12 +4,20 @@
 
 #include "RenderGlobals.hh"
 
+#include <cmath>
 
-sf::Texture GosChess::menu_wallpaper_txt;
+
+sf::Texture &GosChess::MenuWallpaperTexture() {
+    static sf::Texture menu_wallpaper_txt;
+    return menu_wallpaper_txt;
+}
 
 sf::Sprite GosChess::menu_wallpaper_sprite;
 
-sf::Texture GosChess::chess_logo_txt;
+sf::Texture &GosChess::ChessLogoTexture() {
+    static sf::Texture chess_logo_txt;
+    return chess_logo_txt;
+}
 
 sf::Sprite GosChess::chess_logo_sprite;
 
@@ -41,3 +49,9 @@ sf::Vector2f GosChess::board_position = sf::Vector2f(static_cast<float>(window_w
 
 std::unordered_map<unsigned char, sf::Sprite> GosChess::figure_sprites;
 
+
+GosChess::view_cell_t GosChess::ViewCellFromScreen(float screen_y, float screen_x) {
+    const int row = static_cast<int>(std::floor((screen_y - GosChess::board_position.y) / GosChess::square_size));
+    const int column = static_cast<int>(std::floor((screen_x - GosChess::board_position.x) / GosChess::square_size));
+    return {row, column};
+}

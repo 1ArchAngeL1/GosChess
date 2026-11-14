@@ -5,13 +5,26 @@
 
 #include "GamePlayRender.hh"
 
+#include "../Game/ClientGame.hh"
+
+#include <iostream>
+
 static sf::Image board_image;
 
-static sf::Texture board_texture;
+// sf::Texture creates an OpenGL resource, which must not happen before
+// main() runs: SFML's own context mutex is itself a global and may not be
+// constructed yet. A function-local static defers it to first use.
+static sf::Texture &BoardTexture() {
+    static sf::Texture board_texture;
+    return board_texture;
+}
 
 static sf::Sprite board_sprite;
 
-static sf::Texture root_texture;
+static sf::Texture &RootTexture() {
+    static sf::Texture root_texture;
+    return root_texture;
+}
 
 static constexpr int TIMER_STAND_OFFSET = 18;
 
@@ -29,13 +42,13 @@ static sf::Text enemy_timer_display;
 
 static constexpr char *DISPLAY_FORMAT = "99:99";
 
-static void ColorizeBoardSeed(sf::Color first_color, sf::Color second_color) {
+// The light and dark squares follow the cell's own parity, which a 180 degree
+// rotation preserves, so the same pattern is correct from either side of the
+// board and no longer depends on which colour the player has.
+static void ColorizeBoardSeed(sf::Color dark_color, sf::Color light_color) {
     for (int i = 0; i < GosChess::board_t::ROW_LENGTH; i++)
         for (int j = 0; j < GosChess::board_t::ROW_NUM; j++)
-            (i + j) % 2 == 0 ? board_image.setPixel(i, j,
-                                                    GosChess::player_color == GosChess::color_t::WHITE ? second_color
-                                                                                                       : first_color) :
-            board_image.setPixel(i, j, GosChess::player_color == GosChess::color_t::WHITE ? first_color : second_color);
+            board_image.setPixel(i, j, (i + j) % 2 == 0 ? light_color : dark_color);
 }
 
 
@@ -71,8 +84,8 @@ static void LoadFigureTexturesByColor(sf::Texture &root_texture, int8_t color) {
 void GosChess::BoardRenderConfig() {
     board_image.create(GosChess::board_t::ROW_LENGTH, GosChess::board_t::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
-    board_texture.loadFromImage(board_image);
-    board_sprite.setTexture(board_texture);
+    BoardTexture().loadFromImage(board_image);
+    board_sprite.setTexture(BoardTexture());
     board_sprite.setScale(static_cast<float>(GosChess::board_width) / GosChess::board_t::ROW_LENGTH,
                           static_cast<float>(GosChess::board_height) / GosChess::board_t::ROW_NUM);
     board_sprite.setPosition(GosChess::board_position);
@@ -89,7 +102,7 @@ void GosChess::ChessDrawingConfig() {
     timer_stand.setPosition(
             sf::Vector2f(GosChess::board_offset_hor + GosChess::board_width + TIMER_STAND_OFFSET,
                          GosChess::window_height * 0.5f));
-    timer_font.loadFromFile("C:/Users/User/CLionProjects/GosChess/resources/Lato2OFL/Lato-Black.ttf");
+    timer_font.loadFromFile(GOSCHESS_RESOURCES "/Lato2OFL/Lato-Black.ttf");
     player_timer_display.setFont(timer_font);
     enemy_timer_display.setFont(timer_font);
     player_timer_display.setStyle(sf::Text::Bold);
@@ -112,20 +125,21 @@ void GosChess::ChessDrawingConfig() {
 }
 
 
-void GosChess::ColorizeAvailableMoves(const int &index, board_t &board) {
+void GosChess::ColorizeAvailableMoves(int board_index) {
     board_image.create(GosChess::board_t::ROW_LENGTH, GosChess::board_t::ROW_NUM);
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
-    for (auto &move: GosChess::game_available_moves[index]) {
-        board_node_t move_to = GosChess::GetSquare(move.move_to);
-        color_t color = board.getFigure(move.move_from).color_ == 0 ? color_t::WHITE : color_t::BLACK;
-        if (GosChess::MakeMove(move, board, color, GosChess::game_available_moves[move.move_from])) {
-            board_image.setPixel(move_to.x_, GosChess::board_t::ROW_NUM - move_to.y_ - 1,
-                                 GosChess::available_move_color);
-            GosChess::UndoMove(board);
-        }
-
+    const actions_set_t &moves = GosChess::game.movesFrom(board_index);
+    // Legality is probed on a copy so that highlighting can never disturb the
+    // position the game is actually being played on.
+    board_t probe = GosChess::game.board();
+    const color_t mover = static_cast<color_t>(probe.getFigure(board_index).color_);
+    for (const auto &move: moves) {
+        if (!GosChess::MakeMove(move, probe, mover, moves)) continue;
+        GosChess::UndoMove(probe);
+        const view_cell_t cell = GosChess::BoardIndexToViewCell(move.move_to);
+        board_image.setPixel(cell.x_, cell.y_, GosChess::available_move_color);
     }
-    board_texture.loadFromImage(board_image);
+    BoardTexture().loadFromImage(board_image);
 }
 
 
@@ -143,18 +157,18 @@ void GosChess::DrawTimer(sf::RenderWindow &game_window, const std::string &playe
 }
 
 void GosChess::LoadChessFigureSprites() {
-    if (!root_texture.loadFromFile("C:/Users/User/CLionProjects/GosChess/resources/chessPieces.png")) {
+    if (!RootTexture().loadFromFile(GOSCHESS_RESOURCES "/chessPieces.png")) {
         std::cout << "couldn't load root_texture for figures" << std::endl;
         return;
     }
-    root_texture.setSmooth(true);
-    root_texture.setSmooth(true);
-    LoadFigureTexturesByColor(root_texture, GosChess::color_t::WHITE);
-    LoadFigureTexturesByColor(root_texture, GosChess::color_t::BLACK);
+    RootTexture().setSmooth(true);
+    RootTexture().setSmooth(true);
+    LoadFigureTexturesByColor(RootTexture(), GosChess::color_t::WHITE);
+    LoadFigureTexturesByColor(RootTexture(), GosChess::color_t::BLACK);
 }
 
 void GosChess::DrawFigure(unsigned char figure_type, sf::Vector2f figure_pos, sf::RenderWindow &game_window) {
-    sf::Sprite figure_sprite = GosChess::figure_sprites.at(FIG_TO_FEN.at(figure_type));
+    sf::Sprite figure_sprite = GosChess::figure_sprites.at(GosChess::FenCharFromFigure(figure_type));
     figure_sprite.setPosition(sf::Vector2f(
             (figure_pos.x * GosChess::board_width / static_cast<float>(GosChess::board_t::ROW_LENGTH)) +
             GosChess::board_position.x,
@@ -170,16 +184,15 @@ void GosChess::DrawCurrentBoardState(const unsigned char *board, sf::RenderWindo
     GosChess::DrawBoard(game_window);
     GosChess::DrawTimer(game_window, player_time, enemy_player);
     for (int i = 0; i < board_t::BOARD_SIZE; i++) {
-        int curr_x = i % board_t::ROW_LENGTH;
-        int curr_y = GosChess::board_t::ROW_NUM - i / board_t::ROW_NUM - 1;
         if (board[i] == 0)continue;
-        GosChess::DrawFigure(board[i], sf::Vector2f(curr_x, curr_y), game_window);
+        const view_cell_t cell = GosChess::BoardIndexToViewCell(i);
+        GosChess::DrawFigure(board[i], sf::Vector2f(cell.x_, cell.y_), game_window);
     }
 }
 
 void GosChess::ResetBoardColours() {
     ColorizeBoardSeed(GosChess::main_color, GosChess::secondary_color);
-    board_texture.loadFromImage(board_image);
+    BoardTexture().loadFromImage(board_image);
 }
 
 

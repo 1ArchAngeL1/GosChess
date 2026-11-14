@@ -1,0 +1,119 @@
+#include "Match.hh"
+
+namespace {
+
+    constexpr std::uint32_t MILLIS_PER_MINUTE = 60u * 1000u;
+
+}
+
+GosChess::Match::Match(std::uint32_t id, std::uint16_t time_limit_minutes)
+        : id_(id),
+          time_limit_minutes_(time_limit_minutes),
+          has_clock_(time_limit_minutes > 0) {
+    white_millis_ = black_millis_ = time_limit_minutes * MILLIS_PER_MINUTE;
+}
+
+void GosChess::Match::setPosition(const std::string &fen, GosChess::color_t color_to_play) {
+    game_.setPosition(fen, color_to_play);
+    ply_ = 0;
+    last_move_from_ = last_move_to_ = -1;
+    finished_ = false;
+    finishIfPositionIsTerminal();
+}
+
+GosChess::Match::MoveResult GosChess::Match::applyMove(GosChess::color_t mover,
+                                                       const GosChess::Protocol::MoveRequest &request) {
+    MoveResult result;
+    if (finished_) {
+        result.reject_reason = Protocol::RejectReason::GAME_FINISHED;
+        return result;
+    }
+    if (mover != game_.colorToPlay()) {
+        result.reject_reason = Protocol::RejectReason::NOT_YOUR_TURN;
+        return result;
+    }
+    // Checked before the move itself: a stale ply means the client is talking
+    // about a position that no longer exists, and the move might well be legal
+    // in the current one by coincidence.
+    if (request.ply != ply_) {
+        result.reject_reason = Protocol::RejectReason::STALE_PLY;
+        return result;
+    }
+    if (!game_.applyMove(action_t(request.move_from, request.move_to))) {
+        result.reject_reason = Protocol::RejectReason::ILLEGAL_MOVE;
+        return result;
+    }
+    ply_++;
+    last_move_from_ = request.move_from;
+    last_move_to_ = request.move_to;
+    finishIfPositionIsTerminal();
+    result.accepted = true;
+    return result;
+}
+
+bool GosChess::Match::chargeTime(std::uint32_t elapsed_millis) {
+    if (finished_ || !has_clock_) return false;
+    std::uint32_t &clock = clockFor(game_.colorToPlay());
+    if (elapsed_millis >= clock) {
+        clock = 0;
+        finish(Protocol::OutcomeForLosingSide(game_.colorToPlay()), Protocol::GameOverReason::TIMEOUT);
+        return true;
+    }
+    clock -= elapsed_millis;
+    return false;
+}
+
+void GosChess::Match::resign(GosChess::color_t who) {
+    if (finished_) return;
+    finish(Protocol::OutcomeForLosingSide(who), Protocol::GameOverReason::RESIGNATION);
+}
+
+void GosChess::Match::abandon(GosChess::color_t who_left) {
+    if (finished_) return;
+    finish(Protocol::OutcomeForLosingSide(who_left), Protocol::GameOverReason::OPPONENT_LEFT);
+}
+
+GosChess::Protocol::GameStateUpdate GosChess::Match::state() const {
+    Protocol::GameStateUpdate update;
+    update.ply = ply_;
+    update.fen = game_.board().boardStateToFen();
+    update.color_to_play = game_.colorToPlay();
+    update.last_move_from = last_move_from_;
+    update.last_move_to = last_move_to_;
+    update.white_millis_left = white_millis_;
+    update.black_millis_left = black_millis_;
+    return update;
+}
+
+GosChess::Protocol::GameOver GosChess::Match::result() const {
+    Protocol::GameOver over;
+    over.outcome = outcome_;
+    over.reason = reason_;
+    return over;
+}
+
+void GosChess::Match::finish(GosChess::Protocol::GameOutcome outcome,
+                             GosChess::Protocol::GameOverReason reason) {
+    finished_ = true;
+    outcome_ = outcome;
+    reason_ = reason;
+}
+
+void GosChess::Match::finishIfPositionIsTerminal() {
+    switch (game_.status()) {
+        case GameStatus::CHECKMATE:
+            // The side left to move is the side that has been mated.
+            finish(Protocol::OutcomeForLosingSide(game_.colorToPlay()),
+                   Protocol::GameOverReason::CHECKMATE);
+            break;
+        case GameStatus::STALEMATE:
+            finish(Protocol::GameOutcome::DRAW, Protocol::GameOverReason::STALEMATE);
+            break;
+        case GameStatus::IN_PROGRESS:
+            break;
+    }
+}
+
+std::uint32_t &GosChess::Match::clockFor(GosChess::color_t color) {
+    return color == color_t::WHITE ? white_millis_ : black_millis_;
+}

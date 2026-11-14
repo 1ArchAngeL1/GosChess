@@ -6,10 +6,10 @@
 #define GOSCHESS_GAMEPLAYFUNCTIONAL_HH
 
 
-#include "../../chess/global/MainOjbects//GameObjects.hh"
-#include "../../chess/global/GameGlobals.hh"
-#include "../../render/GamePlayRender.hh"
-#include "../../chess/computation/InGameCalculations.hh"
+#include "GosChess/Board.hh"
+#include "GosChess/Rules.hh"
+#include "../../Game/ClientGame.hh"
+#include "../../Render/GamePlayRender.hh"
 #include "../../Utility/GameInput.hh"
 #include <SFML/Graphics.hpp>
 #include <imgui-SFML.h>
@@ -29,13 +29,23 @@ namespace GosChess {
         None
     };
 
+    enum game_status_t {
+        INGAME,
+        FINISHED
+    };
+
+    // The per-frame behaviour of one game mode. The position is not handed in:
+    // there is a single client side GameState (ClientGame.hh) which the
+    // listeners read, and in the online mode the server owns the original.
     class GameModeListener {
     protected:
         sf::RenderWindow &game_window;
     public:
         explicit GameModeListener(sf::RenderWindow &game_window) : game_window(game_window) {}
 
-        virtual void action(GosChess::board_t &) = 0;
+        virtual ~GameModeListener() = default;
+
+        virtual void action() = 0;
 
     };
 
@@ -43,7 +53,7 @@ namespace GosChess {
     public:
         explicit MultiPlayerListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void action(GosChess::board_t &) override;
+        void action() override;
     };
 
 
@@ -51,7 +61,7 @@ namespace GosChess {
     public:
         explicit GamePlayAIListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void action(GosChess::board_t &) override;
+        void action() override;
     };
 
 
@@ -59,90 +69,20 @@ namespace GosChess {
     public:
         explicit MainMenuListener(sf::RenderWindow &game_window) : GameModeListener(game_window) {}
 
-        void action(GosChess::board_t &) override;
+        void action() override;
     };
 
 
-    struct InitialTransferObject {
-
-        InitialTransferObject() = default;
-
-        InitialTransferObject(GosChess::color_t color, int time_limit) : player_color(color), time_limit(time_limit) {}
-
-        GosChess::color_t player_color;
-        int time_limit;
-    };
-
-
-    struct GameResultTransfer {
-        GameResultTransfer() = default;
-
-        GameResultTransfer(GosChess::GameResult result) : result(result) {}
-
-        GosChess::GameResult result;
-    };
-
-    namespace Time {
-
-        enum Time {
-            ZERO
-        };
-
-        class Timer {
-        private :
-            void convert(const float &);
-
-            short minutes;
-
-            float seconds;
-        public:
-            explicit Timer(const float &);
-
-            Timer() = default;
-
-            bool subtract(const float &);
-
-            void set(const float &);
-
-            std::string toString() const;
-
-            float getAmount() const;
-
-        };
-
-        struct TimerTransferObject {
-            TimerTransferObject(float player, float enemy) : player_timer_amount(player), enemy_timer_amount(enemy) {}
-
-            TimerTransferObject() = default;
-
-            float player_timer_amount;
-            float enemy_timer_amount;
-        };
-
-    }
-
-
-    std::string GetInitialFenBoard();
-
-    std::optional<GosChess::board_node_t> ChooseTrgFigure(GosChess::board_t &, sf::Window &);
-
-    std::optional<GosChess::board_node_t> ChooseSrcFigure(GosChess::board_t &, sf::Window &);
-
-    void CheckReceivedMove(std::optional<GosChess::action_t>, GosChess::board_t &);
-
-    void CheckReceivedTime(GosChess::Time::Timer &, GosChess::Time::Timer &, GosChess::Time::TimerTransferObject);
+    // Records the outcome of a game this client is the authority for - which
+    // means the game against the computer, and only that one. Online results
+    // come from the server.
+    bool SettleLocalGame();
 
     void SetGameFlagFinished();
 
     void ResetGame(sf::RenderWindow &);
 
-    void Disconnected();
-
-    void ProcessGameResult(GosChess::GameResultTransfer &);
-
     extern bool highlited;
-
-    extern char opponent_ip[];
 
     extern game_status_t game_status_flag;
 
@@ -150,6 +90,9 @@ namespace GosChess {
 
     extern GameMode game_mode;
 
+    // Lives here rather than with the menu rendering because the thing that
+    // clears it is the server announcing a game, not anything being drawn.
+    extern bool menu_active_flag;
 
 }
 

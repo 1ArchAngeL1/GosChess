@@ -6,17 +6,16 @@
 #define GOSCHESS_GAMELOOPS_HH
 
 #include "GamePlayFunctional.hh"
-#include "../../Render/menu/MenuRender.hh"
-#include "../../Network/GameNetwork.hh"
-#include "../../chess/Computation/Ai/AICalculations.hh"
+#include "../../Render/Menu/MenuRender.hh"
+#include "../../Network/ServerConnection.hh"
+#include "../../Chess/AI/AICalculations.hh"
 
 namespace GosChess {
 
     enum RenderMenuFLag {
         MAIN_MENU,
         COMPUTER,
-        HOSTING,
-        JOINING,
+        ONLINE,
         OPTION,
         GAME_RESULT,
         NONE
@@ -25,30 +24,32 @@ namespace GosChess {
     extern RenderMenuFLag render_menu_flag;
 
 
-    void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &, ...),
-                  void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *, ...), bool (*ModeTeminator)(),
-                  GosChess::GameModeListener *, GosChess::board_t *);
+    // The board used to be threaded through here as a varargs argument, with
+    // each callback pulling it back out by hand. There is now one GameState
+    // the callbacks read directly (ClientGame.hh), so the loop no longer has
+    // anything mode specific to carry and the varargs are gone with it.
+    void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &),
+                  void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *), bool (*ModeTerminator)(),
+                  GosChess::GameModeListener *);
 
 
-    void AIGameInit(sf::RenderWindow &, ...);
+    void AIGameInit(sf::RenderWindow &);
 
-    void AIGameUpdate(sf::RenderWindow &, sf::Clock *, ...);
+    void AIGameUpdate(sf::RenderWindow &, sf::Clock *);
 
-    void OnlineGameInit(sf::RenderWindow &, ...);
+    void OnlineGameInit(sf::RenderWindow &);
 
-    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *, ...);
+    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *);
 
-    void MenuInit(sf::RenderWindow &, ...);
+    void MenuInit(sf::RenderWindow &);
 
-    void MenuUpdate(sf::RenderWindow &, sf::Clock *, ...);
+    void MenuUpdate(sf::RenderWindow &, sf::Clock *);
 
     bool CheckOnlineModeFinished();
 
     bool CheckSinglePLayerFinished();
 
     bool CheckMenuModeFinished();
-
-    extern short time_limit_minutes;
 
 }
 
