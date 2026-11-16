@@ -40,31 +40,42 @@ namespace GosChess {
     };
 
 
-    // A move is a pair of absolute square indices; see Board.hh for the
-    // numbering. It carries no orientation of its own and so can be put on the
-    // wire as-is.
+    // A move is a pair of absolute square indices plus, for a pawn reaching
+    // the far rank, what it becomes. It carries no orientation of its own and
+    // so can be put on the wire as-is.
+    //
+    // The promotion piece is part of the move's identity, not a detail: a pawn
+    // on e7 has four different legal moves to e8, and a player who wanted a
+    // knight must not be given a queen.
     struct action_t {
-        int8_t move_from;
-        int8_t move_to;
-
-        constexpr action_t(int8_t move_from, int8_t move_to) : move_from(move_from), move_to(move_to) {};
+        std::int8_t move_from;
+        std::int8_t move_to;
+        // One of figure_types_t, or 0 when the move is not a promotion.
+        unsigned char promotion;
 
         // Defaults to a square that cannot exist, so an action that was never
         // filled in is rejected by the rules instead of indexing the board
         // with whatever happened to be on the stack.
-        constexpr action_t() : move_from(-1), move_to(-1) {}
+        constexpr action_t() : move_from(-1), move_to(-1), promotion(0) {}
+
+        constexpr action_t(std::int8_t move_from, std::int8_t move_to, unsigned char promotion = 0)
+                : move_from(move_from), move_to(move_to), promotion(promotion) {}
 
         constexpr bool operator==(const GosChess::action_t &rhm) const {
-            return this->move_from == rhm.move_from && this->move_to == rhm.move_to;
+            return this->move_from == rhm.move_from && this->move_to == rhm.move_to &&
+                   this->promotion == rhm.promotion;
         }
+
+        [[nodiscard]] constexpr bool isPromotion() const { return promotion != 0; }
     };
 
 
     class action_hash_t {
     public:
         std::size_t operator()(const GosChess::action_t &move) const {
-            return static_cast<std::size_t>(move.move_from) * GosChess::board_t::BOARD_SIZE +
-                   static_cast<std::size_t>(move.move_to);
+            std::size_t hash = static_cast<std::size_t>(move.move_from) * board_t::BOARD_SIZE +
+                               static_cast<std::size_t>(move.move_to);
+            return hash * 8u + move.promotion;
         }
     };
 
@@ -76,10 +87,6 @@ namespace GosChess {
     // rays and the last four the bishop rays, which the generator relies on.
     extern const std::int8_t direction_offsets[8];
 
-    // constinit, not merely const: GameState's constructor fills this table on
-    // first use, and a GameState may itself be a global (the client has one).
-    // Constant initialisation guarantees the table exists before any such
-    // constructor runs instead of leaving it to translation unit order.
     extern constinit GosChess::offset_t precalculated_offsets[GosChess::board_t::BOARD_SIZE];
 
     // Fills precalculated_offsets. Idempotent, and called automatically by the

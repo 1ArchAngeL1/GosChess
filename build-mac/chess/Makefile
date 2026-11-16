@@ -220,6 +220,20 @@ chess_selftest/fast:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_selftest.dir/build.make chess/CMakeFiles/chess_selftest.dir/build
 .PHONY : chess_selftest/fast
 
+# Convenience name for target.
+chess/CMakeFiles/chess_perft.dir/rule:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chess/CMakeFiles/chess_perft.dir/rule
+.PHONY : chess/CMakeFiles/chess_perft.dir/rule
+
+# Convenience name for target.
+chess_perft: chess/CMakeFiles/chess_perft.dir/rule
+.PHONY : chess_perft
+
+# fast build rule for target.
+chess_perft/fast:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_perft.dir/build.make chess/CMakeFiles/chess_perft.dir/build
+.PHONY : chess_perft/fast
+
 src/Board.o: src/Board.cpp.o
 .PHONY : src/Board.o
 
@@ -292,6 +306,30 @@ src/Move.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess.dir/build.make chess/CMakeFiles/chess.dir/src/Move.cpp.s
 .PHONY : src/Move.cpp.s
 
+src/Notation.o: src/Notation.cpp.o
+.PHONY : src/Notation.o
+
+# target to build an object file
+src/Notation.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess.dir/build.make chess/CMakeFiles/chess.dir/src/Notation.cpp.o
+.PHONY : src/Notation.cpp.o
+
+src/Notation.i: src/Notation.cpp.i
+.PHONY : src/Notation.i
+
+# target to preprocess a source file
+src/Notation.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess.dir/build.make chess/CMakeFiles/chess.dir/src/Notation.cpp.i
+.PHONY : src/Notation.cpp.i
+
+src/Notation.s: src/Notation.cpp.s
+.PHONY : src/Notation.s
+
+# target to generate assembly for a file
+src/Notation.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess.dir/build.make chess/CMakeFiles/chess.dir/src/Notation.cpp.s
+.PHONY : src/Notation.cpp.s
+
 src/Rules.o: src/Rules.cpp.o
 .PHONY : src/Rules.o
 
@@ -315,6 +353,30 @@ src/Rules.s: src/Rules.cpp.s
 src/Rules.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess.dir/build.make chess/CMakeFiles/chess.dir/src/Rules.cpp.s
 .PHONY : src/Rules.cpp.s
+
+tests/perft.o: tests/perft.cpp.o
+.PHONY : tests/perft.o
+
+# target to build an object file
+tests/perft.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_perft.dir/build.make chess/CMakeFiles/chess_perft.dir/tests/perft.cpp.o
+.PHONY : tests/perft.cpp.o
+
+tests/perft.i: tests/perft.cpp.i
+.PHONY : tests/perft.i
+
+# target to preprocess a source file
+tests/perft.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_perft.dir/build.make chess/CMakeFiles/chess_perft.dir/tests/perft.cpp.i
+.PHONY : tests/perft.cpp.i
+
+tests/perft.s: tests/perft.cpp.s
+.PHONY : tests/perft.s
+
+# target to generate assembly for a file
+tests/perft.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_perft.dir/build.make chess/CMakeFiles/chess_perft.dir/tests/perft.cpp.s
+.PHONY : tests/perft.cpp.s
 
 tests/selftest.o: tests/selftest.cpp.o
 .PHONY : tests/selftest.o
@@ -356,6 +418,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... chess"
+	@echo "... chess_perft"
 	@echo "... chess_selftest"
 	@echo "... src/Board.o"
 	@echo "... src/Board.i"
@@ -366,9 +429,15 @@ help:
 	@echo "... src/Move.o"
 	@echo "... src/Move.i"
 	@echo "... src/Move.s"
+	@echo "... src/Notation.o"
+	@echo "... src/Notation.i"
+	@echo "... src/Notation.s"
 	@echo "... src/Rules.o"
 	@echo "... src/Rules.i"
 	@echo "... src/Rules.s"
+	@echo "... tests/perft.o"
+	@echo "... tests/perft.i"
+	@echo "... tests/perft.s"
 	@echo "... tests/selftest.o"
 	@echo "... tests/selftest.i"
 	@echo "... tests/selftest.s"

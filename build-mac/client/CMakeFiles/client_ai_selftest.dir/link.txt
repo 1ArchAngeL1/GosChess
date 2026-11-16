@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/client_ai_selftest.dir/tests/ai_selftest.cpp.o CMakeFiles/client_ai_selftest.dir/Chess/AI/AICalculations.cpp.o -o client_ai_selftest  ../chess/libchess.a

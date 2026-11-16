@@ -5,122 +5,200 @@
 #include "AICalculations.hh"
 
 #include <algorithm>
+#include <array>
 #include <climits>
-#include <unordered_map>
 #include <vector>
 
 #include "GosChess/Rules.hh"
 
-typedef GosChess::figure_types_t FIG;
+namespace {
 
-static std::unordered_map<unsigned char, short> figure_values{{FIG::PAWN,   10},
-                                                              {FIG::KNIGHT, 30},
-                                                              {FIG::BISHOP, 30},
-                                                              {FIG::ROOK,   50},
-                                                              {FIG::QUEEN,  90}};
+    using namespace GosChess;
 
-static int CountScore(const unsigned char *board, GosChess::color_t target_clr) {
-    int score = 0;
-    GosChess::figure_t fig;
-    for (int i = 0; i < GosChess::board_t::BOARD_SIZE; i++) {
-        if (board[i] == 0)continue;
-        fig.full_type = board[i];
-        if (fig.color_ == target_clr) {
-            score += figure_values[fig.type_];
+    constexpr int PIECE_VALUE[8] = {
+            0,
+            500,   // ROOK
+            330,   // BISHOP
+            100,   // PAWN
+            320,   // KNIGHT
+            0,     // KING - priceless, and never actually captured
+            900,   // QUEEN
+            0
+    };
+
+    // Scores near the extremes are reserved for mates, so that a mate found
+    // sooner beats a mate found later and the engine actually finishes games
+    // instead of shuffling in a won position.
+    constexpr int MATE_SCORE = 100000;
+
+    // Square preferences, written from White's point of view and mirrored for
+    // Black. Material alone makes an engine that develops nothing and leaves
+    // its knights in the corner; this is the cheapest fix that changes how the
+    // moves actually look.
+    constexpr std::array<int, 64> PAWN_SQUARES = {
+            0,  0,  0,  0,  0,  0,  0,  0,
+            5, 10, 10,-20,-20, 10, 10,  5,
+            5, -5,-10,  0,  0,-10, -5,  5,
+            0,  0,  0, 20, 20,  0,  0,  0,
+            5,  5, 10, 25, 25, 10,  5,  5,
+            10, 10, 20, 30, 30, 20, 10, 10,
+            50, 50, 50, 50, 50, 50, 50, 50,
+            0,  0,  0,  0,  0,  0,  0,  0
+    };
+
+    constexpr std::array<int, 64> KNIGHT_SQUARES = {
+            -50,-40,-30,-30,-30,-30,-40,-50,
+            -40,-20,  0,  5,  5,  0,-20,-40,
+            -30,  5, 10, 15, 15, 10,  5,-30,
+            -30,  0, 15, 20, 20, 15,  0,-30,
+            -30,  5, 15, 20, 20, 15,  5,-30,
+            -30,  0, 10, 15, 15, 10,  0,-30,
+            -40,-20,  0,  0,  0,  0,-20,-40,
+            -50,-40,-30,-30,-30,-30,-40,-50
+    };
+
+    constexpr std::array<int, 64> BISHOP_SQUARES = {
+            -20,-10,-10,-10,-10,-10,-10,-20,
+            -10,  5,  0,  0,  0,  0,  5,-10,
+            -10, 10, 10, 10, 10, 10, 10,-10,
+            -10,  0, 10, 10, 10, 10,  0,-10,
+            -10,  5,  5, 10, 10,  5,  5,-10,
+            -10,  0,  5, 10, 10,  5,  0,-10,
+            -10,  0,  0,  0,  0,  0,  0,-10,
+            -20,-10,-10,-10,-10,-10,-10,-20
+    };
+
+    constexpr std::array<int, 64> ROOK_SQUARES = {
+            0,  0,  0,  5,  5,  0,  0,  0,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            5, 10, 10, 10, 10, 10, 10,  5,
+            0,  0,  0,  0,  0,  0,  0,  0
+    };
+
+    constexpr std::array<int, 64> KING_SQUARES = {
+            20, 30, 10,  0,  0, 10, 30, 20,
+            20, 20,  0,  0,  0,  0, 20, 20,
+            -10,-20,-20,-20,-20,-20,-20,-10,
+            -20,-30,-30,-40,-40,-30,-30,-20,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30
+    };
+
+    // White reads the table as written; Black reads it upside down.
+    int SquareBonus(const std::array<int, 64> &table, int square, color_t color) {
+        return color == color_t::WHITE ? table[square] : table[square ^ 56];
+    }
+
+    int PositionalBonus(unsigned char type, int square, color_t color) {
+        switch (type) {
+            case figure_types_t::PAWN:   return SquareBonus(PAWN_SQUARES, square, color);
+            case figure_types_t::KNIGHT: return SquareBonus(KNIGHT_SQUARES, square, color);
+            case figure_types_t::BISHOP: return SquareBonus(BISHOP_SQUARES, square, color);
+            case figure_types_t::ROOK:   return SquareBonus(ROOK_SQUARES, square, color);
+            case figure_types_t::KING:   return SquareBonus(KING_SQUARES, square, color);
+            default: return 0;
         }
     }
-    return score;
-}
 
-// Every entry in the map already belongs to the side that was generated for,
-// so they can simply be poured into one set.
-static GosChess::actions_set_t MergeMoves(const GosChess::action_map_t &moves_by_square) {
-    GosChess::actions_set_t moves;
-    for (const auto &[square, from_square]: moves_by_square) {
-        moves.insert(from_square.begin(), from_square.end());
-    }
-    return moves;
-}
-
-static int PromotionRankFor(GosChess::color_t color) {
-    return color == GosChess::color_t::WHITE ? GosChess::board_t::ROW_NUM - 1 : 0;
-}
-
-static std::vector<GosChess::action_t> OrderMoves(const unsigned char *board,
-                                                  const GosChess::actions_set_t &moves,
-                                                  GosChess::color_t mover) {
-    std::unordered_map<GosChess::action_t, int, GosChess::action_hash_t> move_scores;
-    std::vector<GosChess::action_t> result_moves(moves.begin(), moves.end());
-    for (GosChess::action_t move: moves) {
-        GosChess::figure_t move_from(board[move.move_from]);
-        GosChess::figure_t move_to(board[move.move_to]);
-        if (move_to.full_type == 0) {
-            move_scores[move] = GosChess::IsSquareAttacked(board, move.move_to)
-                                ? -figure_values[move_from.type_] : 0;
-        } else {
-            move_scores[move] = figure_values[move_from.type_] - figure_values[move_to.type_];
+    // Positive means good for `ai_color`.
+    int Evaluate(const board_t &board, color_t ai_color) {
+        int score = 0;
+        const unsigned char *squares = board.getRawBoard();
+        for (int square = 0; square < board_t::BOARD_SIZE; square++) {
+            if (squares[square] == 0) continue;
+            const figure_t piece(squares[square]);
+            const color_t color = static_cast<color_t>(piece.color_);
+            const int value = PIECE_VALUE[piece.type_] +
+                              PositionalBonus(piece.type_, square, color);
+            score += color == ai_color ? value : -value;
         }
-        if (move_from.type_ == FIG::PAWN &&
-            move.move_to / GosChess::board_t::ROW_LENGTH == PromotionRankFor(mover)) {
-            move_scores[move] += figure_values[FIG::QUEEN];
-        }
-    }
-    std::sort(result_moves.begin(), result_moves.end(),
-              [&](const GosChess::action_t &l, const GosChess::action_t &r) { return move_scores[l] > move_scores[r]; });
-    return result_moves;
-}
-
-static int Evaluate(const unsigned char *board, GosChess::color_t ai_color) {
-    return CountScore(board, ai_color) - CountScore(board, GosChess::OppositeColor(ai_color));
-}
-
-static int Search(GosChess::board_t &board, int depth, bool maximize, int alpha, int beta, bool initial,
-                  GosChess::action_t &best_move, GosChess::color_t ai_color) {
-    const GosChess::color_t color_to_calculate = maximize ? ai_color : GosChess::OppositeColor(ai_color);
-    if (depth == 0)return Evaluate(board.getRawBoard(), ai_color);
-
-    GosChess::action_map_t moves_by_square;
-    GosChess::CalculateAvailableMoves(board.getRawBoard(), color_to_calculate, moves_by_square);
-
-    // A terminal position has to be scored for whichever side is stuck in it,
-    // not only for the engine's own side as it used to be.
-    if (GosChess::HasNoLegalMoves(board, color_to_calculate, moves_by_square)) {
-        if (!GosChess::IsKingInCheck(board.getRawBoard(), color_to_calculate)) return 0;
-        return maximize ? INT_MIN + 1 : INT_MAX - 1;
+        return score;
     }
 
-    GosChess::actions_set_t moves = MergeMoves(moves_by_square);
-    int evaluated_best = maximize ? INT_MIN : INT_MAX;
-    GosChess::action_t curr_best_move;
-    for (auto &move: OrderMoves(board.getRawBoard(), moves, color_to_calculate)) {
-        if (!GosChess::MakeMove(move, board, color_to_calculate, moves)) continue;
-        int evaluate = Search(board, depth - 1, !maximize, alpha, beta, false, best_move, ai_color);
-        GosChess::UndoMove(board);
-        if (maximize) {
-            if (evaluate > evaluated_best) {
-                evaluated_best = evaluate;
-                if (initial)curr_best_move = move;
+    // Captures first, best capture first, then promotions. Cheap ordering is
+    // what makes alpha-beta actually prune.
+    void OrderMoves(const board_t &board, std::vector<action_t> &moves) {
+        const unsigned char *squares = board.getRawBoard();
+        std::stable_sort(moves.begin(), moves.end(),
+                         [&](const action_t &left, const action_t &right) {
+                             auto score = [&](const action_t &move) {
+                                 int value = 0;
+                                 const unsigned char target = squares[move.move_to];
+                                 if (target != 0) {
+                                     const figure_t victim(target);
+                                     const figure_t attacker(squares[move.move_from]);
+                                     // Take the most valuable piece with the
+                                     // least valuable one.
+                                     value += 10 * PIECE_VALUE[victim.type_] -
+                                              PIECE_VALUE[attacker.type_];
+                                 }
+                                 if (move.isPromotion()) value += PIECE_VALUE[move.promotion];
+                                 return value;
+                             };
+                             return score(left) > score(right);
+                         });
+    }
+
+    int Search(board_t &board, color_t to_move, color_t ai_color, int depth, int ply,
+               int alpha, int beta, action_t *best_move) {
+        std::vector<action_t> moves;
+        GenerateMoveList(board, to_move, moves);
+        OrderMoves(board, moves);
+
+        const bool maximizing = to_move == ai_color;
+        int best = maximizing ? INT_MIN : INT_MAX;
+        action_t best_found;
+        bool any_legal = false;
+
+        for (const action_t &move: moves) {
+            if (!TryMove(move, board, to_move)) continue;
+            any_legal = true;
+            const int score = depth <= 1
+                              ? Evaluate(board, ai_color)
+                              : Search(board, OppositeColor(to_move), ai_color, depth - 1, ply + 1,
+                                       alpha, beta, nullptr);
+            UndoMove(board);
+
+            if (maximizing) {
+                if (score > best) {
+                    best = score;
+                    best_found = move;
+                }
+                alpha = std::max(alpha, best);
+            } else {
+                if (score < best) {
+                    best = score;
+                    best_found = move;
+                }
+                beta = std::min(beta, best);
             }
-            alpha = std::max(alpha, evaluated_best);
-        } else {
-            evaluated_best = std::min(evaluated_best, evaluate);
-            beta = std::min(beta, evaluated_best);
+            if (beta <= alpha) break;
         }
-        if (beta <= alpha) {
-            break;
+
+        if (!any_legal) {
+            // Mate or stalemate. Scoring mate by distance means the engine
+            // walks towards the shortest one instead of circling forever.
+            if (!IsKingInCheck(board, to_move)) return 0;
+            return maximizing ? -(MATE_SCORE - ply) : (MATE_SCORE - ply);
         }
+
+        if (best_move != nullptr) *best_move = best_found;
+        return best;
     }
 
-    if (initial) {
-        best_move = curr_best_move;
-    }
-    return evaluated_best;
 }
 
 GosChess::action_t GosChess::GetBestMove(GosChess::board_t board, GosChess::color_t ai_color) {
-    GosChess::action_t best_move;
-    Search(board, ai_level, true, INT_MIN, INT_MAX, true, best_move, ai_color);
+    const int depth = std::clamp(ai_level, 1, MAX_AI_LEVEL);
+    action_t best_move;
+    Search(board, ai_color, ai_color, depth, 0, INT_MIN + 1, INT_MAX - 1, &best_move);
     return best_move;
 }
 
-int GosChess::ai_level = 2;
+int GosChess::ai_level = 3;

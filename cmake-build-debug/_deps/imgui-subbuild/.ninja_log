@@ -1,0 +1,21 @@
+# ninja log v7
+1	14	1794768462982497941	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-mkdir	33b415ab0252609d
+1	14	1794768462982497941	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-mkdir	33b415ab0252609d
+14	4824	1794768467793132544	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download	a4e45a54ff125e5e
+14	4824	1794768467793132544	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-download	a4e45a54ff125e5e
+4824	4847	1794768467793889344	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update	65b1ad061db9fd75
+4824	4847	1794768467793889344	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-update	65b1ad061db9fd75
+4847	4859	1794768467828172640	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-patch	8e1d3d874d7b4104
+4847	4859	1794768467828172640	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-patch	8e1d3d874d7b4104
+4859	4871	1794768467840382859	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-configure	619853ed0bc4b3ce
+4859	4871	1794768467840382859	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-configure	619853ed0bc4b3ce
+4871	4883	1794768467852178031	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-build	ead2d02c7f7c922c
+4871	4883	1794768467852178031	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-build	ead2d02c7f7c922c
+4883	4898	1794768467866643858	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-install	b6f0f3ef5fc34c10
+4883	4898	1794768467866643858	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-install	b6f0f3ef5fc34c10
+4898	4911	1794768467879629710	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-test	af3e2f4355a25505
+4898	4911	1794768467879629710	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-test	af3e2f4355a25505
+4911	4928	1794768467896706566	CMakeFiles/imgui-populate-complete	e247efcc2c7329ae
+4911	4928	1794768467896706566	imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-done	e247efcc2c7329ae
+4911	4928	1794768467896706566	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/CMakeFiles/imgui-populate-complete	e247efcc2c7329ae
+4911	4928	1794768467896706566	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/imgui-populate-done	e247efcc2c7329ae

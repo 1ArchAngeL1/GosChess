@@ -5,16 +5,68 @@
 
 #include "GameLoops.hh"
 
-
-typedef void (*OnUserInit)(sf::RenderWindow &);
-
-typedef void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *);
-
-typedef bool (*ModeTerminator)();
+#include "../../Audio/GameAudio.hh"
+#include "../../Render/GamePanel.hh"
+#include "../../Render/UiFonts.hh"
 
 
-void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate update, ModeTerminator stop,
+namespace {
+
+    // Set when the player asks to leave a finished game. The loop no longer
+    // ends the moment the game does, so that the final position and the result
+    // stay on screen until the player has read them.
+    bool leave_requested = false;
+
+    // Turns whatever the game state recorded into a noise, and clears it. Kept
+    // here rather than in ClientGame so that module stays free of the audio
+    // library and can be linked into tests on its own.
+    void PlayPendingSound() {
+        switch (GosChess::pending_sound) {
+            case GosChess::SoundCue::MOVE:      GosChess::PlayMoveSound(); break;
+            case GosChess::SoundCue::CAPTURE:   GosChess::PlayCaptureSound(); break;
+            case GosChess::SoundCue::CHECK:     GosChess::PlayCheckSound(); break;
+            case GosChess::SoundCue::GAME_OVER: GosChess::PlayGameOverSound(); break;
+            case GosChess::SoundCue::NONE:      return;
+        }
+        GosChess::pending_sound = GosChess::SoundCue::NONE;
+    }
+
+    // The board, the header and the panel, shared by both game modes.
+    void DrawGameScreen(sf::RenderWindow &window) {
+        PlayPendingSound();
+        const GosChess::board_overlay_t overlay = GosChess::BuildOverlay(window);
+        GosChess::DrawBoard(window, GosChess::game.board().getRawBoard(), overlay);
+
+        const std::string side = GosChess::player_color == GosChess::color_t::WHITE
+                                 ? "You are White" : "You are Black";
+        const std::string opponent = GosChess::game_mode == GosChess::GameMode::SINGLE_PLAYER
+                                     ? "Against the computer" : "Against another player";
+        GosChess::DrawHeader(window, opponent, side + "   -   move " +
+                                               std::to_string(GosChess::game.fullmoveNumber()));
+
+        const GosChess::panel_result_t panel = GosChess::DrawGamePanel(GosChess::StatusLine());
+        if (panel.promotion.has_value()) GosChess::ChoosePromotion(panel.promotion.value());
+        if (panel.leave) leave_requested = true;
+        if (panel.resign && !GosChess::game_over) {
+            if (GosChess::game_mode == GosChess::GameMode::MULTI_PLAYER) {
+                // The server decides what a resignation means, as it does with
+                // everything else; it will send the result back.
+                GosChess::SendResign();
+            } else {
+                GosChess::game_result = GosChess::GameResult::LOST;
+                GosChess::game_over_detail = "by resignation";
+                GosChess::SetGameFlagFinished();
+            }
+        }
+    }
+
+}
+
+
+void GosChess::GameLoop(sf::RenderWindow &window, void (*init)(sf::RenderWindow &),
+                        void (*draw)(sf::RenderWindow &, float), bool (*stop)(),
                         GosChess::GameModeListener *listener) {
+    leave_requested = false;
     init(window);
     sf::Clock delta_clock;
     delta_clock.restart();
@@ -25,103 +77,114 @@ void GosChess::GameLoop(sf::RenderWindow &window, OnUserInit init, OnUserUpdate 
             ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed) {
                 GosChess::LeaveServer();
-                exit(3);
+                window.close();
+                return;
+            }
+            // The window is resizable, so the board and the panel are laid out
+            // again rather than being left at whatever size they started at.
+            if (event.type == sf::Event::Resized) {
+                GosChess::window_width = event.size.width;
+                GosChess::window_height = event.size.height;
+                window.setView(sf::View(sf::FloatRect(0.f, 0.f,
+                                                      static_cast<float>(event.size.width),
+                                                      static_cast<float>(event.size.height))));
+                GosChess::RecalculateLayout();
             }
         }
         GosChess::InputHandle::Listen();
 
+        const sf::Time delta = delta_clock.restart();
+        // Before the listener runs, because the listener asks ImGui whether a
+        // click belongs to the panel rather than the board.
+        ImGui::SFML::Update(window, delta);
+
         listener->action();
 
-        update(window, &delta_clock);
+        window.clear(GosChess::background_color);
+        draw(window, delta.asSeconds());
+        ImGui::SFML::Render(window);
+        window.display();
     }
 }
 
 void GosChess::AIGameInit(sf::RenderWindow &window) {
-    GosChess::SetPlayerColor(GosChess::color_t::WHITE);
-    GosChess::ResetClientGame();
-    GosChess::BoardRenderConfig();
-    GosChess::LoadChessFigureSprites();
+    SetPlayerColor(color_t::WHITE);
+    ResetClientGame();
+    game_over_detail.clear();
+    LoadBoardAssets();
 }
 
-void GosChess::AIGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock) {
-    if (!GosChess::game.finished() && GosChess::game.colorToPlay() == GosChess::enemy_color) {
-        GosChess::game.applyMove(GosChess::GetBestMove(GosChess::game.board(), GosChess::enemy_color));
-        GosChess::SettleLocalGame();
+void GosChess::AIGameDraw(sf::RenderWindow &window, float delta_seconds) {
+    TickMoveAnimation(delta_seconds);
+    if (!game.finished() && game.colorToPlay() == enemy_color) {
+        game.applyMove(GetBestMove(game.board(), enemy_color));
+        last_move_from = game.lastMove().move_from;
+        last_move_to = game.lastMove().move_to;
+        SettleLocalGame();
     }
-    window.clear();
-    GosChess::DrawCurrentBoardState(GosChess::game.board().getRawBoard(), window,
-                                    GosChess::PlayerClockText(), GosChess::OpponentClockText());
-    window.display();
+    DrawGameScreen(window);
 }
 
 // Note what is *not* here: no position is set up and no colour is drawn. Both
 // arrived from the server before this loop was entered, which is the point -
 // the client no longer has an opening position of its own to disagree with.
 void GosChess::OnlineGameInit(sf::RenderWindow &window) {
-    GosChess::BoardRenderConfig();
-    GosChess::LoadChessFigureSprites();
+    game_over_detail.clear();
+    LoadBoardAssets();
 }
 
-void GosChess::OnlineGameUpdate(sf::RenderWindow &window, sf::Clock *delta_clock) {
-    const float delta_seconds = delta_clock->restart().asSeconds();
-    GosChess::ProcessServerMessages();
+void GosChess::OnlineGameDraw(sf::RenderWindow &window, float delta_seconds) {
+    ProcessServerMessages();
+    TickMoveAnimation(delta_seconds);
     // Display only: the authoritative value arrived with the last position and
     // will arrive again with the next one.
-    GosChess::TickClockDisplay(delta_seconds);
-    window.clear();
-    GosChess::DrawCurrentBoardState(GosChess::game.board().getRawBoard(), window,
-                                    GosChess::PlayerClockText(), GosChess::OpponentClockText());
-    window.display();
+    TickClockDisplay(delta_seconds);
+    DrawGameScreen(window);
 }
 
 void GosChess::MenuInit(sf::RenderWindow &window) {
-    ImGui::SFML::Init(window);
-    ImGuiIO *imgui_io = &ImGui::GetIO();
-    imgui_io->FontGlobalScale = 3.f;
+    // ImGui itself is started once in main. Starting it here created a fresh
+    // context every time the menu was re-entered.
 }
 
-void GosChess::MenuUpdate(sf::RenderWindow &window, sf::Clock *delta_clock) {
-    ImGui::SFML::Update(window, delta_clock->restart());
+void GosChess::MenuDraw(sf::RenderWindow &window, float delta_seconds) {
+    RenderBackgroundWallpaper(window);
 
-    switch (GosChess::render_menu_flag) {
-        case GosChess::RenderMenuFLag::MAIN_MENU:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderMainMenuWidgets, window);
+    if (MenuFont() != nullptr) ImGui::PushFont(MenuFont());
+    switch (render_menu_flag) {
+        case RenderMenuFLag::MAIN_MENU:
+            RenderMenu(RenderMainMenuBackground, RenderMainMenuWidgets, window);
             break;
-        case GosChess::RenderMenuFLag::ONLINE:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderOnlineWidgets, window);
+        case RenderMenuFLag::ONLINE:
+            RenderMenu(RenderMainMenuBackground, RenderOnlineWidgets, window);
             break;
-        case GosChess::RenderMenuFLag::OPTION:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderOptionsWidgets, window);
+        case RenderMenuFLag::OPTION:
+            RenderMenu(RenderMainMenuBackground, RenderOptionsWidgets, window);
             break;
-        case GosChess::RenderMenuFLag::GAME_RESULT:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderGameResultWidgets, window);
+        case RenderMenuFLag::COMPUTER:
+            RenderMenu(RenderMainMenuBackground, RenderAiGameWidgets, window);
             break;
-        case GosChess::RenderMenuFLag::COMPUTER:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderAiGameWidgets, window);
-            break;
-        case GosChess::RenderMenuFLag::NONE:
+        case RenderMenuFLag::GAME_RESULT:
+        case RenderMenuFLag::NONE:
         default:
-            GosChess::RenderMenu(GosChess::RenderMainMenuBackground, GosChess::RenderMainMenuWidgets, window);
+            RenderMenu(RenderMainMenuBackground, RenderMainMenuWidgets, window);
             break;
     }
-
-    window.clear();
-    GosChess::RenderBackgroundWallpaper(window);
-    ImGui::SFML::Render(window);
-    window.display();
-
+    if (MenuFont() != nullptr) ImGui::PopFont();
 }
 
 bool GosChess::CheckMenuModeFinished() {
-    return !GosChess::menu_active_flag;
+    return !menu_active_flag;
 }
 
+// A finished game stays on screen until the player leaves it, so the result and
+// the final position can actually be looked at.
 bool GosChess::CheckOnlineModeFinished() {
-    return GosChess::game_status_flag == GosChess::game_status_t::FINISHED;
+    return leave_requested;
 }
 
 bool GosChess::CheckSinglePLayerFinished() {
-    return GosChess::game_status_flag == GosChess::game_status_t::FINISHED;
+    return leave_requested;
 }
 
 

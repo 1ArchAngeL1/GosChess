@@ -65,8 +65,19 @@
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Graphics/CMakeFiles/install.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Graphics/CMakeFiles/install/local.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Graphics/CMakeFiles/install/strip.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/package.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/package_source.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/test.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/edit_cache.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/rebuild_cache.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/list_install_components.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install/local.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/CMakeFiles/install/strip.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/chess.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/chess_selftest.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/chess_perft.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/package.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/package_source.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/CMakeFiles/test.dir
@@ -103,6 +114,7 @@
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/imgui-sfml.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/client.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/client_view_selftest.dir
+/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/client_ai_selftest.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/package.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/package_source.dir
 /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/CMakeFiles/test.dir

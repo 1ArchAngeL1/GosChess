@@ -12,6 +12,11 @@ bool GosChess::InputHandle::mouse_button_released[MOUSE_BUTTON_COUNT];
 bool GosChess::InputHandle::mouse_button_hold[MOUSE_BUTTON_COUNT];
 
 
+// The mouse poll used to sit *inside* the keyboard loop, so it ran once per
+// key: the first pass set a button to pressed, the second saw it already held
+// and cleared the flag again. MousePressed therefore never reported anything,
+// which is why moving a piece needed the Enter key. The two loops are separate
+// now and clicking works.
 void GosChess::InputHandle::Listen() {
     for (int key = 0; key < GosChess::InputHandle::KEYBOARD_KEY_COUNT; key++) {
         if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key> (key))) {
@@ -30,23 +35,23 @@ void GosChess::InputHandle::Listen() {
                 GosChess::InputHandle::keyboard_key_released[key] = false;
             }
         }
+    }
 
-        for (int button = 0; button < GosChess::InputHandle::MOUSE_BUTTON_COUNT; button++) {
-            if (sf::Mouse::isButtonPressed(static_cast <sf::Mouse::Button> (button))) {
-                if (GosChess::InputHandle::mouse_button_hold[button]) {
-                    GosChess::InputHandle::mouse_button_pressed[button] = false;
-                } else {
-                    GosChess::InputHandle::mouse_button_pressed[button] = true;
-                    GosChess::InputHandle::mouse_button_hold[button] = true;
-                }
+    for (int button = 0; button < GosChess::InputHandle::MOUSE_BUTTON_COUNT; button++) {
+        if (sf::Mouse::isButtonPressed(static_cast <sf::Mouse::Button> (button))) {
+            if (GosChess::InputHandle::mouse_button_hold[button]) {
+                GosChess::InputHandle::mouse_button_pressed[button] = false;
             } else {
-                if (GosChess::InputHandle::mouse_button_hold[button]) {
-                    GosChess::InputHandle::mouse_button_pressed[button] = false;
-                    GosChess::InputHandle::mouse_button_hold[button] = false;
-                    GosChess::InputHandle::mouse_button_released[button] = true;
-                } else if (GosChess::InputHandle::mouse_button_released[button]) {
-                    GosChess::InputHandle::mouse_button_released[button] = false;
-                }
+                GosChess::InputHandle::mouse_button_pressed[button] = true;
+                GosChess::InputHandle::mouse_button_hold[button] = true;
+            }
+        } else {
+            if (GosChess::InputHandle::mouse_button_hold[button]) {
+                GosChess::InputHandle::mouse_button_pressed[button] = false;
+                GosChess::InputHandle::mouse_button_hold[button] = false;
+                GosChess::InputHandle::mouse_button_released[button] = true;
+            } else if (GosChess::InputHandle::mouse_button_released[button]) {
+                GosChess::InputHandle::mouse_button_released[button] = false;
             }
         }
     }

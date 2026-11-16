@@ -4,17 +4,22 @@
 # SOURCE_FILES at client/CMakeLists.txt:81 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/*.cpp")
 set(OLD_GLOB
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Audio/GameAudio.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Chess/AI/AICalculations.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GameLoops.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GamePlayFunctional.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/main.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Game/ClientGame.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/ServerConnection.cpp"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardRender.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardView.cpp"
-  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePlayRender.cpp"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePanel.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Globals/RenderGlobals.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Menu/MenuRender.cpp"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiFonts.cpp"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiTheme.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Utility/GameInput.cpp"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/tests/ai_selftest.cpp"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/tests/view_selftest.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")

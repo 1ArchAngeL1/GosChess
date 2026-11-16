@@ -1,0 +1,229 @@
+Start testing: Nov 15 22:48 +04
+----------------------------------------------------------
+1/7 Testing: chess_selftest
+1/7 Test: chess_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/chess/chess_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/chess
+"chess_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+opening position
+fen
+pawn directions
+refusing moves
+castling
+castling rights
+castling and check
+en passant
+en passant expires
+promotion
+checkmate
+check evasion
+stalemate
+the fifty move rule
+threefold repetition
+insufficient material
+algebraic notation
+coordinate notation
+game independence
+offered moves
+
+all checks passed
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"chess_selftest" end time: Nov 15 22:48 +04
+"chess_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/7 Testing: chess_perft
+2/7 Test: chess_perft
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/chess/chess_perft"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/chess
+"chess_perft" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+opening position
+  depth 1          20 nodes       0 ms
+  depth 2         400 nodes       0 ms
+  depth 3        8902 nodes      11 ms
+kiwipete - castling, pins and checks
+  depth 1          48 nodes       0 ms
+  depth 2        2039 nodes       2 ms
+  depth 3       97862 nodes      55 ms
+endgame - en passant and discovered checks
+  depth 1          14 nodes       0 ms
+  depth 2         191 nodes       0 ms
+  depth 3        2812 nodes       1 ms
+  depth 4       43238 nodes      23 ms
+promotions and a trapped king
+  depth 1           6 nodes       0 ms
+  depth 2         264 nodes       0 ms
+  depth 3        9467 nodes       3 ms
+castling rights lost under attack
+  depth 1          44 nodes       0 ms
+  depth 2        1486 nodes       0 ms
+  depth 3       62379 nodes      27 ms
+
+all node counts match
+<end of output>
+Test time =   0.57 sec
+----------------------------------------------------------
+Test Passed.
+"chess_perft" end time: Nov 15 22:48 +04
+"chess_perft" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/7 Testing: protocol_selftest
+3/7 Test: protocol_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/protocol/protocol_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/protocol
+"protocol_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+find game
+move request
+game start
+game state
+game over
+rejection
+tagged messages
+outcome helper
+
+all checks passed
+<end of output>
+Test time =   0.33 sec
+----------------------------------------------------------
+Test Passed.
+"protocol_selftest" end time: Nov 15 22:48 +04
+"protocol_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/7 Testing: server_selftest
+4/7 Test: server_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/server/server_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/server
+"server_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+a fresh match
+moves that are not yours
+replayed and stale moves
+checkmate
+stalemate
+clocks
+running out of time
+games without a clock
+resignation
+walking away
+reported state
+promotion through the server
+castling through the server
+drawn games
+independence
+
+all checks passed
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"server_selftest" end time: Nov 15 22:48 +04
+"server_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/7 Testing: server_e2e_selftest
+5/7 Test: server_e2e_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/server/server_e2e_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/server
+"server_e2e_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+goschess server listening on port 24101 (protocol version 2)
+pairing and a full game
+session 1 connected
+session 2 connected
+match 1: session 2 as white, session 1 as black
+match 1: refused a move from session 1 (not your turn)
+match 1: refused a move from session 2 (illegal move)
+match 1 over: black wins by checkmate
+resigning
+session 3 connected
+session 1 disconnected
+session 2 disconnected
+session 4 connected
+match 2: session 4 as white, session 3 as black
+match 2 over: white wins by resignation
+leaving mid game
+session 5 connected
+session 3 disconnected
+session 4 disconnected
+session 6 connected
+match 3: session 5 as white, session 6 as black
+session 6 disconnected
+match 3 over: white wins by opponent left
+separate pools per time control
+session 7 connected
+session 5 disconnected
+session 8 connected
+protocol version mismatch
+session 9 connected
+session 7 disconnected
+session 8 disconnected
+session 9 speaks protocol version 3, this server speaks 2
+session 9 disconnected
+
+all checks passed
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"server_e2e_selftest" end time: Nov 15 22:48 +04
+"server_e2e_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/7 Testing: client_view_selftest
+6/7 Test: client_view_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/client/client_view_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/client
+"client_view_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+white's view
+black's view
+own pieces sit nearest
+round trip
+square colours
+clicks beside the board
+
+all checks passed
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"client_view_selftest" end time: Nov 15 22:48 +04
+"client_view_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/7 Testing: client_ai_selftest
+7/7 Test: client_ai_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/client/client_ai_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/client
+"client_ai_selftest" start time: Nov 15 22:48 +04
+Output:
+----------------------------------------------------------
+every level returns a playable move
+taking what is offered
+finishing a won game
+a position with no moves
+
+all checks passed
+<end of output>
+Test time =   0.90 sec
+----------------------------------------------------------
+Test Passed.
+"client_ai_selftest" end time: Nov 15 22:48 +04
+"client_ai_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 15 22:48 +04

@@ -1,0 +1,21 @@
+# ninja log v7
+0	13	1794768441966312474	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir	c385edb7ec267f6a
+0	13	1794768441966312474	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir	c385edb7ec267f6a
+13	19980	1794768461933841954	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download	12cc7985d79e3060
+13	19980	1794768461933841954	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download	12cc7985d79e3060
+19980	20001	1794768461934681047	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update	c9bff1cb2cffa2c
+19980	20001	1794768461934681047	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update	c9bff1cb2cffa2c
+20001	20013	1794768461966670359	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch	d9692b4ad3e4c70a
+20001	20013	1794768461966670359	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch	d9692b4ad3e4c70a
+20013	20025	1794768461978536241	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure	2bfeabff849df0d4
+20013	20025	1794768461978536241	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure	2bfeabff849df0d4
+20025	20036	1794768461990093577	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build	45d469ba5b6668cd
+20025	20036	1794768461990093577	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build	45d469ba5b6668cd
+20036	20048	1794768462001659372	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install	fda042a9a98e9846
+20036	20048	1794768462001659372	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install	fda042a9a98e9846
+20048	20059	1794768462013184666	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test	1e3293e46f68d1b
+20048	20059	1794768462013184666	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test	1e3293e46f68d1b
+20059	20076	1794768462030303397	CMakeFiles/sfml-populate-complete	9e87f6ce72e9d6b0
+20059	20076	1794768462030303397	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-done	9e87f6ce72e9d6b0
+20059	20076	1794768462030303397	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/CMakeFiles/sfml-populate-complete	9e87f6ce72e9d6b0
+20059	20076	1794768462030303397	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-done	9e87f6ce72e9d6b0

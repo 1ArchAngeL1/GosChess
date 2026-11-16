@@ -114,10 +114,24 @@ chess/CMakeFiles/chess.dir/src/Rules.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chess.dir/src/Rules.cpp.s"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Rules.cpp -o CMakeFiles/chess.dir/src/Rules.cpp.s
 
+chess/CMakeFiles/chess.dir/src/Notation.cpp.o: chess/CMakeFiles/chess.dir/flags.make
+chess/CMakeFiles/chess.dir/src/Notation.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Notation.cpp
+chess/CMakeFiles/chess.dir/src/Notation.cpp.o: chess/CMakeFiles/chess.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object chess/CMakeFiles/chess.dir/src/Notation.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chess/CMakeFiles/chess.dir/src/Notation.cpp.o -MF CMakeFiles/chess.dir/src/Notation.cpp.o.d -o CMakeFiles/chess.dir/src/Notation.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Notation.cpp
+
+chess/CMakeFiles/chess.dir/src/Notation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chess.dir/src/Notation.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Notation.cpp > CMakeFiles/chess.dir/src/Notation.cpp.i
+
+chess/CMakeFiles/chess.dir/src/Notation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chess.dir/src/Notation.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Notation.cpp -o CMakeFiles/chess.dir/src/Notation.cpp.s
+
 chess/CMakeFiles/chess.dir/src/GameState.cpp.o: chess/CMakeFiles/chess.dir/flags.make
 chess/CMakeFiles/chess.dir/src/GameState.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/GameState.cpp
 chess/CMakeFiles/chess.dir/src/GameState.cpp.o: chess/CMakeFiles/chess.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object chess/CMakeFiles/chess.dir/src/GameState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object chess/CMakeFiles/chess.dir/src/GameState.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT chess/CMakeFiles/chess.dir/src/GameState.cpp.o -MF CMakeFiles/chess.dir/src/GameState.cpp.o.d -o CMakeFiles/chess.dir/src/GameState.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/GameState.cpp
 
 chess/CMakeFiles/chess.dir/src/GameState.cpp.i: cmake_force
@@ -133,6 +147,7 @@ chess_OBJECTS = \
 "CMakeFiles/chess.dir/src/Board.cpp.o" \
 "CMakeFiles/chess.dir/src/Move.cpp.o" \
 "CMakeFiles/chess.dir/src/Rules.cpp.o" \
+"CMakeFiles/chess.dir/src/Notation.cpp.o" \
 "CMakeFiles/chess.dir/src/GameState.cpp.o"
 
 # External object files for target chess
@@ -141,10 +156,11 @@ chess_EXTERNAL_OBJECTS =
 chess/libchess.a: chess/CMakeFiles/chess.dir/src/Board.cpp.o
 chess/libchess.a: chess/CMakeFiles/chess.dir/src/Move.cpp.o
 chess/libchess.a: chess/CMakeFiles/chess.dir/src/Rules.cpp.o
+chess/libchess.a: chess/CMakeFiles/chess.dir/src/Notation.cpp.o
 chess/libchess.a: chess/CMakeFiles/chess.dir/src/GameState.cpp.o
 chess/libchess.a: chess/CMakeFiles/chess.dir/build.make
 chess/libchess.a: chess/CMakeFiles/chess.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libchess.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libchess.a"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && $(CMAKE_COMMAND) -P CMakeFiles/chess.dir/cmake_clean_target.cmake
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chess.dir/link.txt --verbose=$(VERBOSE)
 

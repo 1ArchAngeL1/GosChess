@@ -28,11 +28,13 @@ namespace {
         return static_cast<std::int8_t>((rank - 1) * board_t::ROW_LENGTH + (file - 'a'));
     }
 
-    MoveRequest At(std::uint32_t ply, char from_file, int from_rank, char to_file, int to_rank) {
+    MoveRequest At(std::uint32_t ply, char from_file, int from_rank, char to_file, int to_rank,
+                   std::uint8_t promotion = 0) {
         MoveRequest request;
         request.ply = ply;
         request.move_from = Sq(from_file, from_rank);
         request.move_to = Sq(to_file, to_rank);
+        request.promotion = promotion;
         return request;
     }
 
@@ -45,6 +47,7 @@ namespace {
         Check(!match.finished(), "is not over");
         Check(!match.hasClock(), "has no clock when the time limit is zero");
         Check(match.state().fen == INITIAL_FEN, "starts from the opening position");
+        Check(match.state().history.empty(), "with no moves recorded");
     }
 
     void TestOnlyYourOwnMoves() {
@@ -66,6 +69,7 @@ namespace {
 
         Check(match.ply() == 0, "a refused move does not advance the game");
         Check(match.state().fen == INITIAL_FEN, "a refused move does not change the position");
+        Check(match.state().history.empty(), "and is not written into the record");
     }
 
     // A move names the position it was made for, so a packet that arrives
@@ -117,7 +121,7 @@ namespace {
         Match match(1, 0);
         // Black king a8, white queen b6, white king c1: black has no move and
         // is not in check.
-        match.setPosition("2K5/8/8/8/8/1Q6/8/k7/", color_t::BLACK);
+        Check(match.setFen("k7/8/1Q6/8/8/8/8/2K5 b - - 0 1"), "stalemate position");
         Check(match.finished(), "the game is over as soon as the position is set");
         Check(match.result().reason == GameOverReason::STALEMATE, "by stalemate");
         Check(match.result().outcome == GameOutcome::DRAW, "and it is a draw");
@@ -191,9 +195,67 @@ namespace {
         Check(match.state().ply == 1, "the ply is reported");
         Check(match.state().color_to_play == color_t::BLACK, "the side to play is reported");
         Check(match.state().fen != INITIAL_FEN, "the position has changed");
+        Check(match.state().history.size() == 1 && match.state().history[0] == "e4",
+              "and the move is written into the record in algebraic notation");
     }
 
     // Two games in one process must not touch each other.
+    // The promotion choice has to survive the trip through the server, or a
+    // player who asked for a knight gets a queen and a lost endgame.
+    void TestPromotionChoiceIsHonoured() {
+        std::printf("promotion through the server\n");
+        Match match(1, 0);
+        Check(match.setFen("8/P7/4k3/8/8/8/8/4K3 w - - 0 1"), "a pawn one square from promoting");
+        Check(match.applyMove(color_t::WHITE,
+                              At(0, 'a', 7, 'a', 8, figure_types_t::KNIGHT)).accepted,
+              "white promotes to a knight");
+        Check(match.state().history.size() == 1 && match.state().history[0] == "a8=N",
+              "and the record says so");
+
+        Match no_choice(2, 0);
+        no_choice.setFen("8/P7/4k3/8/8/8/8/4K3 w - - 0 1");
+        Check(!no_choice.applyMove(color_t::WHITE, At(0, 'a', 7, 'a', 8)).accepted,
+              "a promotion with no piece named is refused rather than guessed at");
+    }
+
+    void TestCastlingThroughTheServer() {
+        std::printf("castling through the server\n");
+        Match match(1, 0);
+        Check(match.setFen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"), "a castling position");
+        Check(match.applyMove(color_t::WHITE, At(0, 'e', 1, 'g', 1)).accepted, "white castles");
+        Check(match.state().history[0] == "O-O", "recorded as O-O");
+        Check(match.state().fen.find("R4RK1") != std::string::npos ||
+              match.state().fen.find("R4RK") != std::string::npos,
+              "with the rook moved to f1 in the position the client is sent");
+    }
+
+    void TestDrawnGamesAreReported() {
+        std::printf("drawn games\n");
+        Match fifty(1, 0);
+        fifty.setFen("4k3/8/8/8/8/8/8/R3K3 w - - 99 60");
+        Check(fifty.applyMove(color_t::WHITE, At(0, 'a', 1, 'a', 2)).accepted, "a quiet rook move");
+        Check(fifty.finished(), "ends the game");
+        Check(fifty.result().reason == GameOverReason::FIFTY_MOVE_RULE, "by the fifty move rule");
+        Check(fifty.result().outcome == GameOutcome::DRAW, "as a draw");
+
+        Match material(2, 0);
+        Check(material.setFen("4k3/8/8/8/8/8/8/3BK3 w - - 0 1"), "a lone bishop");
+        Check(material.finished(), "cannot mate, so the game is over at once");
+        Check(material.result().reason == GameOverReason::INSUFFICIENT_MATERIAL,
+              "for insufficient material");
+
+        Match repetition(3, 0);
+        for (int round = 0; round < 2; round++) {
+            repetition.applyMove(color_t::WHITE, At(repetition.ply(), 'g', 1, 'f', 3));
+            repetition.applyMove(color_t::BLACK, At(repetition.ply(), 'g', 8, 'f', 6));
+            repetition.applyMove(color_t::WHITE, At(repetition.ply(), 'f', 3, 'g', 1));
+            repetition.applyMove(color_t::BLACK, At(repetition.ply(), 'f', 6, 'g', 8));
+        }
+        Check(repetition.finished(), "shuffling back to the same position three times ends it");
+        Check(repetition.result().reason == GameOverReason::THREEFOLD_REPETITION,
+              "by threefold repetition");
+    }
+
     void TestMatchesAreIndependent() {
         std::printf("independence\n");
         Match first(1, 0);
@@ -218,6 +280,9 @@ int main() {
     TestResignation();
     TestAbandonment();
     TestStateReportsTheLastMove();
+    TestPromotionChoiceIsHonoured();
+    TestCastlingThroughTheServer();
+    TestDrawnGamesAreReported();
     TestMatchesAreIndependent();
 
     if (failures == 0) {

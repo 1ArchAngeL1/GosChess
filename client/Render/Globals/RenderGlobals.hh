@@ -23,38 +23,59 @@ namespace GosChess {
 
     extern sf::Sprite chess_logo_sprite;
 
-    extern sf::Color main_color;
-
-    extern sf::Color secondary_color;
-
-    extern sf::Color available_move_color;
+    // --- layout ------------------------------------------------------------
+    //
+    // The board is square and sits on the left; the panel beside it carries
+    // the clocks, the move record and the buttons. The board used to take the
+    // whole window with a strip of timer bolted to one side, which left
+    // nowhere to put any of that.
 
     extern unsigned int window_height;
 
     extern unsigned int window_width;
 
-    extern unsigned int board_width;
-
-    extern unsigned int board_height;
-
-    extern unsigned int logo_width;
-
-    extern unsigned int logo_height;
-
-    extern float board_offset_ver;
-
-    extern float board_offset_hor;
-
-    extern float square_size;
+    extern float board_size;
 
     extern sf::Vector2f board_position;
 
+    extern float square_size;
+
+    extern float panel_x;
+
+    extern float panel_y;
+
+    extern float panel_width;
+
+    extern float panel_height;
+
+    // --- colours -----------------------------------------------------------
+
+    extern sf::Color main_color;        // dark squares
+
+    extern sf::Color secondary_color;   // light squares
+
+    extern sf::Color available_move_color;
+
+    extern sf::Color last_move_color;
+
+    extern sf::Color selected_color;
+
+    extern sf::Color check_color;
+
+    extern sf::Color background_color;
+
     extern std::unordered_map<unsigned char, sf::Sprite> figure_sprites;
+
+    // Recomputes the derived layout values after a size change.
+    void RecalculateLayout();
 
     // Screen pixels to a cell of the drawn board. The rest of the board
     // orientation lives in BoardView.hh; only this step needs to know where
     // the board was actually placed in the window.
     view_cell_t ViewCellFromScreen(float screen_y, float screen_x);
+
+    // The top left corner of a cell, in pixels.
+    sf::Vector2f ViewCellTopLeft(const view_cell_t &cell);
 
 }
 

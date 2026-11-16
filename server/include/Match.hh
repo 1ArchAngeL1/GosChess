@@ -31,7 +31,7 @@ namespace GosChess {
         // How many moves have been played. A move request has to name the ply
         // it was made for, so a duplicated or delayed packet cannot be applied
         // a second time.
-        [[nodiscard]] std::uint32_t ply() const { return ply_; }
+        [[nodiscard]] std::uint32_t ply() const { return game_.ply(); }
 
         [[nodiscard]] color_t colorToPlay() const { return game_.colorToPlay(); }
 
@@ -44,8 +44,9 @@ namespace GosChess {
         // Starts the game from a given position rather than from the opening.
         // This is how a saved or adjourned game is resumed - something only an
         // authoritative server can offer, since it is the one that has the
-        // position in the first place. Resets the ply count.
-        void setPosition(const std::string &fen, color_t color_to_play);
+        // position in the first place. Resets the ply count. Returns false if
+        // the FEN cannot be read, leaving the match alone.
+        bool setFen(const std::string &fen);
 
         // Validates and plays a move on behalf of `mover`.
         MoveResult applyMove(color_t mover, const Protocol::MoveRequest &request);
@@ -74,9 +75,6 @@ namespace GosChess {
         std::uint16_t time_limit_minutes_;
         bool has_clock_;
         GameState game_;
-        std::uint32_t ply_ = 0;
-        std::int8_t last_move_from_ = -1;
-        std::int8_t last_move_to_ = -1;
         std::uint32_t white_millis_ = 0;
         std::uint32_t black_millis_ = 0;
         bool finished_ = false;

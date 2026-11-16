@@ -938,14 +938,6 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_back.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_front.h \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/include/GosChess/Board.hh \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/map.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/set.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/stack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/deque.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/deque \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/protocol/include/GosChess/Protocol.hh \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Network/Packet.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
@@ -979,6 +971,8 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/indic_conjunct_break_table.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/width_estimation_table.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/queue.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/deque.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/stack.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/ref_view.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/escaped_output_table.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/format_functions.h \
@@ -995,6 +989,8 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_string.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_tuple.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/queue \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/deque \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unistd.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/thread \
@@ -1013,7 +1009,7 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/include/GosChess/Rules.hh \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/../Exec/GamePlay/../../Game/ClientGame.hh \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/include/GosChess/GameState.hh \
-  /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/../Exec/GamePlay/../../Render/GamePlayRender.hh \
+  /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/../Exec/GamePlay/../../Render/BoardRender.hh \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Window.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/System.hpp \
@@ -1075,6 +1071,10 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/Glyph.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/Texture.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/Image.hpp \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/map.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/set.h \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/RectangleShape.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/RenderTarget.hpp \
   /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-src/include/SFML/Graphics/View.hpp \

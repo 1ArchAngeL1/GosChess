@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Board.cpp" "chess/CMakeFiles/chess.dir/src/Board.cpp.o" "gcc" "chess/CMakeFiles/chess.dir/src/Board.cpp.o.d"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/GameState.cpp" "chess/CMakeFiles/chess.dir/src/GameState.cpp.o" "gcc" "chess/CMakeFiles/chess.dir/src/GameState.cpp.o.d"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Move.cpp" "chess/CMakeFiles/chess.dir/src/Move.cpp.o" "gcc" "chess/CMakeFiles/chess.dir/src/Move.cpp.o.d"
+  "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Notation.cpp" "chess/CMakeFiles/chess.dir/src/Notation.cpp.o" "gcc" "chess/CMakeFiles/chess.dir/src/Notation.cpp.o.d"
   "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/chess/src/Rules.cpp" "chess/CMakeFiles/chess.dir/src/Rules.cpp.o" "gcc" "chess/CMakeFiles/chess.dir/src/Rules.cpp.o.d"
   )
 

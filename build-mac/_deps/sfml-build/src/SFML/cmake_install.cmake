@@ -43,6 +43,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Window/cmake_install.cmake")
   include("/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Network/cmake_install.cmake")
   include("/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Graphics/cmake_install.cmake")
+  include("/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/_deps/sfml-build/src/SFML/Audio/cmake_install.cmake")
 
 endif()
 

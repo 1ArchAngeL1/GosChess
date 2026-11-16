@@ -1,0 +1,21 @@
+# ninja log v7
+0	13	1794768467984093617	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-mkdir	cdfb088af43d3fd7
+0	13	1794768467984093617	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-mkdir	cdfb088af43d3fd7
+13	1311	1794768469281781028	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-download	210b1d4783446e49
+13	1311	1794768469281781028	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-download	210b1d4783446e49
+1311	1338	1794768469282846832	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-update	1ce60851a611ea46
+1311	1338	1794768469282846832	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-update	1ce60851a611ea46
+1338	1353	1794768469324393292	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-patch	f53ade4e1f398a21
+1338	1353	1794768469324393292	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-patch	f53ade4e1f398a21
+1354	1368	1794768469338552907	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-configure	60a2cdc5d0ffe18a
+1354	1368	1794768469338552907	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-configure	60a2cdc5d0ffe18a
+1368	1382	1794768469353022775	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-build	57b7ac591e6be1b2
+1368	1382	1794768469353022775	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-build	57b7ac591e6be1b2
+1382	1395	1794768469366272214	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-install	4256c81b321c330c
+1382	1395	1794768469366272214	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-install	4256c81b321c330c
+1395	1408	1794768469379173482	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-test	1249bb2b941ac0b5
+1395	1408	1794768469379173482	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-test	1249bb2b941ac0b5
+1408	1430	1794768469400659136	CMakeFiles/imgui_sfml-populate-complete	4595f13c01abd1a0
+1408	1430	1794768469400659136	imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-done	4595f13c01abd1a0
+1408	1430	1794768469400659136	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/CMakeFiles/imgui_sfml-populate-complete	4595f13c01abd1a0
+1408	1430	1794768469400659136	/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/cmake-build-debug/_deps/imgui_sfml-subbuild/imgui_sfml-populate-prefix/src/imgui_sfml-populate-stamp/imgui_sfml-populate-done	4595f13c01abd1a0

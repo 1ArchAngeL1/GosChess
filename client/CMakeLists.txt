@@ -118,3 +118,16 @@ target_link_libraries(client_view_selftest PRIVATE GosChess::chess GosChess::pro
 target_include_directories(client_view_selftest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_test(NAME client_view_selftest COMMAND client_view_selftest)
+
+# The computer opponent is a search, so what is checked is that it always hands
+# back something the game will accept - a search that returns an illegal move
+# stalls the game, which is worse than a weak one.
+add_executable(client_ai_selftest
+        tests/ai_selftest.cpp
+        Chess/AI/AICalculations.cpp)
+
+target_link_libraries(client_ai_selftest PRIVATE GosChess::chess)
+
+target_include_directories(client_ai_selftest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+add_test(NAME client_ai_selftest COMMAND client_ai_selftest)

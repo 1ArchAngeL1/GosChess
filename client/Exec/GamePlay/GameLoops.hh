@@ -23,27 +23,26 @@ namespace GosChess {
 
     extern RenderMenuFLag render_menu_flag;
 
-
-    // The board used to be threaded through here as a varargs argument, with
-    // each callback pulling it back out by hand. There is now one GameState
-    // the callbacks read directly (ClientGame.hh), so the loop no longer has
-    // anything mode specific to carry and the varargs are gone with it.
+    // The loop owns the frame: it polls input, hands ImGui its tick, lets the
+    // mode read the player's intentions, lets it draw, and presents. The modes
+    // used to each clear and display the window themselves, which is why a
+    // panel drawn with ImGui could not be layered over a board drawn with SFML.
     void GameLoop(sf::RenderWindow &, void (*OnUserInit)(sf::RenderWindow &),
-                  void (*OnUserUpdate)(sf::RenderWindow &, sf::Clock *), bool (*ModeTerminator)(),
-                  GosChess::GameModeListener *);
+                  void (*OnUserDraw)(sf::RenderWindow &, float delta_seconds),
+                  bool (*ModeTerminator)(), GosChess::GameModeListener *);
 
 
     void AIGameInit(sf::RenderWindow &);
 
-    void AIGameUpdate(sf::RenderWindow &, sf::Clock *);
+    void AIGameDraw(sf::RenderWindow &, float delta_seconds);
 
     void OnlineGameInit(sf::RenderWindow &);
 
-    void OnlineGameUpdate(sf::RenderWindow &, sf::Clock *);
+    void OnlineGameDraw(sf::RenderWindow &, float delta_seconds);
 
     void MenuInit(sf::RenderWindow &);
 
-    void MenuUpdate(sf::RenderWindow &, sf::Clock *);
+    void MenuDraw(sf::RenderWindow &, float delta_seconds);
 
     bool CheckOnlineModeFinished();
 

@@ -234,12 +234,51 @@ client_view_selftest/fast:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_view_selftest.dir/build.make client/CMakeFiles/client_view_selftest.dir/build
 .PHONY : client_view_selftest/fast
 
+# Convenience name for target.
+client/CMakeFiles/client_ai_selftest.dir/rule:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client/CMakeFiles/client_ai_selftest.dir/rule
+.PHONY : client/CMakeFiles/client_ai_selftest.dir/rule
+
+# Convenience name for target.
+client_ai_selftest: client/CMakeFiles/client_ai_selftest.dir/rule
+.PHONY : client_ai_selftest
+
+# fast build rule for target.
+client_ai_selftest/fast:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/build
+.PHONY : client_ai_selftest/fast
+
+Audio/GameAudio.o: Audio/GameAudio.cpp.o
+.PHONY : Audio/GameAudio.o
+
+# target to build an object file
+Audio/GameAudio.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o
+.PHONY : Audio/GameAudio.cpp.o
+
+Audio/GameAudio.i: Audio/GameAudio.cpp.i
+.PHONY : Audio/GameAudio.i
+
+# target to preprocess a source file
+Audio/GameAudio.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Audio/GameAudio.cpp.i
+.PHONY : Audio/GameAudio.cpp.i
+
+Audio/GameAudio.s: Audio/GameAudio.cpp.s
+.PHONY : Audio/GameAudio.s
+
+# target to generate assembly for a file
+Audio/GameAudio.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Audio/GameAudio.cpp.s
+.PHONY : Audio/GameAudio.cpp.s
+
 Chess/AI/AICalculations.o: Chess/AI/AICalculations.cpp.o
 .PHONY : Chess/AI/AICalculations.o
 
 # target to build an object file
 Chess/AI/AICalculations.cpp.o:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/Chess/AI/AICalculations.cpp.o
 .PHONY : Chess/AI/AICalculations.cpp.o
 
 Chess/AI/AICalculations.i: Chess/AI/AICalculations.cpp.i
@@ -248,6 +287,7 @@ Chess/AI/AICalculations.i: Chess/AI/AICalculations.cpp.i
 # target to preprocess a source file
 Chess/AI/AICalculations.cpp.i:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.i
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/Chess/AI/AICalculations.cpp.i
 .PHONY : Chess/AI/AICalculations.cpp.i
 
 Chess/AI/AICalculations.s: Chess/AI/AICalculations.cpp.s
@@ -256,6 +296,7 @@ Chess/AI/AICalculations.s: Chess/AI/AICalculations.cpp.s
 # target to generate assembly for a file
 Chess/AI/AICalculations.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.s
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/Chess/AI/AICalculations.cpp.s
 .PHONY : Chess/AI/AICalculations.cpp.s
 
 Exec/GamePlay/GameLoops.o: Exec/GamePlay/GameLoops.cpp.o
@@ -381,6 +422,30 @@ Network/ServerConnection.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Network/ServerConnection.cpp.s
 .PHONY : Network/ServerConnection.cpp.s
 
+Render/BoardRender.o: Render/BoardRender.cpp.o
+.PHONY : Render/BoardRender.o
+
+# target to build an object file
+Render/BoardRender.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/BoardRender.cpp.o
+.PHONY : Render/BoardRender.cpp.o
+
+Render/BoardRender.i: Render/BoardRender.cpp.i
+.PHONY : Render/BoardRender.i
+
+# target to preprocess a source file
+Render/BoardRender.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/BoardRender.cpp.i
+.PHONY : Render/BoardRender.cpp.i
+
+Render/BoardRender.s: Render/BoardRender.cpp.s
+.PHONY : Render/BoardRender.s
+
+# target to generate assembly for a file
+Render/BoardRender.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/BoardRender.cpp.s
+.PHONY : Render/BoardRender.cpp.s
+
 Render/BoardView.o: Render/BoardView.cpp.o
 .PHONY : Render/BoardView.o
 
@@ -408,29 +473,29 @@ Render/BoardView.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_view_selftest.dir/build.make client/CMakeFiles/client_view_selftest.dir/Render/BoardView.cpp.s
 .PHONY : Render/BoardView.cpp.s
 
-Render/GamePlayRender.o: Render/GamePlayRender.cpp.o
-.PHONY : Render/GamePlayRender.o
+Render/GamePanel.o: Render/GamePanel.cpp.o
+.PHONY : Render/GamePanel.o
 
 # target to build an object file
-Render/GamePlayRender.cpp.o:
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o
-.PHONY : Render/GamePlayRender.cpp.o
+Render/GamePanel.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePanel.cpp.o
+.PHONY : Render/GamePanel.cpp.o
 
-Render/GamePlayRender.i: Render/GamePlayRender.cpp.i
-.PHONY : Render/GamePlayRender.i
+Render/GamePanel.i: Render/GamePanel.cpp.i
+.PHONY : Render/GamePanel.i
 
 # target to preprocess a source file
-Render/GamePlayRender.cpp.i:
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.i
-.PHONY : Render/GamePlayRender.cpp.i
+Render/GamePanel.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePanel.cpp.i
+.PHONY : Render/GamePanel.cpp.i
 
-Render/GamePlayRender.s: Render/GamePlayRender.cpp.s
-.PHONY : Render/GamePlayRender.s
+Render/GamePanel.s: Render/GamePanel.cpp.s
+.PHONY : Render/GamePanel.s
 
 # target to generate assembly for a file
-Render/GamePlayRender.cpp.s:
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.s
-.PHONY : Render/GamePlayRender.cpp.s
+Render/GamePanel.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/GamePanel.cpp.s
+.PHONY : Render/GamePanel.cpp.s
 
 Render/Globals/RenderGlobals.o: Render/Globals/RenderGlobals.cpp.o
 .PHONY : Render/Globals/RenderGlobals.o
@@ -479,6 +544,54 @@ Render/Menu/MenuRender.s: Render/Menu/MenuRender.cpp.s
 Render/Menu/MenuRender.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.s
 .PHONY : Render/Menu/MenuRender.cpp.s
+
+Render/UiFonts.o: Render/UiFonts.cpp.o
+.PHONY : Render/UiFonts.o
+
+# target to build an object file
+Render/UiFonts.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiFonts.cpp.o
+.PHONY : Render/UiFonts.cpp.o
+
+Render/UiFonts.i: Render/UiFonts.cpp.i
+.PHONY : Render/UiFonts.i
+
+# target to preprocess a source file
+Render/UiFonts.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiFonts.cpp.i
+.PHONY : Render/UiFonts.cpp.i
+
+Render/UiFonts.s: Render/UiFonts.cpp.s
+.PHONY : Render/UiFonts.s
+
+# target to generate assembly for a file
+Render/UiFonts.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiFonts.cpp.s
+.PHONY : Render/UiFonts.cpp.s
+
+Render/UiTheme.o: Render/UiTheme.cpp.o
+.PHONY : Render/UiTheme.o
+
+# target to build an object file
+Render/UiTheme.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiTheme.cpp.o
+.PHONY : Render/UiTheme.cpp.o
+
+Render/UiTheme.i: Render/UiTheme.cpp.i
+.PHONY : Render/UiTheme.i
+
+# target to preprocess a source file
+Render/UiTheme.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiTheme.cpp.i
+.PHONY : Render/UiTheme.cpp.i
+
+Render/UiTheme.s: Render/UiTheme.cpp.s
+.PHONY : Render/UiTheme.s
+
+# target to generate assembly for a file
+Render/UiTheme.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/Render/UiTheme.cpp.s
+.PHONY : Render/UiTheme.cpp.s
 
 Utility/GameInput.o: Utility/GameInput.cpp.o
 .PHONY : Utility/GameInput.o
@@ -624,6 +737,30 @@ __/_deps/imgui_sfml-src/imgui-SFML.cpp.s:
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/imgui-sfml.dir/build.make client/CMakeFiles/imgui-sfml.dir/__/_deps/imgui_sfml-src/imgui-SFML.cpp.s
 .PHONY : __/_deps/imgui_sfml-src/imgui-SFML.cpp.s
 
+tests/ai_selftest.o: tests/ai_selftest.cpp.o
+.PHONY : tests/ai_selftest.o
+
+# target to build an object file
+tests/ai_selftest.cpp.o:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/tests/ai_selftest.cpp.o
+.PHONY : tests/ai_selftest.cpp.o
+
+tests/ai_selftest.i: tests/ai_selftest.cpp.i
+.PHONY : tests/ai_selftest.i
+
+# target to preprocess a source file
+tests/ai_selftest.cpp.i:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/tests/ai_selftest.cpp.i
+.PHONY : tests/ai_selftest.cpp.i
+
+tests/ai_selftest.s: tests/ai_selftest.cpp.s
+.PHONY : tests/ai_selftest.s
+
+# target to generate assembly for a file
+tests/ai_selftest.cpp.s:
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/tests/ai_selftest.cpp.s
+.PHONY : tests/ai_selftest.cpp.s
+
 tests/view_selftest.o: tests/view_selftest.cpp.o
 .PHONY : tests/view_selftest.o
 
@@ -664,8 +801,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... client"
+	@echo "... client_ai_selftest"
 	@echo "... client_view_selftest"
 	@echo "... imgui-sfml"
+	@echo "... Audio/GameAudio.o"
+	@echo "... Audio/GameAudio.i"
+	@echo "... Audio/GameAudio.s"
 	@echo "... Chess/AI/AICalculations.o"
 	@echo "... Chess/AI/AICalculations.i"
 	@echo "... Chess/AI/AICalculations.s"
@@ -684,18 +825,27 @@ help:
 	@echo "... Network/ServerConnection.o"
 	@echo "... Network/ServerConnection.i"
 	@echo "... Network/ServerConnection.s"
+	@echo "... Render/BoardRender.o"
+	@echo "... Render/BoardRender.i"
+	@echo "... Render/BoardRender.s"
 	@echo "... Render/BoardView.o"
 	@echo "... Render/BoardView.i"
 	@echo "... Render/BoardView.s"
-	@echo "... Render/GamePlayRender.o"
-	@echo "... Render/GamePlayRender.i"
-	@echo "... Render/GamePlayRender.s"
+	@echo "... Render/GamePanel.o"
+	@echo "... Render/GamePanel.i"
+	@echo "... Render/GamePanel.s"
 	@echo "... Render/Globals/RenderGlobals.o"
 	@echo "... Render/Globals/RenderGlobals.i"
 	@echo "... Render/Globals/RenderGlobals.s"
 	@echo "... Render/Menu/MenuRender.o"
 	@echo "... Render/Menu/MenuRender.i"
 	@echo "... Render/Menu/MenuRender.s"
+	@echo "... Render/UiFonts.o"
+	@echo "... Render/UiFonts.i"
+	@echo "... Render/UiFonts.s"
+	@echo "... Render/UiTheme.o"
+	@echo "... Render/UiTheme.i"
+	@echo "... Render/UiTheme.s"
 	@echo "... Utility/GameInput.o"
 	@echo "... Utility/GameInput.i"
 	@echo "... Utility/GameInput.s"
@@ -714,6 +864,9 @@ help:
 	@echo "... __/_deps/imgui_sfml-src/imgui-SFML.o"
 	@echo "... __/_deps/imgui_sfml-src/imgui-SFML.i"
 	@echo "... __/_deps/imgui_sfml-src/imgui-SFML.s"
+	@echo "... tests/ai_selftest.o"
+	@echo "... tests/ai_selftest.i"
+	@echo "... tests/ai_selftest.s"
 	@echo "... tests/view_selftest.o"
 	@echo "... tests/view_selftest.i"
 	@echo "... tests/view_selftest.s"

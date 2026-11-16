@@ -6,10 +6,12 @@
 #define GOSCHESS_GAMEPLAYFUNCTIONAL_HH
 
 
+#include <string>
+
 #include "GosChess/Board.hh"
 #include "GosChess/Rules.hh"
 #include "../../Game/ClientGame.hh"
-#include "../../Render/GamePlayRender.hh"
+#include "../../Render/BoardRender.hh"
 #include "../../Utility/GameInput.hh"
 #include <SFML/Graphics.hpp>
 #include <imgui-SFML.h>
@@ -27,11 +29,6 @@ namespace GosChess {
         SINGLE_PLAYER,
         MULTI_PLAYER,
         None
-    };
-
-    enum game_status_t {
-        INGAME,
-        FINISHED
     };
 
     // The per-frame behaviour of one game mode. The position is not handed in:
@@ -73,6 +70,15 @@ namespace GosChess {
     };
 
 
+    // Plays a move the way the current mode plays moves: predicted and sent to
+    // the server online, or applied outright against the computer. One entry
+    // point because a move can arrive either from a click on the board or from
+    // the promotion buttons in the panel.
+    void SubmitMove(action_t move);
+
+    // Completes a promotion the player has been asked about.
+    void ChoosePromotion(unsigned char piece);
+
     // Records the outcome of a game this client is the authority for - which
     // means the game against the computer, and only that one. Online results
     // come from the server.
@@ -82,13 +88,25 @@ namespace GosChess {
 
     void ResetGame(sf::RenderWindow &);
 
-    extern bool highlited;
+    // What the board should show this frame: the selection, where it may go,
+    // the previous move, a king in check and the square under the pointer.
+    board_overlay_t BuildOverlay(const sf::RenderWindow &window);
 
-    extern game_status_t game_status_flag;
+    // One line telling the player what is happening and what is expected of
+    // them. The old build said nothing at all.
+    std::string StatusLine();
+
+    std::string ResultHeadline();
 
     extern GameResult game_result;
 
     extern GameMode game_mode;
+
+    // Why the game ended, in words, as reported by whoever decided it.
+    extern std::string game_over_detail;
+
+    // The square the player has picked up, or -1.
+    extern int selected_square;
 
     // Lives here rather than with the menu rendering because the thing that
     // clears it is the server announcing a game, not anything being drawn.

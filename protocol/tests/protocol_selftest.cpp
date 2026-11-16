@@ -48,10 +48,13 @@ namespace {
         sent.ply = 41;
         sent.move_from = 12;
         sent.move_to = 28;
+        sent.promotion = GosChess::figure_types_t::KNIGHT;
         const MoveRequest got = RoundTrip(sent);
         Check(got.ply == 41, "ply survives");
         Check(got.move_from == 12, "origin survives");
         Check(got.move_to == 28, "destination survives");
+        Check(got.promotion == GosChess::figure_types_t::KNIGHT,
+              "the promotion choice survives rather than defaulting to a queen");
 
         // Squares are signed on purpose: an unset move is -1, and reading it
         // back as unsigned would turn it into a plausible looking square.
@@ -81,9 +84,14 @@ namespace {
         sent.color_to_play = GosChess::color_t::BLACK;
         sent.last_move_from = 11;
         sent.last_move_to = 27;
+        sent.in_check = true;
         sent.white_millis_left = 598000;
         sent.black_millis_left = 600000;
+        sent.history = {"e4", "e5", "Nf3"};
         const GameStateUpdate got = RoundTrip(sent);
+        Check(got.in_check, "the check flag survives");
+        Check(got.history.size() == 3, "the whole move list survives");
+        Check(got.history[0] == "e4" && got.history[2] == "Nf3", "in order");
         Check(got.ply == 3, "ply survives");
         Check(got.fen == GosChess::INITIAL_FEN, "position survives");
         Check(got.color_to_play == GosChess::color_t::BLACK, "side to play survives");

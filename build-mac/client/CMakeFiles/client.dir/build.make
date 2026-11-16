@@ -72,10 +72,24 @@ include client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/codegen:
 .PHONY : client/CMakeFiles/client.dir/codegen
 
+client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Audio/GameAudio.cpp
+client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o -MF CMakeFiles/client.dir/Audio/GameAudio.cpp.o.d -o CMakeFiles/client.dir/Audio/GameAudio.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Audio/GameAudio.cpp
+
+client/CMakeFiles/client.dir/Audio/GameAudio.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Audio/GameAudio.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Audio/GameAudio.cpp > CMakeFiles/client.dir/Audio/GameAudio.cpp.i
+
+client/CMakeFiles/client.dir/Audio/GameAudio.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Audio/GameAudio.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Audio/GameAudio.cpp -o CMakeFiles/client.dir/Audio/GameAudio.cpp.s
+
 client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Chess/AI/AICalculations.cpp
 client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o -MF CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o.d -o CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Chess/AI/AICalculations.cpp
 
 client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.i: cmake_force
@@ -89,7 +103,7 @@ client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GameLoops.cpp
 client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o -MF CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o.d -o CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GameLoops.cpp
 
 client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.i: cmake_force
@@ -103,7 +117,7 @@ client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GamePlayFunctional.cpp
 client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o -MF CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o.d -o CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/GamePlay/GamePlayFunctional.cpp
 
 client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.i: cmake_force
@@ -117,7 +131,7 @@ client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Exec/main.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Exec/main.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/main.cpp
 client/CMakeFiles/client.dir/Exec/main.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object client/CMakeFiles/client.dir/Exec/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object client/CMakeFiles/client.dir/Exec/main.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Exec/main.cpp.o -MF CMakeFiles/client.dir/Exec/main.cpp.o.d -o CMakeFiles/client.dir/Exec/main.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Exec/main.cpp
 
 client/CMakeFiles/client.dir/Exec/main.cpp.i: cmake_force
@@ -131,7 +145,7 @@ client/CMakeFiles/client.dir/Exec/main.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Game/ClientGame.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Game/ClientGame.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Game/ClientGame.cpp
 client/CMakeFiles/client.dir/Game/ClientGame.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object client/CMakeFiles/client.dir/Game/ClientGame.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object client/CMakeFiles/client.dir/Game/ClientGame.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Game/ClientGame.cpp.o -MF CMakeFiles/client.dir/Game/ClientGame.cpp.o.d -o CMakeFiles/client.dir/Game/ClientGame.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Game/ClientGame.cpp
 
 client/CMakeFiles/client.dir/Game/ClientGame.cpp.i: cmake_force
@@ -145,7 +159,7 @@ client/CMakeFiles/client.dir/Game/ClientGame.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/ServerConnection.cpp
 client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o -MF CMakeFiles/client.dir/Network/ServerConnection.cpp.o.d -o CMakeFiles/client.dir/Network/ServerConnection.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/ServerConnection.cpp
 
 client/CMakeFiles/client.dir/Network/ServerConnection.cpp.i: cmake_force
@@ -156,10 +170,24 @@ client/CMakeFiles/client.dir/Network/ServerConnection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Network/ServerConnection.cpp.s"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Network/ServerConnection.cpp -o CMakeFiles/client.dir/Network/ServerConnection.cpp.s
 
+client/CMakeFiles/client.dir/Render/BoardRender.cpp.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/Render/BoardRender.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardRender.cpp
+client/CMakeFiles/client.dir/Render/BoardRender.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object client/CMakeFiles/client.dir/Render/BoardRender.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/BoardRender.cpp.o -MF CMakeFiles/client.dir/Render/BoardRender.cpp.o.d -o CMakeFiles/client.dir/Render/BoardRender.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardRender.cpp
+
+client/CMakeFiles/client.dir/Render/BoardRender.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Render/BoardRender.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardRender.cpp > CMakeFiles/client.dir/Render/BoardRender.cpp.i
+
+client/CMakeFiles/client.dir/Render/BoardRender.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/BoardRender.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardRender.cpp -o CMakeFiles/client.dir/Render/BoardRender.cpp.s
+
 client/CMakeFiles/client.dir/Render/BoardView.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Render/BoardView.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardView.cpp
 client/CMakeFiles/client.dir/Render/BoardView.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object client/CMakeFiles/client.dir/Render/BoardView.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object client/CMakeFiles/client.dir/Render/BoardView.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/BoardView.cpp.o -MF CMakeFiles/client.dir/Render/BoardView.cpp.o.d -o CMakeFiles/client.dir/Render/BoardView.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardView.cpp
 
 client/CMakeFiles/client.dir/Render/BoardView.cpp.i: cmake_force
@@ -170,24 +198,24 @@ client/CMakeFiles/client.dir/Render/BoardView.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/BoardView.cpp.s"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/BoardView.cpp -o CMakeFiles/client.dir/Render/BoardView.cpp.s
 
-client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o: client/CMakeFiles/client.dir/flags.make
-client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePlayRender.cpp
-client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o"
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o -MF CMakeFiles/client.dir/Render/GamePlayRender.cpp.o.d -o CMakeFiles/client.dir/Render/GamePlayRender.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePlayRender.cpp
+client/CMakeFiles/client.dir/Render/GamePanel.cpp.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/Render/GamePanel.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePanel.cpp
+client/CMakeFiles/client.dir/Render/GamePanel.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object client/CMakeFiles/client.dir/Render/GamePanel.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/GamePanel.cpp.o -MF CMakeFiles/client.dir/Render/GamePanel.cpp.o.d -o CMakeFiles/client.dir/Render/GamePanel.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePanel.cpp
 
-client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Render/GamePlayRender.cpp.i"
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePlayRender.cpp > CMakeFiles/client.dir/Render/GamePlayRender.cpp.i
+client/CMakeFiles/client.dir/Render/GamePanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Render/GamePanel.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePanel.cpp > CMakeFiles/client.dir/Render/GamePanel.cpp.i
 
-client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/GamePlayRender.cpp.s"
-	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePlayRender.cpp -o CMakeFiles/client.dir/Render/GamePlayRender.cpp.s
+client/CMakeFiles/client.dir/Render/GamePanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/GamePanel.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/GamePanel.cpp -o CMakeFiles/client.dir/Render/GamePanel.cpp.s
 
 client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Globals/RenderGlobals.cpp
 client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o -MF CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o.d -o CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Globals/RenderGlobals.cpp
 
 client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.i: cmake_force
@@ -201,7 +229,7 @@ client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.s: cmake_force
 client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Menu/MenuRender.cpp
 client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o -MF CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o.d -o CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Menu/MenuRender.cpp
 
 client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.i: cmake_force
@@ -212,10 +240,38 @@ client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.s"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/Menu/MenuRender.cpp -o CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.s
 
+client/CMakeFiles/client.dir/Render/UiFonts.cpp.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/Render/UiFonts.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiFonts.cpp
+client/CMakeFiles/client.dir/Render/UiFonts.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object client/CMakeFiles/client.dir/Render/UiFonts.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/UiFonts.cpp.o -MF CMakeFiles/client.dir/Render/UiFonts.cpp.o.d -o CMakeFiles/client.dir/Render/UiFonts.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiFonts.cpp
+
+client/CMakeFiles/client.dir/Render/UiFonts.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Render/UiFonts.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiFonts.cpp > CMakeFiles/client.dir/Render/UiFonts.cpp.i
+
+client/CMakeFiles/client.dir/Render/UiFonts.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/UiFonts.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiFonts.cpp -o CMakeFiles/client.dir/Render/UiFonts.cpp.s
+
+client/CMakeFiles/client.dir/Render/UiTheme.cpp.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/Render/UiTheme.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiTheme.cpp
+client/CMakeFiles/client.dir/Render/UiTheme.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object client/CMakeFiles/client.dir/Render/UiTheme.cpp.o"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Render/UiTheme.cpp.o -MF CMakeFiles/client.dir/Render/UiTheme.cpp.o.d -o CMakeFiles/client.dir/Render/UiTheme.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiTheme.cpp
+
+client/CMakeFiles/client.dir/Render/UiTheme.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/client.dir/Render/UiTheme.cpp.i"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiTheme.cpp > CMakeFiles/client.dir/Render/UiTheme.cpp.i
+
+client/CMakeFiles/client.dir/Render/UiTheme.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/client.dir/Render/UiTheme.cpp.s"
+	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Render/UiTheme.cpp -o CMakeFiles/client.dir/Render/UiTheme.cpp.s
+
 client/CMakeFiles/client.dir/Utility/GameInput.cpp.o: client/CMakeFiles/client.dir/flags.make
 client/CMakeFiles/client.dir/Utility/GameInput.cpp.o: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Utility/GameInput.cpp
 client/CMakeFiles/client.dir/Utility/GameInput.cpp.o: client/CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object client/CMakeFiles/client.dir/Utility/GameInput.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object client/CMakeFiles/client.dir/Utility/GameInput.cpp.o"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT client/CMakeFiles/client.dir/Utility/GameInput.cpp.o -MF CMakeFiles/client.dir/Utility/GameInput.cpp.o.d -o CMakeFiles/client.dir/Utility/GameInput.cpp.o -c /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/client/Utility/GameInput.cpp
 
 client/CMakeFiles/client.dir/Utility/GameInput.cpp.i: cmake_force
@@ -228,31 +284,39 @@ client/CMakeFiles/client.dir/Utility/GameInput.cpp.s: cmake_force
 
 # Object files for target client
 client_OBJECTS = \
+"CMakeFiles/client.dir/Audio/GameAudio.cpp.o" \
 "CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o" \
 "CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o" \
 "CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o" \
 "CMakeFiles/client.dir/Exec/main.cpp.o" \
 "CMakeFiles/client.dir/Game/ClientGame.cpp.o" \
 "CMakeFiles/client.dir/Network/ServerConnection.cpp.o" \
+"CMakeFiles/client.dir/Render/BoardRender.cpp.o" \
 "CMakeFiles/client.dir/Render/BoardView.cpp.o" \
-"CMakeFiles/client.dir/Render/GamePlayRender.cpp.o" \
+"CMakeFiles/client.dir/Render/GamePanel.cpp.o" \
 "CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o" \
 "CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o" \
+"CMakeFiles/client.dir/Render/UiFonts.cpp.o" \
+"CMakeFiles/client.dir/Render/UiTheme.cpp.o" \
 "CMakeFiles/client.dir/Utility/GameInput.cpp.o"
 
 # External object files for target client
 client_EXTERNAL_OBJECTS =
 
+client/client: client/CMakeFiles/client.dir/Audio/GameAudio.cpp.o
 client/client: client/CMakeFiles/client.dir/Chess/AI/AICalculations.cpp.o
 client/client: client/CMakeFiles/client.dir/Exec/GamePlay/GameLoops.cpp.o
 client/client: client/CMakeFiles/client.dir/Exec/GamePlay/GamePlayFunctional.cpp.o
 client/client: client/CMakeFiles/client.dir/Exec/main.cpp.o
 client/client: client/CMakeFiles/client.dir/Game/ClientGame.cpp.o
 client/client: client/CMakeFiles/client.dir/Network/ServerConnection.cpp.o
+client/client: client/CMakeFiles/client.dir/Render/BoardRender.cpp.o
 client/client: client/CMakeFiles/client.dir/Render/BoardView.cpp.o
-client/client: client/CMakeFiles/client.dir/Render/GamePlayRender.cpp.o
+client/client: client/CMakeFiles/client.dir/Render/GamePanel.cpp.o
 client/client: client/CMakeFiles/client.dir/Render/Globals/RenderGlobals.cpp.o
 client/client: client/CMakeFiles/client.dir/Render/Menu/MenuRender.cpp.o
+client/client: client/CMakeFiles/client.dir/Render/UiFonts.cpp.o
+client/client: client/CMakeFiles/client.dir/Render/UiTheme.cpp.o
 client/client: client/CMakeFiles/client.dir/Utility/GameInput.cpp.o
 client/client: client/CMakeFiles/client.dir/build.make
 client/client: chess/libchess.a
@@ -262,12 +326,14 @@ client/client: _deps/sfml-build/lib/libsfml-system-s-d.a
 client/client: _deps/sfml-build/lib/libsfml-window-s-d.a
 client/client: _deps/sfml-build/lib/libsfml-graphics-s-d.a
 client/client: _deps/sfml-build/lib/libsfml-network-s-d.a
+client/client: _deps/sfml-build/lib/libsfml-audio-s-d.a
 client/client: chess/libchess.a
 client/client: _deps/sfml-build/lib/libsfml-window-s-d.a
-client/client: _deps/sfml-build/lib/libsfml-system-s-d.a
 client/client: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework
+client/client: _deps/sfml-build/lib/libsfml-system-s-d.a
+client/client: _deps/sfml-src/extlibs/libs-osx/Frameworks/OpenAL.framework/OpenAL
 client/client: client/CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable client"
 	cd /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

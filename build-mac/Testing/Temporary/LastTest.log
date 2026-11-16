@@ -1,35 +1,85 @@
-Start testing: Nov 14 04:06 +04
+Start testing: Nov 16 14:19 +04
 ----------------------------------------------------------
-1/5 Testing: chess_selftest
-1/5 Test: chess_selftest
+1/7 Testing: chess_selftest
+1/7 Test: chess_selftest
 Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/chess_selftest"
 Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess
-"chess_selftest" start time: Nov 14 04:06 +04
+"chess_selftest" start time: Nov 16 14:19 +04
 Output:
 ----------------------------------------------------------
-initial position
+opening position
+fen
 pawn directions
-turn ownership
-fool's mate
-check evasion
+refusing moves
+castling
+castling rights
+castling and check
+en passant
+en passant expires
 promotion
+checkmate
+check evasion
 stalemate
+the fifty move rule
+threefold repetition
+insufficient material
+algebraic notation
+coordinate notation
 game independence
+offered moves
 
 all checks passed
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"chess_selftest" end time: Nov 14 04:06 +04
+"chess_selftest" end time: Nov 16 14:19 +04
 "chess_selftest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/5 Testing: protocol_selftest
-2/5 Test: protocol_selftest
+2/7 Testing: chess_perft
+2/7 Test: chess_perft
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess/chess_perft"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/chess
+"chess_perft" start time: Nov 16 14:19 +04
+Output:
+----------------------------------------------------------
+opening position
+  depth 1          20 nodes       0 ms
+  depth 2         400 nodes       0 ms
+  depth 3        8902 nodes       4 ms
+kiwipete - castling, pins and checks
+  depth 1          48 nodes       0 ms
+  depth 2        2039 nodes       1 ms
+  depth 3       97862 nodes      39 ms
+endgame - en passant and discovered checks
+  depth 1          14 nodes       0 ms
+  depth 2         191 nodes       0 ms
+  depth 3        2812 nodes       1 ms
+  depth 4       43238 nodes      23 ms
+promotions and a trapped king
+  depth 1           6 nodes       0 ms
+  depth 2         264 nodes       0 ms
+  depth 3        9467 nodes       3 ms
+castling rights lost under attack
+  depth 1          44 nodes       0 ms
+  depth 2        1486 nodes       0 ms
+  depth 3       62379 nodes      26 ms
+
+all node counts match
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"chess_perft" end time: Nov 16 14:19 +04
+"chess_perft" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/7 Testing: protocol_selftest
+3/7 Test: protocol_selftest
 Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/protocol/protocol_selftest"
 Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/protocol
-"protocol_selftest" start time: Nov 14 04:06 +04
+"protocol_selftest" start time: Nov 16 14:19 +04
 Output:
 ----------------------------------------------------------
 find game
@@ -43,18 +93,18 @@ outcome helper
 
 all checks passed
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"protocol_selftest" end time: Nov 14 04:06 +04
+"protocol_selftest" end time: Nov 16 14:19 +04
 "protocol_selftest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/5 Testing: server_selftest
-3/5 Test: server_selftest
+4/7 Testing: server_selftest
+4/7 Test: server_selftest
 Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/server/server_selftest"
 Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/server
-"server_selftest" start time: Nov 14 04:06 +04
+"server_selftest" start time: Nov 16 14:19 +04
 Output:
 ----------------------------------------------------------
 a fresh match
@@ -68,25 +118,28 @@ games without a clock
 resignation
 walking away
 reported state
+promotion through the server
+castling through the server
+drawn games
 independence
 
 all checks passed
 <end of output>
-Test time =   0.88 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"server_selftest" end time: Nov 14 04:06 +04
+"server_selftest" end time: Nov 16 14:19 +04
 "server_selftest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/5 Testing: server_e2e_selftest
-4/5 Test: server_e2e_selftest
+5/7 Testing: server_e2e_selftest
+5/7 Test: server_e2e_selftest
 Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/server/server_e2e_selftest"
 Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/server
-"server_e2e_selftest" start time: Nov 14 04:06 +04
+"server_e2e_selftest" start time: Nov 16 14:19 +04
 Output:
 ----------------------------------------------------------
-goschess server listening on port 24101 (protocol version 1)
+goschess server listening on port 24101 (protocol version 2)
 pairing and a full game
 session 1 connected
 session 2 connected
@@ -102,9 +155,9 @@ session 4 connected
 match 2: session 3 as white, session 4 as black
 match 2 over: black wins by resignation
 leaving mid game
-session 5 connected
 session 3 disconnected
 session 4 disconnected
+session 5 connected
 session 6 connected
 match 3: session 6 as white, session 5 as black
 session 6 disconnected
@@ -117,23 +170,23 @@ protocol version mismatch
 session 9 connected
 session 7 disconnected
 session 8 disconnected
-session 9 speaks protocol version 2, this server speaks 1
+session 9 speaks protocol version 3, this server speaks 2
 session 9 disconnected
 
 all checks passed
 <end of output>
-Test time =   0.89 sec
+Test time =   0.06 sec
 ----------------------------------------------------------
 Test Passed.
-"server_e2e_selftest" end time: Nov 14 04:06 +04
+"server_e2e_selftest" end time: Nov 16 14:19 +04
 "server_e2e_selftest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/5 Testing: client_view_selftest
-5/5 Test: client_view_selftest
+6/7 Testing: client_view_selftest
+6/7 Test: client_view_selftest
 Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/client_view_selftest"
 Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client
-"client_view_selftest" start time: Nov 14 04:06 +04
+"client_view_selftest" start time: Nov 16 14:19 +04
 Output:
 ----------------------------------------------------------
 white's view
@@ -148,8 +201,29 @@ all checks passed
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"client_view_selftest" end time: Nov 14 04:06 +04
+"client_view_selftest" end time: Nov 16 14:19 +04
 "client_view_selftest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Nov 14 04:06 +04
+7/7 Testing: client_ai_selftest
+7/7 Test: client_ai_selftest
+Command: "/Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client/client_ai_selftest"
+Directory: /Users/leogogichaishvili/ArchChess/arch-chess/GosChess/build-mac/client
+"client_ai_selftest" start time: Nov 16 14:19 +04
+Output:
+----------------------------------------------------------
+every level returns a playable move
+taking what is offered
+finishing a won game
+a position with no moves
+
+all checks passed
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"client_ai_selftest" end time: Nov 16 14:19 +04
+"client_ai_selftest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 16 14:19 +04

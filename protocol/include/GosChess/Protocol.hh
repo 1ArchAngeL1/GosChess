@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include <SFML/Network/Packet.hpp>
 
@@ -34,7 +35,7 @@ namespace GosChess::Protocol {
     // Bumped whenever the meaning of anything below changes. The server
     // refuses a client that does not match, because a silent mismatch shows up
     // as inexplicable game behaviour rather than as a connection error.
-    inline constexpr std::uint16_t VERSION = 1;
+    inline constexpr std::uint16_t VERSION = 2;
 
     inline constexpr unsigned short DEFAULT_PORT = 2001;
 
@@ -64,7 +65,12 @@ namespace GosChess::Protocol {
         TIMEOUT,
         RESIGNATION,
         OPPONENT_LEFT,
-        PROTOCOL_ERROR
+        PROTOCOL_ERROR,
+        // A game can draw itself without either player doing anything about
+        // it, and a player is owed the actual reason rather than just "draw".
+        FIFTY_MOVE_RULE,
+        THREEFOLD_REPETITION,
+        INSUFFICIENT_MATERIAL
     };
 
     // Why the server would not play a move. Sent alongside the authoritative
@@ -93,6 +99,11 @@ namespace GosChess::Protocol {
         std::uint32_t ply = 0;
         std::int8_t move_from = -1;
         std::int8_t move_to = -1;
+        // What a pawn reaching the far rank becomes, as a figure_types_t, or 0
+        // for any other move. Part of the move rather than a detail the server
+        // may decide: a player who asked for a knight must not be given a
+        // queen.
+        std::uint8_t promotion = 0;
     };
 
     // --- server to client --------------------------------------------------
@@ -112,10 +123,21 @@ namespace GosChess::Protocol {
         // in the opening position.
         std::int8_t last_move_from = -1;
         std::int8_t last_move_to = -1;
+        // Whether the side to play is in check, so a board can say so without
+        // reasoning about it and perhaps disagreeing.
+        bool in_check = false;
         // Per side, so a client never has to work out which clock is its own
         // from a point of view the server does not share.
         std::uint32_t white_millis_left = 0;
         std::uint32_t black_millis_left = 0;
+        // Every move so far in algebraic notation.
+        //
+        // Sent whole rather than one move at a time, for the same reason the
+        // position is: a list that the client appends to has to be unwound
+        // correctly when a move is refused, and has gaps if the client joined
+        // late. A chess game is some eighty moves of five characters, so the
+        // entire record costs less than a single board.
+        std::vector<std::string> history;
     };
 
     struct GameOver {

@@ -26,7 +26,9 @@ enable_testing()
 # the system or built from source.
 # ---------------------------------------------------------------------------
 
-set(SFML_COMPONENTS system window graphics network)
+# audio is included for the move and interface sounds, which are synthesised
+# at run time rather than shipped as files.
+set(SFML_COMPONENTS system window graphics network audio)
 
 if (WIN32)
 
@@ -40,6 +42,18 @@ if (WIN32)
 
 else ()
 
+    # libs/sfml holds Windows binaries, and find_package will happily reuse a
+    # cached SFML_DIR pointing at them on any platform. The result is a link
+    # against .dll files and an error - "unknown file type" - that says nothing
+    # about the actual cause. A build directory configured once with that value
+    # keeps failing until it is deleted, so the value is rejected here instead.
+    if (SFML_DIR AND SFML_DIR MATCHES "^${CMAKE_SOURCE_DIR}/libs/sfml")
+        message(WARNING
+                "SFML_DIR points at the bundled Windows SFML in libs/sfml, which cannot be "
+                "linked on this platform. Ignoring it and looking for SFML elsewhere.")
+        unset(SFML_DIR CACHE)
+    endif ()
+
     # An already installed SFML 2 is used when present (e.g. `brew install sfml@2`),
     # otherwise it is fetched and built from source. SFML 3 is not API compatible
     # with this code base, so the major version is pinned.
@@ -50,7 +64,7 @@ else ()
         message(STATUS "SFML 2 not installed - building it from source")
         include(FetchContent)
         set(BUILD_SHARED_LIBS OFF)
-        set(SFML_BUILD_AUDIO OFF)
+        set(SFML_BUILD_AUDIO ON)
         set(SFML_BUILD_EXAMPLES OFF)
         set(SFML_BUILD_DOC OFF)
         FetchContent_Declare(SFML

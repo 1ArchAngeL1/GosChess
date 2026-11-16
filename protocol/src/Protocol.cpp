@@ -39,6 +39,9 @@ const char *GosChess::Protocol::Describe(GosChess::Protocol::GameOverReason reas
         case GameOverReason::RESIGNATION:    return "resignation";
         case GameOverReason::OPPONENT_LEFT:  return "opponent left";
         case GameOverReason::PROTOCOL_ERROR: return "protocol error";
+        case GameOverReason::FIFTY_MOVE_RULE: return "the fifty move rule";
+        case GameOverReason::THREEFOLD_REPETITION: return "threefold repetition";
+        case GameOverReason::INSUFFICIENT_MATERIAL: return "insufficient material";
     }
     return "unknown reason";
 }
@@ -81,11 +84,11 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::Protocol::FindGame &message
 }
 
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Protocol::MoveRequest &message) {
-    return packet << message.ply << message.move_from << message.move_to;
+    return packet << message.ply << message.move_from << message.move_to << message.promotion;
 }
 
 sf::Packet &operator>>(sf::Packet &packet, GosChess::Protocol::MoveRequest &message) {
-    return packet >> message.ply >> message.move_from >> message.move_to;
+    return packet >> message.ply >> message.move_from >> message.move_to >> message.promotion;
 }
 
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Protocol::GameStart &message) {
@@ -103,15 +106,29 @@ sf::Packet &operator>>(sf::Packet &packet, GosChess::Protocol::GameStart &messag
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Protocol::GameStateUpdate &message) {
     packet << message.ply << message.fen;
     WriteEnum(packet, message.color_to_play);
-    return packet << message.last_move_from << message.last_move_to
-                  << message.white_millis_left << message.black_millis_left;
+    packet << message.last_move_from << message.last_move_to << message.in_check
+           << message.white_millis_left << message.black_millis_left;
+    packet << static_cast<std::uint32_t>(message.history.size());
+    for (const std::string &move: message.history) packet << move;
+    return packet;
 }
 
 sf::Packet &operator>>(sf::Packet &packet, GosChess::Protocol::GameStateUpdate &message) {
     packet >> message.ply >> message.fen;
     ReadEnum(packet, message.color_to_play);
-    return packet >> message.last_move_from >> message.last_move_to
-                  >> message.white_millis_left >> message.black_millis_left;
+    packet >> message.last_move_from >> message.last_move_to >> message.in_check
+           >> message.white_millis_left >> message.black_millis_left;
+    std::uint32_t moves = 0;
+    packet >> moves;
+    message.history.clear();
+    // A length read off the wire is a length a peer chose, so it is grown into
+    // rather than reserved up front.
+    for (std::uint32_t i = 0; i < moves; i++) {
+        std::string move;
+        if (!(packet >> move)) break;
+        message.history.push_back(move);
+    }
+    return packet;
 }
 
 sf::Packet &operator<<(sf::Packet &packet, const GosChess::Protocol::GameOver &message) {

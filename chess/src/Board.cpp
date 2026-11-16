@@ -1,144 +1,57 @@
 #include "GosChess/Board.hh"
 
 #include <cctype>
-#include <cstring>
-#include <stdexcept>
+#include <sstream>
+
+namespace {
+
+    // FNV-1a over the bytes that define a position. A 64 bit hash is used for
+    // repetition detection rather than storing whole positions: the only cost
+    // of a collision is a draw claimed one move early in a game that would
+    // need two unrelated positions to hash alike, which at this width does not
+    // happen in practice.
+    constexpr std::uint64_t FNV_OFFSET = 1469598103934665603ull;
+    constexpr std::uint64_t FNV_PRIME = 1099511628211ull;
+
+    inline std::uint64_t Mix(std::uint64_t hash, unsigned char byte) {
+        return (hash ^ byte) * FNV_PRIME;
+    }
+
+}
 
 namespace GosChess {
-    static bool IsCharacter(const char &input) {
-        const char upper_input = static_cast<char>(std::toupper(input));
-        return upper_input >= 'A' && upper_input <= 'Z';
-    }
 
+    board_t::board_t() = default;
 
-    static figure_t FigureFromChar(const char &figure_rep) {
-        const unsigned char type = FigureTypeFromFenChar(figure_rep);
-        if (type == 0) {
-            throw std::invalid_argument("given figure representation doesn't exist");
-        }
-        GosChess::figure_t figure;
-        figure.color_ = std::isupper(figure_rep) ? GosChess::color_t::WHITE : GosChess::color_t::BLACK;
-        figure.type_ = type;
-        return figure;
-    }
+    board_t::board_t(const position_t &position) : position_(position) {}
 
-
-    unsigned char *decodeFen(const std::string &fen_str) {
-
-        auto *result_board = new unsigned char[board_t::BOARD_SIZE]{0};
-        uint32_t index = 0;
-
-        for (const char &symbol: fen_str) {
-            if (symbol == '/') continue;
-            if (index >= board_t::BOARD_SIZE) break;
-            if (IsCharacter(symbol)) {
-                figure_t fig = FigureFromChar(symbol);
-                result_board[index] = fig.full_type;
-                index++;
-                continue;
-            }
-            int num_jump = symbol - '0';
-            index += num_jump;
-        }
-
-        return result_board;
-    }
-
-    board_t::board_t(const std::string &initial_state) {
-        board_ = decodeFen(initial_state);
-    }
-
-    board_t::board_t() : board_(new unsigned char[BOARD_SIZE]{0}) {}
-
-    board_t::board_t(const board_t &board) {
-        board_ = new unsigned char[BOARD_SIZE];
-        memcpy(board_, board.board_, BOARD_SIZE * sizeof(unsigned char));
-        game_rev_ = board.game_rev_;
-    }
-
-    board_t::board_t(board_t &&board) noexcept {
-        board_ = board.board_;
-        board.board_ = nullptr;
-        game_rev_ = std::move(board.game_rev_);
-    }
-
-    // Defined explicitly because the class owns a raw buffer: the compiler's
-    // implicit assignment would copy the pointer and double free it.
-    board_t &board_t::operator=(const board_t &board) {
-        if (this == &board) return *this;
-        if (board_ == nullptr) board_ = new unsigned char[BOARD_SIZE];
-        memcpy(board_, board.board_, BOARD_SIZE * sizeof(unsigned char));
-        game_rev_ = board.game_rev_;
-        return *this;
-    }
-
-    board_t &board_t::operator=(board_t &&board) noexcept {
-        if (this == &board) return *this;
-        delete[] board_;
-        board_ = board.board_;
-        board.board_ = nullptr;
-        game_rev_ = std::move(board.game_rev_);
-        return *this;
-    }
-
-    board_t::~board_t() {
-        delete[] board_;
-    }
-
-    void board_t::setState(const std::string &state) {
-        delete[] board_;
-        board_ = decodeFen(state);
-        game_rev_ = {};
+    void board_t::setPosition(const position_t &position) {
+        position_ = position;
+        undo_stack_.clear();
     }
 
     void board_t::saveState() {
-        std::array<unsigned char, board_t::BOARD_SIZE> arr{};
-        std::copy(board_t::board_, board_t::board_ + BOARD_SIZE, arr.begin());
-        game_rev_.push(arr);
+        undo_stack_.push_back(position_);
     }
 
     bool board_t::restoreState() {
-        if (game_rev_.empty()) return false;
-        std::copy(game_rev_.top().begin(), game_rev_.top().end(), board_);
-        game_rev_.pop();
+        if (undo_stack_.empty()) return false;
+        position_ = undo_stack_.back();
+        undo_stack_.pop_back();
         return true;
     }
 
-    void board_t::setFigure(const int &node, const unsigned char &figure) {
-        board_[node] = figure;
+    void board_t::setFigure(const int &square, const unsigned char &figure) {
+        position_.squares[square] = figure;
     }
 
-    const unsigned char *board_t::getRawBoard() const {
-        return board_;
-    }
-
-    figure_t board_t::getFigure(const int &index) const {
-        unsigned char fig_char = board_[index];
-        return figure_t(fig_char);
-    }
-
-    std::string board_t::boardStateToFen() const {
-        std::string fen_str;
-        int empty = 0;
-        for (int i = 0; i < board_t::BOARD_SIZE; i++) {
-            if (i % ROW_LENGTH == 0 && i != 0) {
-                if (empty != 0) fen_str += static_cast<char>('0' + empty);
-                fen_str += '/';
-                empty = 0;
-            }
-            if (board_[i] == 0) {
-                empty++;
-                continue;
-            }
-            if (empty != 0) {
-                fen_str += static_cast<char>('0' + empty);
-                empty = 0;
-            }
-            fen_str += FenCharFromFigure(board_[i]);
-        }
-        if (empty != 0) fen_str += static_cast<char>('0' + empty);
-        fen_str += '/';
-        return fen_str;
+    std::uint64_t board_t::key(color_t color_to_play) const {
+        std::uint64_t hash = FNV_OFFSET;
+        for (unsigned char square: position_.squares) hash = Mix(hash, square);
+        hash = Mix(hash, position_.castling_rights);
+        hash = Mix(hash, static_cast<unsigned char>(position_.en_passant_target + 1));
+        hash = Mix(hash, static_cast<unsigned char>(color_to_play));
+        return hash;
     }
 
     figure_t::figure_t(const unsigned char &clr, const unsigned char &tp) {
@@ -148,13 +61,137 @@ namespace GosChess {
     }
 
     board_node_t GetSquare(const int &num) {
-        int x = num % GosChess::board_t::ROW_LENGTH;
-        int y = num / GosChess::board_t::ROW_NUM;
-        return {y, x};
+        return {num / board_t::ROW_LENGTH, num % board_t::ROW_LENGTH};
     }
 
     int GetNumFromNode(const board_node_t &cell) {
-        return cell.y_ * GosChess::board_t::ROW_NUM + cell.x_;
+        return cell.y_ * board_t::ROW_LENGTH + cell.x_;
+    }
+
+    std::string SquareName(int square) {
+        if (!IsSquare(square)) return "-";
+        std::string name;
+        name += static_cast<char>('a' + FileOf(square));
+        name += static_cast<char>('1' + RankOf(square));
+        return name;
+    }
+
+    int SquareFromName(const std::string &name) {
+        if (name.size() < 2) return -1;
+        const int file = name[0] - 'a';
+        const int rank = name[1] - '1';
+        if (file < 0 || file >= board_t::ROW_LENGTH || rank < 0 || rank >= board_t::ROW_NUM) return -1;
+        return rank * board_t::ROW_LENGTH + file;
+    }
+
+    std::optional<fen_t> ParseFen(const std::string &fen) {
+        std::istringstream stream(fen);
+        std::string placement;
+        std::string side;
+        std::string rights;
+        std::string en_passant;
+        if (!(stream >> placement >> side)) return std::nullopt;
+
+        fen_t parsed;
+
+        // Rank 8 is written first, so it fills the highest indices.
+        int rank = board_t::ROW_NUM - 1;
+        int file = 0;
+        for (const char symbol: placement) {
+            if (symbol == '/') {
+                if (file != board_t::ROW_LENGTH) return std::nullopt;
+                rank--;
+                file = 0;
+                if (rank < 0) return std::nullopt;
+                continue;
+            }
+            if (symbol >= '1' && symbol <= '8') {
+                file += symbol - '0';
+                if (file > board_t::ROW_LENGTH) return std::nullopt;
+                continue;
+            }
+            const unsigned char type = FigureTypeFromFenChar(symbol);
+            if (type == 0) return std::nullopt;
+            if (file >= board_t::ROW_LENGTH) return std::nullopt;
+            figure_t figure;
+            figure.color_ = std::isupper(static_cast<unsigned char>(symbol)) ? color_t::WHITE
+                                                                            : color_t::BLACK;
+            figure.type_ = type;
+            parsed.position.squares[rank * board_t::ROW_LENGTH + file] = figure.full_type;
+            file++;
+        }
+        if (rank != 0 || file != board_t::ROW_LENGTH) return std::nullopt;
+
+        if (side != "w" && side != "b") return std::nullopt;
+        parsed.color_to_play = side == "w" ? color_t::WHITE : color_t::BLACK;
+
+        // The remaining fields are optional: a position quoted in a book often
+        // stops after the en passant square.
+        if (stream >> rights) {
+            for (const char symbol: rights) {
+                switch (symbol) {
+                    case 'K': parsed.position.castling_rights |= WHITE_KING_SIDE; break;
+                    case 'Q': parsed.position.castling_rights |= WHITE_QUEEN_SIDE; break;
+                    case 'k': parsed.position.castling_rights |= BLACK_KING_SIDE; break;
+                    case 'q': parsed.position.castling_rights |= BLACK_QUEEN_SIDE; break;
+                    case '-': break;
+                    default: return std::nullopt;
+                }
+            }
+        }
+        if (stream >> en_passant && en_passant != "-") {
+            const int square = SquareFromName(en_passant);
+            if (square < 0) return std::nullopt;
+            parsed.position.en_passant_target = static_cast<std::int8_t>(square);
+        }
+        int halfmove = 0;
+        if (stream >> halfmove && halfmove >= 0) {
+            parsed.position.halfmove_clock = static_cast<std::uint16_t>(halfmove);
+        }
+        int fullmove = 1;
+        if (stream >> fullmove && fullmove >= 1) {
+            parsed.fullmove_number = static_cast<std::uint16_t>(fullmove);
+        }
+        return parsed;
+    }
+
+    std::string MakeFen(const position_t &position, color_t color_to_play,
+                        std::uint16_t fullmove_number) {
+        std::string fen;
+        for (int rank = board_t::ROW_NUM - 1; rank >= 0; rank--) {
+            int empty = 0;
+            for (int file = 0; file < board_t::ROW_LENGTH; file++) {
+                const unsigned char raw = position.squares[rank * board_t::ROW_LENGTH + file];
+                if (raw == 0) {
+                    empty++;
+                    continue;
+                }
+                if (empty != 0) {
+                    fen += static_cast<char>('0' + empty);
+                    empty = 0;
+                }
+                fen += FenCharFromFigure(raw);
+            }
+            if (empty != 0) fen += static_cast<char>('0' + empty);
+            if (rank != 0) fen += '/';
+        }
+
+        fen += color_to_play == color_t::WHITE ? " w " : " b ";
+
+        if (position.castling_rights == NO_CASTLING) {
+            fen += '-';
+        } else {
+            if (position.castling_rights & WHITE_KING_SIDE) fen += 'K';
+            if (position.castling_rights & WHITE_QUEEN_SIDE) fen += 'Q';
+            if (position.castling_rights & BLACK_KING_SIDE) fen += 'k';
+            if (position.castling_rights & BLACK_QUEEN_SIDE) fen += 'q';
+        }
+
+        fen += ' ';
+        fen += IsSquare(position.en_passant_target) ? SquareName(position.en_passant_target) : "-";
+        fen += ' ' + std::to_string(position.halfmove_clock);
+        fen += ' ' + std::to_string(fullmove_number);
+        return fen;
     }
 
 }

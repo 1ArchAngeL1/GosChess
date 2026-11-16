@@ -13,12 +13,11 @@ GosChess::Match::Match(std::uint32_t id, std::uint16_t time_limit_minutes)
     white_millis_ = black_millis_ = time_limit_minutes * MILLIS_PER_MINUTE;
 }
 
-void GosChess::Match::setPosition(const std::string &fen, GosChess::color_t color_to_play) {
-    game_.setPosition(fen, color_to_play);
-    ply_ = 0;
-    last_move_from_ = last_move_to_ = -1;
+bool GosChess::Match::setFen(const std::string &fen) {
+    if (!game_.setFen(fen)) return false;
     finished_ = false;
     finishIfPositionIsTerminal();
+    return true;
 }
 
 GosChess::Match::MoveResult GosChess::Match::applyMove(GosChess::color_t mover,
@@ -35,17 +34,14 @@ GosChess::Match::MoveResult GosChess::Match::applyMove(GosChess::color_t mover,
     // Checked before the move itself: a stale ply means the client is talking
     // about a position that no longer exists, and the move might well be legal
     // in the current one by coincidence.
-    if (request.ply != ply_) {
+    if (request.ply != game_.ply()) {
         result.reject_reason = Protocol::RejectReason::STALE_PLY;
         return result;
     }
-    if (!game_.applyMove(action_t(request.move_from, request.move_to))) {
+    if (!game_.applyMove(action_t(request.move_from, request.move_to, request.promotion))) {
         result.reject_reason = Protocol::RejectReason::ILLEGAL_MOVE;
         return result;
     }
-    ply_++;
-    last_move_from_ = request.move_from;
-    last_move_to_ = request.move_to;
     finishIfPositionIsTerminal();
     result.accepted = true;
     return result;
@@ -75,13 +71,15 @@ void GosChess::Match::abandon(GosChess::color_t who_left) {
 
 GosChess::Protocol::GameStateUpdate GosChess::Match::state() const {
     Protocol::GameStateUpdate update;
-    update.ply = ply_;
-    update.fen = game_.board().boardStateToFen();
+    update.ply = game_.ply();
+    update.fen = game_.fen();
     update.color_to_play = game_.colorToPlay();
-    update.last_move_from = last_move_from_;
-    update.last_move_to = last_move_to_;
+    update.last_move_from = game_.lastMove().move_from;
+    update.last_move_to = game_.lastMove().move_to;
+    update.in_check = game_.inCheck();
     update.white_millis_left = white_millis_;
     update.black_millis_left = black_millis_;
+    update.history = game_.history();
     return update;
 }
 
@@ -108,6 +106,17 @@ void GosChess::Match::finishIfPositionIsTerminal() {
             break;
         case GameStatus::STALEMATE:
             finish(Protocol::GameOutcome::DRAW, Protocol::GameOverReason::STALEMATE);
+            break;
+        // A game can end without either player resigning or being mated, and
+        // the players are told which of the three it was.
+        case GameStatus::DRAW_FIFTY_MOVE:
+            finish(Protocol::GameOutcome::DRAW, Protocol::GameOverReason::FIFTY_MOVE_RULE);
+            break;
+        case GameStatus::DRAW_REPETITION:
+            finish(Protocol::GameOutcome::DRAW, Protocol::GameOverReason::THREEFOLD_REPETITION);
+            break;
+        case GameStatus::DRAW_INSUFFICIENT_MATERIAL:
+            finish(Protocol::GameOutcome::DRAW, Protocol::GameOverReason::INSUFFICIENT_MATERIAL);
             break;
         case GameStatus::IN_PROGRESS:
             break;

@@ -1,0 +1,8 @@
+chess_selftest 1 0.393611
+chess_perft 1 0.573072
+protocol_selftest 1 0.331197
+server_selftest 1 0.402358
+server_e2e_selftest 1 0.37023
+client_view_selftest 1 0.345252
+client_ai_selftest 1 0.89548
+---

@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Board.cpp
         src/Move.cpp
         src/Rules.cpp
+        src/Notation.cpp
         src/GameState.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -29,3 +30,12 @@ add_executable(chess_selftest tests/selftest.cpp)
 target_link_libraries(chess_selftest PRIVATE ${PROJECT_NAME})
 
 add_test(NAME chess_selftest COMMAND chess_selftest)
+
+# Move generation is checked against published node counts. A generator that
+# matches perft is not quietly missing castling, en passant or a promotion -
+# which no amount of hand written position tests can establish.
+add_executable(chess_perft tests/perft.cpp)
+
+target_link_libraries(chess_perft PRIVATE ${PROJECT_NAME})
+
+add_test(NAME chess_perft COMMAND chess_perft)

@@ -245,6 +245,19 @@ sfml-graphics/fast:
 .PHONY : sfml-graphics/fast
 
 #=============================================================================
+# Target rules for targets named sfml-audio
+
+# Build rule for target.
+sfml-audio: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sfml-audio
+.PHONY : sfml-audio
+
+# fast build rule for target.
+sfml-audio/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build.make _deps/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir/build
+.PHONY : sfml-audio/fast
+
+#=============================================================================
 # Target rules for targets named chess
 
 # Build rule for target.
@@ -269,6 +282,19 @@ chess_selftest: cmake_check_build_system
 chess_selftest/fast:
 	$(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_selftest.dir/build.make chess/CMakeFiles/chess_selftest.dir/build
 .PHONY : chess_selftest/fast
+
+#=============================================================================
+# Target rules for targets named chess_perft
+
+# Build rule for target.
+chess_perft: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chess_perft
+.PHONY : chess_perft
+
+# fast build rule for target.
+chess_perft/fast:
+	$(MAKE) $(MAKESILENT) -f chess/CMakeFiles/chess_perft.dir/build.make chess/CMakeFiles/chess_perft.dir/build
+.PHONY : chess_perft/fast
 
 #=============================================================================
 # Target rules for targets named protocol
@@ -387,6 +413,19 @@ client_view_selftest/fast:
 	$(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_view_selftest.dir/build.make client/CMakeFiles/client_view_selftest.dir/build
 .PHONY : client_view_selftest/fast
 
+#=============================================================================
+# Target rules for targets named client_ai_selftest
+
+# Build rule for target.
+client_ai_selftest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client_ai_selftest
+.PHONY : client_ai_selftest
+
+# fast build rule for target.
+client_ai_selftest/fast:
+	$(MAKE) $(MAKESILENT) -f client/CMakeFiles/client_ai_selftest.dir/build.make client/CMakeFiles/client_ai_selftest.dir/build
+.PHONY : client_ai_selftest/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -403,8 +442,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... chess"
+	@echo "... chess_perft"
 	@echo "... chess_selftest"
 	@echo "... client"
+	@echo "... client_ai_selftest"
 	@echo "... client_view_selftest"
 	@echo "... imgui-sfml"
 	@echo "... protocol"
@@ -413,6 +454,7 @@ help:
 	@echo "... server_core"
 	@echo "... server_e2e_selftest"
 	@echo "... server_selftest"
+	@echo "... sfml-audio"
 	@echo "... sfml-graphics"
 	@echo "... sfml-network"
 	@echo "... sfml-system"
